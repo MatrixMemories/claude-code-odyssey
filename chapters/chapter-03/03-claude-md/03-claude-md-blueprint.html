@@ -1,0 +1,1295 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">CLAUDE.md Blueprint</h1>
+    <p class="page-subtitle">Practical sections, rules & examples that actually deliver</p>
+    <div class="header-intro">
+      <p>
+        The <span class="inline-code">CLAUDE.md</span> file gives your AI coding partner perfect, persistent context
+        about your project. It turns every fresh session into a seamless continuation instead of a guessing game.
+      </p>
+      <p>
+        This practical guide walks you through the battle-tested what/why/how framework and a flexible section-based
+        template (with 16 ready-to-use sections, clear include/avoid rules, and real-world examples) so you can build
+        a concise, human-readable <span class="inline-code">CLAUDE.md</span> that dramatically improves Claude’s
+        accuracy, speed, and alignment with your team’s standards.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 3/8</span>
+      <span class="meta-chip">~17 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Header Card
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <h1 class="page-title">Building a CLAUDE.md file</h1>
+    <p class="body-text" style="color:var(--tx);font-size:16px;line-height:1.7;margin-bottom:0;">
+
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 3/7</span>
+      <span class="meta-chip">~17 min read</span>
+      <span class="meta-chip">Claude Code ≥ 1.0</span>
+    </div>
+  </div>
+  -->
+
+  <div class="card">
+
+    <p class="body-text">
+      The <strong>what/why/how framework</strong> is designed as the core
+      foundation providing the three clear, high-level dimensions
+      for building <span class="inline-code">CLAUDE.md</span> files.
+      In practice, one of the most popular and battle-tested templates
+      used by the community is a section-based structure, with anywhere
+      between 4 to 10 sections. In the remainder are
+      some common sections that can be found across many projects, including
+      advice on what to include and what to avoid as well as a
+      practical example for every section.
+    </p>
+    
+    <p class="body-text">
+      Note that there is no officially required format for the <span class="inline-code">CLAUDE.md</span> file. It is important to
+      keep it concise, short and human-readable. The section-based template helps keeping the instructions short and concise
+      while excelling at human-readability as well, and is therefore a community favorite. Despite the section-based template not
+      using what/why/how as the top-level headings, the content inside each section is usually designed to cover all three layers.
+    </p>
+
+    <div class="callout callout-tip">
+      <div class="callout-label">💡 TIP</div>
+      Format matters: Concise bullet-point instructions are 40% more likely to be followed
+      than long paragraphs.
+      <br>
+      <a href="https://institute.sfeir.com/en/claude-code/claude-code-memory-system-claude-md/faq/" target="_blank" class="callout-link">
+        [SFEIR Institute article on structure]
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+
+
+
+    <p class="body-text">
+      Below are 16 sections, labeled from “Essential” to “Optional.” It is important to choose the ones that best fit your
+      project, since not all 16 are necessary for every project.
+    </p>
+
+    <div style="display:flex;flex-direction:row;gap:var(--sp-xl);align-items:stretch;flex-wrap:wrap;margin-top:var(--sp-m);margin-bottom:var(--sp-xl);">
+
+     <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>1. Project Overview (Essential)</strong></li>
+          <li><strong>2. Commands (Essential)</strong></li>
+          <li><strong>3. Architecture & File Structure (Essential)</strong></li>
+          <li><strong>4. Tech Stack & Environment (Essential)</strong></li>
+          <li><strong>5. Coding Conventions (Essential)</strong></li>
+          <li><strong>6. Workflows (High Value)</strong></li>
+          <li><strong>7. UI and Design Rules (High Value)</strong></li>
+          <li><strong>8. Domain Terminology (High Value)</strong></li>
+        </ul>
+      </div>
+
+      <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>9. Testing and Quality Bar (High Value)</strong></li>
+          <li><strong>10. File and Component Placement Rules (High Value)</strong></li>
+          <li><strong>11. Custom Tools and Scripts (Situational)</strong></li>
+          <li><strong>12. Gotchas and Warnings (Situational)</strong></li>
+          <li><strong>13. Safe-change Rules (Situational)</strong></li>
+          <li><strong>14. Content and Copy Guidance (Situational)</strong></li>
+          <li><strong>15. MCPs and External Tools (Optional)</strong></li>
+          <li><strong>16. Self-improvement and Memory Rules (Optional)</strong></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!--
+    <ul class="feature-list">
+      <li>
+        <strong>
+          Below are 16 sections, labeled from “Essential” to “Optional.” It is important to choose the ones that best fit your
+          project, since not all 16 are necessary for every project.
+        </strong>
+        <div style="display:flex;flex-direction:row;gap:var(--sp-xl);align-items:stretch;flex-wrap:wrap;margin-top:var(--sp-m);margin-bottom:var(--sp-xl);">
+
+          <div style="flex:2;min-width:220px;align-items:center;">
+            <ul class="content-list highlighted" style="margin:0">
+              <li><strong>1. Project Overview</strong></li>
+              <li><strong>2. Commands</strong></li>
+              <li><strong>3. Architecture & File Structure</strong></li>
+              <li><strong>4. Tech Stack & Environment</strong></li>
+              <li><strong>5. Coding Conventions</strong></li>
+              <li><strong>6. Workflows</strong></li>
+              <li><strong>7. UI and Design Rules</strong></li>
+              <li><strong>8. Domain Terminology</strong></li>
+            </ul>
+          </div>
+
+          <div style="flex:2;min-width:220px;align-items:center;">
+            <ul class="content-list highlighted" style="margin:0">
+              <li><strong>9. Testing and Quality Bar</strong></li>
+              <li><strong>10. File and Component Placement Rules</strong></li>
+              <li><strong>11. Custom Tools and Scripts</strong></li>
+              <li><strong>12. Gotchas and Warnings</strong></li>
+              <li><strong>13. Safe-change Rules</strong></li>
+              <li><strong>14. Content and Copy Guidance</strong></li>
+              <li><strong>15. MCPs and External Tools</strong></li>
+              <li><strong>16. Self-improvement and Memory Rules</strong></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+    -->
+  </div>
+
+  <!-- Card 1: Project Overview (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">1. Project Overview (Essential)</h2>
+
+    <p class="body-text">
+      The "Project Overview" section should include a one-liner description of the project that is used for orientation at the beginning
+      of each session. Claude Code has no memory between sessions and thus will not remember anything about the project from previous
+      interactions. Providing a sharp project description will prevent Claude Code from misidentifying the project type, choosing
+      the wrong patterns, or building features for the wrong audience.
+    </p>
+
+    <p class="body-text">
+      The project overview is ideally positioned at the beginning of the <span class="inline-code">CLAUDE.md</span> file to ensure
+      it is the first thing that Claude Code reads. It answers: what is this project, what does it do, and why does it exist?
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>State the product name and core purpose in one sentence</li>
+          <li>Identify the primary technology or service powering the backend</li>
+          <li>Describe the intended user type (developers, researchers, end users)</li>
+          <li>Note the deployment target or runtime environment if it shapes decisions (local, Docker, cloud)</li>
+          <li>Important business or UX constraints</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't write more than 3–4 sentences — orientation, not a <span class="inline-code">README</span> file</li>
+          <li>Don't list features — describe what the project is, not what it does in detail</li>
+          <li>Don't include aspirational goals, roadmap items, or marketing language</li>
+          <li>Don't repeat what is obvious from the folder structure</li>
+          <li>Don't use generic statements like “we value innovation”</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Project Overview</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Project Overview</span>
+          A local-first VLM workbench powered by LM Studio running Qwen 3.5 VL
+          models for image and video analysis tasks: explanation, object segmentation,
+          and multi-frame object tracking. Targets ML researchers and computer vision
+          engineers who need offline visual dataset inspection tools.
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 2: Commands (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">2. Commands (Essential)</h2>
+
+    <p class="body-text">
+      Claude Code will run commands on your behalf. If it uses the wrong
+      package manager, forgets a required flag or starts the dev
+      server on the wrong port, things break silently and waste debugging
+      time (tokens). Without this section, Claude Code will guess
+      and frequently use the wrong package manager, skip important
+      flags or invoke scripts that don't exist. A good rule of thumb is
+      that every command you actually run during development and
+      deployment belongs here.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Write exact commands with every flag your team always uses</li>
+          <li>Separate dev, build, test, lint, type-check, and service-start commands</li>
+          <li>Include any programmatic service start scripts with their invocation</li>
+          <li>Note non-default ports or host flags that affect connectivity</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't use vague descriptions like <span class="inline-code">start the app</span> — always be exact</li>
+          <li>Don't omit flags your team uses consistently (<span class="inline-code">--watch</span>, <span class="inline-code">--host</span>, <span class="inline-code">--passWithNoTests</span>)</li>
+          <li>Don't list every possible script — only what Claude will actually need to run</li>
+          <li>Don't include steps that require manual interactive input Claude cannot provide</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Commands</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Commands</span>
+          - <span class="token-prompt">`pnpm dev`</span>          <span class="token-comment">— start Vite dev server (port 5173)</span>
+          - <span class="token-prompt">`pnpm build`</span>        <span class="token-comment">— production build to /dist</span>
+          - <span class="token-prompt">`pnpm test`</span>         <span class="token-comment">— Vitest unit tests</span>
+          - <span class="token-prompt">`pnpm test:e2e`</span>     <span class="token-comment">— Playwright end-to-end tests</span>
+          - <span class="token-prompt">`pnpm lint`</span>         <span class="token-comment">— ESLint + Prettier check</span>
+          - <span class="token-prompt">`pnpm typecheck`</span>    <span class="token-comment">— tsc --noEmit</span>
+
+          <span class="token-keyword">## LM Studio server</span>
+          <span class="token-comment">Start programmatically via Python before any API calls:</span>
+            python scripts/start_lmstudio.py <span class="token-flag">--model</span> <span class="token-value">qwen/qwen3.5-vl-4b</span>
+          <span class="token-comment">This script launches LM Studio, waits for the server on port 1234,
+          and loads the specified model. Do not call the API before this exits.
+          Health check: GET http://localhost:1234/v1/models</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 3: Architecture & File Structure (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">3. Architecture & File Structure (Essential)</h2>
+
+    <p class="body-text">
+      Claude Code reads your files but doesn't understand your intent unless told. Give precise instructions on which directories matter, what
+      architecture pattern you use and where new files of each type must go. Without this, Claude Code will often create files in the wrong
+      places and break the consistency that makes the codebase navigable over time.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Map every top-level directory with a one-line description of its purpose</li>
+          <li>Name the primary architectural pattern (feature-sliced, layered, MVC, etc.)</li>
+          <li>State explicitly where new files of each type must be placed</li>
+          <li>Note any co-location conventions, such as tests living next to source files</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't list individual files — document directories and conventions, not every file</li>
+          <li>Don't include generated or version-controlled-but-ignored directories</li>
+          <li>Don't explain historical reasons for the structure — just state what it is</li>
+          <li>Don't duplicate structure that /init already detected and documented correctly</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Architecture & File Structure</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Architecture</span>
+          Feature-sliced design: each VLM task owns its UI, logic, and types.
+
+          - <span class="token-prompt">/src/features/explain</span>           <span class="token-comment">— image/video explanation task module</span>
+          - <span class="token-prompt">/src/features/segment</span>           <span class="token-comment">— segmentation task module</span>
+          - <span class="token-prompt">/src/features/track</span>             <span class="token-comment">— multi-frame tracking task module</span>
+          - <span class="token-prompt">/src/components/ui</span>              <span class="token-comment">— shared primitive components</span>
+          - <span class="token-prompt">/src/services/lmstudio</span>          <span class="token-comment">— LM Studio API client and request builders</span>
+          - <span class="token-prompt">/src/services/server</span>            <span class="token-comment">— Python server lifecycle management (start/stop)</span>
+          - <span class="token-prompt">/src/stores</span>                     <span class="token-comment">— Zustand global state (model config, session)</span>
+          - <span class="token-prompt">/src/types</span>                      <span class="token-comment">— shared TypeScript interfaces only</span>
+          - <span class="token-prompt">/src/hooks</span>                      <span class="token-comment">— shared custom React hooks</span>
+
+          Tests live next to the file they test (Segment.test.tsx beside Segment.tsx).
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 4: Tech Stack & Environment (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">4. Tech Stack & Environment (Essential)</h2>
+
+    <p class="body-text">
+      Tells Claude exactly what tools, versions, and configuration exist so it never reaches for an uninstalled library, uses a deprecated API,
+      or misses a required environment variable. A project using React 19 + Zustand + TanStack Query has very different idioms from one using
+      React 18 + Redux + SWR. Wrong assumptions produce uncompilable or inconsistent code.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>List every major dependency with its version where version affects idioms</li>
+          <li>Specify the runtime and language versions (Node, Python, etc.)</li>
+          <li>Document all environment variables: name, purpose, default value, and where they live</li>
+          <li>State the CSS approach clearly — utility framework, modules, or CSS-in-JS</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't list transitive or dev-only dependencies unless they affect Claude's output</li>
+          <li>Don't include tool versions for linters and formatters unless they change behavior</li>
+          <li>Omit environment variables — Claude will skip validation logic without knowing them</li>
+          <li>Don't duplicate what <span class="inline-code">package.json</span> already makes obvious if Claude can read it</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Tech Stack & Environment</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Tech stack</span>
+          - <span class="token-prompt">React 19, TypeScript 5.4, Vite 5</span>
+          - <span class="token-prompt">Zustand</span> <span class="token-comment">(global state)</span>, <span class="token-prompt">TanStack Query v5</span> <span class="token-comment">(server state + caching)</span>
+          - <span class="token-prompt">Tailwind CSS v4</span>, <span class="token-prompt">shadcn/ui</span> <span class="token-comment">components</span>
+          - <span class="token-prompt">Playwright</span> <span class="token-comment">(E2E)</span>, <span class="token-prompt">Vitest</span> <span class="token-comment">(unit)</span>
+          - <span class="token-prompt">Python 3.11</span>               <span class="token-comment">— scripts/start_lmstudio.py manages LM Studio lifecycle</span>
+          - <span class="token-prompt">LM Studio local API</span>       <span class="token-comment">— OpenAI-compatible at http://localhost:1234/v1</span>
+
+          <span class="token-keyword">## Environment variables</span> <span class="token-comment">(.env.local — gitignored, .env.example is canonical)</span>
+          - <span class="token-prompt">VITE_LMS_BASE_URL</span>         <span class="token-comment">— LM Studio base URL (default: http://localhost:1234/v1)</span>
+          - <span class="token-prompt">VITE_LMS_MODEL_ID</span>         <span class="token-comment">— model string (e.g. qwen/qwen3.5-vl-4b)</span>
+          - <span class="token-prompt">VITE_MAX_IMAGE_MB</span>         <span class="token-comment">— max upload size in MB (default: 10)</span>
+          - <span class="token-prompt">LMS_STARTUP_TIMEOUT_S</span>     <span class="token-comment">— seconds to wait for server ready (default: 30)</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 5: Coding Conventions (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">5. Coding Conventions (Essential)</h2>
+      Encodes how you or your team writes code. It includes naming conventions, state management approaches, error handling strategies
+      and component structures. This prevents Claude Code from introducing patterns that are inconsistent with the rest of the codebase.
+      Without this section, Claude Code will mix async styles, invent its own naming conventions, and write components that look foreign next to every
+      file it didn't author. Consistency is structural, not cosmetic.
+    <p class="body-text">
+
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Specify naming conventions for files, components, hooks, and services</li>
+          <li>State your preferred async pattern and make it exclusive (async/await only)</li>
+          <li>Define where and how errors are caught, surfaced, and reported</li>
+          <li>Note the import ordering convention if your linter enforces a specific style</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't list rules already enforced by ESLint or TypeScript — Claude will see the errors</li>
+          <li>Don't specify formatting preferences handled entirely by Prettier</li>
+          <li>Don't state obvious defaults like 'use const where possible'</li>
+          <li>Don't write a full style guide — focus only on patterns where Claude Code must make a choice</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Coding Conventions</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Coding Conventions</span>
+          - <span class="token-prompt">Components</span><span class="token-comment">: PascalCase files and named exports</span> <span class="token-string">(ImageExplainer.tsx)</span>
+          - <span class="token-prompt">Hooks</span><span class="token-comment">: camelCase prefixed with</span> <span class="token-prompt">'use'</span> <span class="token-string">(useModelStatus.ts)</span>
+          - <span class="token-prompt">Services</span><span class="token-comment">: camelCase, one concern per file</span> <span class="token-string">(lmStudioClient.ts)</span>
+          - <span class="token-prompt">Async</span><span class="token-comment">: always</span> <span class="token-prompt">async/await</span> <span class="token-comment">— no .then/.catch chains anywhere</span>
+          - <span class="token-prompt">Errors</span><span class="token-comment">: catch in the service layer, surface via toast</span> <span class="token-string">(useToast hook)</span>
+          - <span class="token-prompt">State</span><span class="token-comment">: Zustand for global</span> <span class="token-string">(model config, session)</span><span class="token-comment">; useState for local UI only</span>
+          - <span class="token-prompt">Props</span><span class="token-comment">: destructure at the top of every component; avoid prop drilling &gt; 2 levels</span>
+          - <span class="token-prompt">Exports</span><span class="token-comment">: named exports everywhere except Next.js / router page components</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 6: Workflows (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">6. Workflows (High Value)</h2>
+
+    <p class="body-text">
+      Prevents Claude from implementing a feature without tests, creating an API call without error handling, or shipping UI without
+      a loading state. Coding agents are stateless, they don't recall that last time they forgot to update types or skipped the empty state.
+      Workflows are the checklist that makes repeatable tasks actually repeatable.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Write numbered steps for any task that touches more than two files</li>
+          <li>Include explicit confirmation checkpoints before risky or irreversible actions</li>
+          <li>Add a workflow any time Claude has previously missed a required step</li>
+          <li>Specify ordering where sequence matters. Types before implementation, tests before merge</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't create a workflow for every possible task. Only recurring, multi-step ones</li>
+          <li>Don't make steps so granular they read as noise ('open the file', 'save your changes')</li>
+          <li>Don't duplicate information that already lives in the Commands section</li>
+          <li>Don't write workflows for simple, single-file edits</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Workflows</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Workflows</span>
+
+          <span class="token-keyword">### Adding a new VLM task feature</span>
+          1. Create <span class="token-prompt">/src/features//</span> with index.tsx, types.ts, hooks.ts
+          2. Add LM Studio prompt builder in <span class="token-prompt">/src/services/lmstudio/.ts</span>
+          3. Register the task route in <span class="token-prompt">/src/router.tsx</span>
+          4. Add task entry to the sidebar nav in <span class="token-prompt">/src/components/Sidebar.tsx</span>
+          5. Write unit tests for the prompt builder
+          6. Write a Playwright E2E test for the happy path
+          7. Confirm with me before committing
+
+          <span class="token-keyword">### Modifying the LM Studio client or Python start script</span>
+          1. Check existing types in <span class="token-prompt">/src/types/lmstudio.ts</span> before changing anything
+          2. Update types first, then implementation
+          3. Update the MSW mock in <span class="token-prompt">/src/services/lmstudio/__mocks__/ </span>to match
+          4. Re-run <span class="token-prompt">pnpm test</span> to verify nothing regressed
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 7: UI and Design Rules (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">7. UI and Design Rules (High Value)</h2>
+
+    <p class="body-text">
+      Tells Claude Code how the interface must look and behave, which component library to reach for, what spacing scale to use,
+      how dark mode is implemented, and what accessibility baseline is required. Without UI rules, Claude Code invents its own
+      spacing, uses raw HTML elements instead of your design system, skips ARIA attributes, and produces screens that look
+      inconsistent with every other page.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Name the component library and define when to use it versus raw HTML</li>
+          <li>Specify the spacing and sizing scale used throughout the UI</li>
+          <li>Define how dark mode is implemented at the code level</li>
+          <li>Set the minimum accessibility baseline and list what is always required</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't list individual Tailwind classes. Define conventions and non-obvious rules</li>
+          <li>Don't describe the desired visual aesthetic in subjective terms ('feel modern')</li>
+          <li>Don't include brand guidelines unless Claude is expected to pick colors or write copy</li>
+          <li>Don't repeat constraints the component library already enforces automatically</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">UI and Design Rules</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## UI and design rules</span>
+          - Use <span class="token-prompt">shadcn/ui</span> components first; only build custom if shadcn lacks it
+          - Spacing: Tailwind scale only — no arbitrary values (never <span class="token-prompt">p-[13px]</span>)
+          - Dark mode: Tailwind <span class="token-prompt">dark:</span> prefix + CSS variables from the shadcn theme
+          - Every interactive element needs a visible focus ring (<span class="token-prompt">ring-2 ring-offset-2</span>)
+          - Loading states: <span class="token-prompt">Skeleton</span> components only — no raw spinners or blank panels
+          - Empty states: every list or grid needs an <span class="token-prompt">EmptyState</span> component with an action
+          - Task result panels: fixed split layout — input left, output right, 50/50
+          - Errors: always show inline message + retry button, never just a toast alone
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 8: Domain Terminology (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">8. Domain Terminology (High Value)</h2>
+
+    <p class="body-text">
+      Defines vocabulary specific to this project or domain. Prevents Claude Code from using the wrong terms, editing the wrong entities
+      or introducing naming inconsistencies across the codebase. Terms like 'session', 'prompt', 'mask' and 'confidence' mean different
+      things in different systems. Without definitions, Claude defaults to generic interpretations that may not match your data model.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Define any term that carries a project-specific meaning distinct from its common use</li>
+          <li>List entity aliases where the code name differs from the UI or domain name</li>
+          <li>Clarify abbreviations used in variable names and file names</li>
+          <li>Include the precise casing or spelling of proper nouns (product and tool names)</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't define standard industry terms that Claude Code already understands well</li>
+          <li>Don't list every variable name — only those that are ambiguous or context-dependent</li>
+          <li>Don't include jargon that is universally understood in the relevant technical field</li>
+          <li>Don't over-explain — one concise line per term is sufficient</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Domain Terminology</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Terminology</span>
+          - <span class="token-prompt">Session</span> — one user upload (image or video) plus all its associated task results
+          - <span class="token-prompt">Task</span> — a single VLM operation: explain, segment, or track
+          - <span class="token-prompt">Result</span> — structured output from a completed task (text, masks, or bboxes)
+          - <span class="token-prompt">Mask</span> — binary pixel map output from the segmentation task
+          - <span class="token-prompt">BBox</span> — bounding box (x, y, w, h) used in tracking task output
+          - <span class="token-prompt">Prompt</span> — the text instruction sent to the LM Studio model (not a UI input)
+          - <span class="token-prompt">ModelId</span> — the LM Studio model identifier string
+          - <span class="token-prompt">Confidence</span> — the model's self-reported certainty score (0–1 float)
+          - <span class="token-prompt">Frame</span> — a single decoded video frame sent for per-frame VLM inference
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 9: Testing and Quality Bar (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">9. Testing and Quality Bar (High Value)</h2>
+
+    <p class="body-text">
+      Defines what "done" means for quality. Sets the testing strategy, which layers get which test types and what every new feature must
+      cover before it is considered complete. Claude Code will skip tests unless they are explicit requirements. Without a stated quality
+      bar, test coverage is inconsistent. Some features get tested, while others don't.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>State which code layers require unit tests versus integration or E2E tests</li>
+          <li>Specify the mocking approach for external services and APIs</li>
+          <li>List the minimum scenarios every new feature must cover (happy path, error, empty)</li>
+          <li>Name the test runners and any coverage commands that exist</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't demand a specific coverage percentage unless your CI actually enforces it</li>
+          <li>Don't list test utility APIs — Claude can read existing test files to learn conventions</li>
+          <li>Don't require tests for generated boilerplate or thin wrappers around external libraries</li>
+          <li>Don't over-specify test structure — let Claude follow the conventions it sees in existing tests</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Testing and Quality Bar</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Testing</span>
+          - Unit tests: all service-layer functions and custom hooks (<span class="token-prompt">Vitest</span>)
+          - E2E tests: every new task feature needs a <span class="token-prompt">Playwright</span> happy-path test
+          - No unit tests required for: <span class="token-prompt">shadcn/ui</span> wrappers, purely presentational components
+          - Mock LM Studio API using <span class="token-prompt">MSW</span> handlers in <span class="token-prompt">/src/mocks/handlers.ts</span>
+          - Mock the Python server start script with a stub that resolves immediately
+          - Every feature must cover: happy path, loading state, API error, empty result
+          - Run <span class="token-prompt">pnpm test</span> before committing — CI blocks on failures
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 10: File and Component Placement Rules (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">10. File and Component Placement Rules (High Value)</h2>
+      A more specific extension of Architecture. Gives Claude Code the explicit decision rules for where to create new files, preventing gradual
+      structural drift as the codebase grows. 'Put it somewhere logical' leads to features in <span class="inline-code">/components</span>,
+      utilities in <span class="inline-code">/features</span>, and types
+      scattered across every folder. Explicit placement rules make structure self-enforcing over time.
+    <p class="body-text">
+
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Define placement rules as decision conditions — 'if X then Y'</li>
+          <li>Specify when something belongs in a shared location versus a feature folder</li>
+          <li>State the rule for when a new feature directory should be created</li>
+          <li>Document any path aliases and what they resolve to</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't repeat the directory map from the Architecture section — add the decision logic</li>
+          <li>Don't write rules for files Claude would never create (config files, lock files)</li>
+          <li>Don't make every edge case its own rule — a few clear principles cover most cases</li>
+          <li>Omit path aliases — Claude will write incorrect import paths without them</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">File and Component Placement Rules</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## File placement</span>
+          - New feature: create <span class="token-prompt">/src/features//</span> when it will have 3 or more related files
+          - Component used by one feature only: co-locate inside that feature folder
+          - Component used by two or more features: <span class="token-prompt">/src/components/ui/</span>
+          - Hook used by two or more features: <span class="token-prompt">/src/hooks/</span>
+          - LM Studio request builder: <span class="token-prompt">/src/services/lmstudio/.ts</span>
+          - Types used by one feature: <span class="token-prompt">/src/features//types.ts</span>
+          - Types used by two or more features: <span class="token-prompt">/src/types/.ts</span>
+          - Path alias <span class="token-prompt">@/</span> maps to <span class="token-prompt">/src/</span> — always use it, never use relative <span class="token-prompt">../</span>
+          - Test file: same directory as the source file, same name + <span class="token-prompt">.test.tsx</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 11: Custom Tools and Scripts (Situational) section -->
+  <div class="card">
+
+    <h2 class="section-title">11. Custom Tools and Scripts (Situational)</h2>
+
+    <p class="body-text">
+      Documents team-built scripts and generators that Claude will not discover on its own. Without this, Claude Code writes things from scratch
+      that the team has already built and maintains. Scaffolding scripts, seed utilities, and dev automation tools exist because someone
+      solved a recurring problem. Claude Code doesn't know they exist unless explicitly told.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>List each script with a one-line description of its purpose</li>
+          <li>Show the most common invocation with a concrete example</li>
+          <li>Mention the <span class="inline-code">--help</span> flag if the tool is self-documenting</li>
+          <li>Include code generators Claude should use instead of writing boilerplate by hand</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't document widely known third-party CLIs (git, docker, curl)</li>
+          <li>Don't reproduce full documentation inline — just enough to know when and how to invoke</li>
+          <li>Don't list setup scripts that are only ever run once during initial project onboarding</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Custom Tools and Scripts</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Scripts</span>
+          - <span class="token-prompt">pnpm run scaffold:feature</span>  — creates <span class="token-prompt">/src/features//</span> with boilerplate files
+          - <span class="token-prompt">pnpm run mock:server</span> — starts MSW mock server for fully offline development
+          - <span class="token-prompt">pnpm run seed:sessions</span> — populates IndexedDB with sample session data for testing
+          - <span class="token-prompt">python scripts/start_lmstudio.py --model</span> — starts LM Studio, loads model,
+            waits for server readiness; use <span class="token-prompt">--timeout 60</span> for large models
+          - <span class="token-prompt">python scripts/stop_lmstudio.py</span> — gracefully shuts down the LM Studio process
+          - <span class="token-prompt">scripts/export-masks.ts</span> — exports segmentation masks to PNG
+            Usage: <span class="token-prompt">npx tsx scripts/export-masks.ts --session --output ./out/</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 12: Gotchas and Warnings (Situational) section -->
+  <div class="card">
+
+    <h2 class="section-title">12. Gotchas and Warnings (Situational)</h2>
+
+    <p class="body-text">
+      The things you would tell a new developer on their first day. Covers edge cases, fragile integrations, and constraints that
+      are not visible from reading the code, but cause real pain when missed. External services and local tooling often have undocumented quirks.
+      Without recorded gotchas, Claude Code, and every new developer for that matter, hits the same walls repeatedly.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Document fragile areas where changes have non-obvious downstream effects</li>
+          <li>Warn about quirks specific to external services or local tooling your project uses</li>
+          <li>Flag files or patterns that Claude must never modify autonomously</li>
+          <li>Note environment-specific behaviors that differ between dev and production</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't list every known bug — only structural warnings relevant to Claude's work</li>
+          <li>Don't include issues already caught by linters, type errors, or automated tests</li>
+          <li>Don't add so many warnings that every section becomes noise</li>
+          <li>Don't document temporary workarounds without noting that they are temporary</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Gotchas and Warnings</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Gotchas</span>
+          - LM Studio reports HTTP 200 from <span class="token-prompt">/v1/models</span> even when no model is loaded;
+            always use <span class="token-prompt">scripts/start_lmstudio.py</span> which waits for model readiness
+          - Images must be base64-encoded in the message content array;
+            URL references do not work with the local LM Studio server
+          - Qwen 3.5 VL returns segmentation masks as RLE-encoded JSON strings,
+            not raw pixel arrays — decode using <span class="token-prompt">/src/utils/rleDecoder.ts</span>
+          - Video frames must be extracted client-side via <span class="token-prompt">ffmpeg.wasm</span> before sending;
+            LM Studio does not accept raw video file inputs
+          - Do NOT modify <span class="token-prompt">/src/services/lmstudio/client.ts</span> retry/timeout logic;
+            it is tuned for LM Studio cold-start latency on the first inference call
+          - The Python start script requires <span class="token-prompt">lmstudio-sdk&gt;=0.1.4</span> — check <span class="token-prompt">requirements.txt</span>
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 13: Safe-change Rules (Situational) section -->
+  <div class="card">
+
+    <h2 class="section-title">13. Safe-change Rules (Situational)</h2>
+
+    <p class="body-text">
+      Defines the boundary between what Claude can change freely and what requires human approval first. Essential for agentic sessions where
+      Claude Code may make many sequential file changes. Claude Code in agentic mode can cascade changes across many files. Without boundaries,
+      it may refactor core services, alter API contracts, or touch authentication logic without realising the risk.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>List the specific files or directories Claude must never modify without asking</li>
+          <li>Define which change types always require human confirmation before proceeding</li>
+          <li>State what counts as a breaking change in the context of your project</li>
+          <li>Apply a blanket 'always ask before deleting any file' rule as a safe default</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't make the restricted list too long, it prevents Claude from doing useful work</li>
+          <li>Don't conflate 'risky to change' with 'hard to change' — impact is what matters</li>
+          <li>Don't apply identical restrictions to test files and production source files</li>
+          <li>Don't leave Claude to infer safe boundaries — be explicit</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Safe-change Rules</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Safe-change rules</span>
+          - NEVER modify without asking: <span class="token-prompt">/src/services/lmstudio/client.ts</span>,
+            <span class="token-prompt">/src/stores/sessionStore.ts</span>, any file in <span class="token-prompt">/src/types/</span>, <span class="token-prompt">scripts/start_lmstudio.py</span>
+          - ASK before: deleting any file, changing a component's public props interface,
+            modifying an existing <span class="token-prompt">Zustand</span> store's state shape, changing LM Studio request format
+          - FREE to change: feature-local components, feature-local hooks, test files,
+            <span class="token-prompt">Tailwind classes</span>, UI copy and labels within existing components
+          - Any change to the LM Studio request or response shape is a breaking change — confirm first
+          - When unsure whether a change is safe, ask rather than proceed
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 14: Content and Copy Guidance (Situational) section -->
+  <div class="card">
+
+    <h2 class="section-title">14. Content and Copy Guidance (Situational)</h2>
+
+    <p class="body-text">
+      Defines how UI text is written. This includes voice, capitalization, error message format, and which proper nouns have a canonical spelling.
+      Prevents Claude Code from mixing tone or using inconsistent terminology across screens. Inconsistent labels erode trust in a professional tool.
+      If one screen says 'Analyze' and another says 'Run inference', users question whether they perform the same action.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Define the product's voice with a clear descriptor (precise, friendly, technical)</li>
+          <li>Specify capitalization rules for labels, buttons, headings, and error messages</li>
+          <li>Provide a before/after example of how error messages should be written</li>
+          <li>List proper nouns that have a fixed spelling or casing Claude must follow</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't write a full content style guide — only conventions Claude will apply in code</li>
+          <li>Don't include marketing or promotional copy conventions</li>
+          <li>Don't specify typographic choices such as font size or line height — those belong in UI rules</li>
+          <li>Don't leave voice undefined and expect Claude to infer it from existing copy</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Content and Copy Guidance</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Content and copy</span>
+          - Voice: technical and precise — this is a professional tool, not a consumer app
+          - Sentence case for all labels, buttons, tooltips, and error messages
+          - Proper nouns: '<span class="token-prompt">LM Studio</span>' (two words), '<span class="token-prompt">Qwen 3.5 VL</span>' (spaced, not 'Qwen3.5VL')
+          - Task names: capitalised as nouns — <span class="token-prompt">Image Explanation</span>, <span class="token-prompt">Segmentation</span>, <span class="token-prompt">Tracking</span>
+          - Error messages: state what failed + what the user should do next
+            Good: '<span class="token-prompt">Model not loaded. Start LM Studio and load a model to continue.</span>'
+            Bad: '<span class="token-prompt">Error: request failed</span>'
+          - Empty states: explain why the area is empty + offer one clear next action
+          - Loading messages: be specific about the operation, not generic
+            Good: '<span class="token-prompt">Analyzing image...</span>' Bad: '<span class="token-prompt">Loading...</span>'
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 15: MCPs and External Tools (Optional) section -->
+  <div class="card">
+
+    <h2 class="section-title">15. MCPs and External Tools (Optional)</h2>
+      If MCP servers are configured, tells Claude Code what is available and when to reach for them instead of writing code or searching manually for
+      information. Without this, Claude won't know to use a configured GitHub or Filesystem MCP even when that would be the most direct path —
+      it will write code to do something a tool can do in one call.
+    <p class="body-text">
+
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>List each configured MCP server and what service it connects to</li>
+          <li>Give one concrete example of when Claude should use each server</li>
+          <li>Note if any MCP tool overlaps with a custom script to avoid duplication</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't reproduce the .mcp.json configuration here — it already lives in that file</li>
+          <li>Don't document MCP servers that are planned, but not yet connected or authenticated</li>
+          <li>Don't include this section at all if no MCP servers are configured</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">MCPs and External Tools</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## MCP tools</span>
+          - <span class="token-prompt">Filesystem MCP</span> — read sample datasets from <span class="token-prompt">~/datasets/</span> during development
+            Use when the user asks to test with a specific local image or video file
+          - <span class="token-prompt">GitHub MCP</span> — create PRs, check CI status, fetch issue context
+            Use for any git operation that involves the remote repository
+          - <span class="token-prompt">Playwright MCP</span> — run browser automation for E2E test debugging
+            Use when a Playwright test is failing and needs live visual inspection
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 16: Self-improvement and Memory Rules (Optional) section -->
+  <div class="card">
+
+    <h2 class="section-title">16. Self-improvement and Memory Rules (Optional)</h2>
+
+    <p class="body-text">
+      Tells Claude when and how to propose updates to the <span class="inline-code">CLAUDE.md</span> file itself. Turns it from a document written
+      once into a living record that improves as the project evolves. A <span class="inline-code">CLAUDE.md</span>  written at project start goes
+      stale quickly. The best additions come from real mistakes — a gotcha Claude hit, a convention it guessed wrong, a workflow missing a step.
+    </p>
+
+    <!-- INCLUDE / AVOID panels -->
+    <div class="do-dont-grid">
+
+      <div class="callout callout-include">
+        <div class="callout-label">✅ Include</div>
+
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Tell Claude to propose additions when it discovers undocumented gotchas or gaps</li>
+          <li>Define the format for proposals — always a draft in a code block, never a silent edit</li>
+          <li>Ask Claude to flag when it is working outside any documented pattern</li>
+          <li>Establish a clear human-approval step before any change is applied</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-avoid">
+        <div class="callout-label">❌ Avoid</div>
+        
+        <ul class="callout-list" style="margin-top: var(--sp-s);">
+          <li>Don't allow Claude to edit <span class="inline-code">CLAUDE.md</span> autonomously — it must always propose, never act</li>
+          <li>Don't ask Claude to log session-specific preferences that won't generalise</li>
+          <li>Don't make the rules so complex they discourage proposing improvements at all</li>
+          <li>Don't skip the review step — Claude proposals can contain errors too</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Code block example -->
+    <p class="body-text" style="margin-bottom: var(--sp-s);">Example <span class="inline-code">Self-improvement and Memory Rules</span> section:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Self-improvement</span>
+          - If you discover an undocumented service quirk, propose a <span class="token-prompt">Gotchas</span> entry
+          - If you place a file that doesn't fit current placement rules,
+            flag it and propose a rule update before proceeding
+          - If a workflow step was wrong or incomplete, draft a corrected version
+          - Always propose <span class="token-prompt">CLAUDE.md</span> changes as a markdown code block prefixed with:
+            '<span class="token-prompt">CLAUDE.md suggestion:</span>' so they are easy to find in the conversation
+          - Never edit <span class="token-prompt">CLAUDE.md</span> directly — all changes require human review first
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+

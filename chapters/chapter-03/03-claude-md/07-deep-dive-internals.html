@@ -1,0 +1,1236 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">Deep Dive I: Internals</h1>
+    <p class="page-subtitle">@ imports, CHANGELOG workflows, system-reminder wrapping, and prompt injection</p>
+    <div class="header-intro">
+      <p>
+        This deep dive reveals exactly how <span class="inline-code">@</span> imports expand at startup, why
+        <span class="inline-code">CHANGELOG.md</span> + <span class="inline-code">project-notes/</span> is the only
+        reliable way to stop Claude from repeating dead-end mistakes, and the surprising truth about the
+        <span class="inline-code">&lt;system-reminder&gt;</span> wrapper that decides whether your instructions are
+        actually followed.
+      </p>
+      <p>
+        You’ll also learn the four flags that let you push rules straight into the system prompt for unbreakable
+        adherence, plus clever tricks like HTML comments that cost zero tokens and the real reason Claude sometimes
+        “forgets” your <span class="inline-code">CLAUDE.md</span> mid-session. Master these internals and your
+        projects will never lose context again.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 7/8</span>
+      <span class="meta-chip">~18 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <p class="body-text">
+      <strong>This deep dive covers the following key topics:</strong>
+    </p>
+
+    <div style="flex:2;min-width:220px;align-items:center;">
+      <ul class="content-list highlighted" style="margin:0">
+        <li><strong>1. @ Imports in CLAUDE.md</strong></li>
+        <li><strong>2. CHANGELOG.md and the project-notes Directory</strong></li>
+        <li><strong>3. How the Harness Wraps Your CLAUDE.md</strong></li>
+        <li><strong>4. Including Your CLAUDE.md in the System Prompt</strong></li>
+        <li><strong>5. Good to Know</strong></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Card 1: @ Imports in CLAUDE.md -->
+  <div class="card">
+
+    <h2 class="section-title">1. @ Imports in CLAUDE.md</h2>
+
+    <p class="body-text">
+      External files can be pulled into your <span class="inline-code">CLAUDE.md</span> using the <span class="inline-code">@</span> syntax,
+      the same way you reference files in a Claude Code prompt. An import can appear anywhere in the file: mid-sentence, in a list item, or
+      on its own line. There are no structural constraints on placement.
+    </p>
+
+    <h3 class="card-h3">Path Resolution</h3>
+
+    <p class="body-text">
+      Both absolute and relative paths are valid. Relative paths resolve relative to the file containing the import statement, not to the current working directory.
+    </p>
+
+    <p class="body-text">
+      For example, if your project CLAUDE.md lives at <span class="inline-code">/projects/my-app/CLAUDE.md</span> and contains the line:
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-prompt">@docs/architecture.md</span>
+        </code></pre>
+      </div>
+    </div>
+    <p class="body-text">
+      …it will look for <span class="inline-code">/projects/my-app/docs/architecture.md</span>, not
+      <span class="inline-code">./docs/architecture.md</span> relative to wherever you launched Claude Code from.
+      An absolute import like <span class="inline-code">@/home/user/.claude/personal.md</span> resolves to that
+      exact path on disk, regardless of where the project lives.
+    </p>
+
+    <h3 class="card-h3">Recursive Imports and Depth Limit</h3>
+
+    <p class="body-text">
+      Imported files can themselves contain <span class="inline-code">@</span> imports. <span class="inline-code">CLAUDE.md</span> can
+      import <span class="inline-code">@docs/architecture.md</span>, which imports <span class="inline-code">@docs/database.md</span>,
+      which imports deeper context, up to five levels deep. This makes recursive imports well-suited for building
+      layered, modular configuration hierarchies where each file owns a specific slice of context.
+    </p>
+
+    <!--
+    <h3 class="card-h3">First-Time Approval Dialog</h3>
+
+    <p class="body-text">
+      The first time Claude Code encounters external imports in a project, it shows a one-time approval dialog listing
+      the specific files that would be loaded. If you approve, they are loaded. If you decline, the dialog does not resurface
+      and those imports remain disabled for that project. This is a per-project decision. Review it carefully, because
+      there is no follow-up prompt.
+    </p>
+    -->
+
+    <div class="callout callout-note" style="--callout-margin-top: var(--sp-xl);">
+      <div class="callout-label">ℹ NOTE</div>
+      The first time Claude Code encounters external imports in a project, it shows a one-time approval dialog listing
+      the specific files that would be loaded. If you approve, they are loaded. If you decline, the dialog does not resurface
+      and those imports remain disabled for that project. This is a per-project decision. Review it carefully, because
+      there is no follow-up prompt.
+    </div>
+
+    <h3 class="card-h3">How Are Imports Loaded?</h3>
+
+    <p class="body-text">
+      This is the most important thing to understand about <span class="inline-code">@</span> imports: they are not lazy
+      references, and they are not loaded on demand. When the session starts, every referenced file's full content is
+      expanded and inserted into context alongside the <span class="inline-code">CLAUDE.md</span> that references it.
+      It behaves exactly as if you had copy-pasted the file contents directly into
+      <span class="inline-code">CLAUDE.md</span> at that position.
+    </p>
+
+    <p class="body-text">
+      <span class="inline-code">@</span> imports are not a dynamic lookup. Claude does not fetch files mid-conversation
+      when they seem relevant. The entire expanded content is present from the first token of the session.
+    </p>
+
+    <p class="body-text">
+      The claim that <span class="inline-code">@</span> imports are loaded on demand surfaces regularly on blogs and
+      social media. <strong>It is completely false.</strong>
+    </p>
+
+    <p class="body-text">
+      However, what tends to happen is that Claude re-reads <span class="inline-code">@</span>-mentioned files during
+      the conversation. This behavior fuels the myth, but the explanation is mundane:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        The loaded file is a static snapshot taken at session start. If the file changes on disk during the session,
+        Claude needs to re-read it to get the updated version.
+      </li>
+      <li>
+        Claude treats the on-disk file as the source of truth. Its default agentic loop essentially says:
+        <i>"I should verify or pull the latest version before relying on this information."</i>
+      </li>
+      <li>
+        After <span class="inline-code">/compact</span> execution or a lot of messages in long-running session,
+        Claude's effective working memory of the initial import can feel stale. Re-reading is its way of refreshing
+        the exact wording without relying solely on the initial context block.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      This re-reading has a cost (additional tokens) but also an upside: the file is reinserted fresh into the active
+      attention window, improving the chance that its instructions are followed.
+    </p>
+
+    <p class="body-text">
+      If you want to suppress this behavior and save tokens, add an explicit "Import & Memory Rules" section to
+      your <span class="inline-code">CLAUDE.md</span> telling Claude not to re-read imported files unless it has
+      reason to believe the content has changed. For example:
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Import & Memory Rules</span>
+
+          - Treat <span class="token-prompt">@-imported</span> files as static instruction text, inlined at session
+            start. Their content does not change during a session.
+          - Never re-fetch or re-read an imported file mid-session. If content
+            seems stale, tell the user — do not attempt to reload it yourself.
+        </code></pre>
+      </div>
+    </div>
+
+    <h3 class="card-h3">Two Formatting Notes Worth Knowing</h3>
+
+    <p class="body-text">
+      <span class="inline-code">@</span> imports in <strong>code spans and blocks are ignored</strong>. Writing
+      <span class="inline-code">@path/to/file</span> inside a backtick span or a fenced code block does not
+      trigger an import. This lets you document or discuss import paths without accidentally pulling files
+      into context.
+    </p>
+
+    <p class="body-text">
+      Heading levels are not adjusted. When you import a file that contains its own headings, those headings are inserted as-is,
+      at their original level. If your imported file opens with <span class="inline-code"># Main Conventions</span>, it becomes
+      a top-level heading in the final document — even if it is logically a subsection of your <span class="inline-code">CLAUDE.md</span>.
+      There is no automatic heading-level adjustment. Design your imported files with this in mind: if they are meant to act as
+      subsections, use <span class="inline-code">##</span> headings inside them rather than <span class="inline-code">#</span>.
+    </p>
+
+    <h3 class="card-h3">What @ Imports Are Not Designed For</h3>
+
+    <p class="body-text">
+      <span class="inline-code">@</span> imports are not a mechanism for progressive disclosure. All referenced content is injected at
+      session start, every import always costs tokens, always, whether or not the current task touches that context.
+    </p>
+
+    <p class="body-text">
+      That said, you can still structure your <span class="inline-code">CLAUDE.md</span> around imports using conditional language
+      that tells Claude when to pay attention to the expanded content. For example:
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          When working on the database layer, refer to <span class="token-prompt">@docs/database-conventions.md</span>
+          for schema and migration rules.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      This does two things: it helps Claude know when to weight that content, and if the re-reading behavior is active,
+      it will pull the file back into the active attention window when you are working on a matching task.
+    </p>
+
+    <h3 class="card-h3">The Two Original Use Cases</h3>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>1. Breaking up large <span class="inline-code">CLAUDE.md</span> files for maintainability.</strong>
+        400-line <span class="inline-code">CLAUDE.md</span> is hard to navigate and hard to update. Splitting it into
+        focused files — one for conventions, one for architecture context, one for testing rules — makes each file
+        easier to own and edit independently.
+      </li>
+      <li>
+        <strong>2. Avoiding duplication of existing project docs.</strong> Your project already has a
+        <span class="inline-code">README</span>, a <span class="inline-code">package.json</span>, a schema file, an
+        architecture document. Without imports, you either paste summaries of all that into
+        <span class="inline-code">CLAUDE.md</span> (now you have two sources of truth to maintain and keep in sync) or
+        Claude works without that context. Imports let you reference the canonical files directly.
+      </li>
+    </ul>
+
+    <h3 class="card-h3">Emerging Third Use Case: Replacing CLAUDE.local.md</h3>
+
+    <p class="body-text">
+      A third pattern has become increasingly prominent: using <span class="inline-code">@</span> imports as an alternative
+      to <span class="inline-code">CLAUDE.local.md</span> for personal, machine-specific configuration.
+    </p>
+
+    <p class="body-text">
+      Claims that <span class="inline-code">CLAUDE.local.md</span> has been retired in favor of imports are appearing more
+      frequently. As of early April 2026, <span class="inline-code">CLAUDE.local.md</span> is still fully functional and
+      has not been deprecated. The motivation for the shift is practical rather than prescriptive.
+    </p>
+
+    <p class="body-text">
+      The problem with <span class="inline-code">CLAUDE.local.md</span> is that if you work across multiple git worktrees,
+      the local file only exists in one of them. Your personal preferences, local tool paths, and machine-specific rules
+      are siloed to a single worktree.
+    </p>
+
+    <p class="body-text">
+      If you use a home-directory import instead, all worktrees share the same personal instructions automatically. A
+      minimal setup looks like this in your project's <span class="inline-code">CLAUDE.md</span>:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Personal Overrides</span>
+          <span class="token-comment">&lt;!-- Load developer-specific local preferences. This file is not committed. --&gt;</span>
+          <span class="token-prompt">@~/.claude/personal.md</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The file at <span class="inline-code">~/.claude/personal.md</span> lives outside the repository entirely, survives
+      across all worktrees, and stays out of version control. For teams, each developer maintains their own, and the
+      project <span class="inline-code">CLAUDE.md</span> simply declares where to look.
+    </p>
+
+  </div>
+
+
+  <!-- Card 2: CHANGELOG.md and the project-notes/ Directory -->
+  <div class="card">
+
+    <h2 class="section-title">2. CHANGELOG.md and the project-notes Directory</h2>
+
+    <p class="body-text">
+      Earlier in this tutorial, we covered removing obsolete and deprecated sections from <span class="inline-code">CLAUDE.md</span>.
+      Completed work, abandoned experiments, and resolved decisions do not belong there. They dilute the signal and clutter the context.
+    </p>
+
+    <p class="body-text">
+      But there are two categories of project knowledge that are genuinely valuable to Claude Code, have no natural home inside
+      <span class="inline-code">CLAUDE.md</span> and are routinely lost between sessions:
+    </p>
+    <ul class="content-list">
+      <li>
+        <strong>Project history:</strong> what changed, when, and why.
+      </li>
+      <li>
+        <strong>Dead ends:</strong> failed approaches, discarded architectures, and the explicit reasons they were abandoned.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      The solution that has emerged and is explicitly recommended by Anthropic, is a <span class="inline-code">CHANGELOG.md</span>
+      file combined with a <span class="inline-code">project-notes/</span> directory.
+    </p>
+
+    <h3 class="card-h3">Setting Up CHANGELOG.md</h3>
+
+    <p class="body-text">
+      Create a file called <span class="inline-code">CHANGELOG.md</span> in your project root, alongside your <span class="inline-code">CLAUDE.md</span>.
+    </p>
+
+    <p class="body-text">
+      Example structure for the <span class="inline-code">CHANGELOG.md</span> file:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CHANGELOG.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Current Status</span>
+          [One paragraph: where the project stands right now, what is working,
+          what is broken, and what the immediate next step is.]
+
+          <span class="token-comment">---</span>
+
+          <span class="token-keyword">## [YYYY-MM-DD] — Brief Label</span>
+          <span class="token-keyword">### Added / Changed</span>
+          - Feature or task description (files affected: <span class="token-prompt">src/api.py</span>, <span class="token-prompt">tests/test_api.py</span>)
+
+          <span class="token-keyword">### Decisions</span>
+          - Chose SQLite over Postgres for local dev — avoids docker dependency,
+            acceptable for expected load.
+
+          <span class="token-keyword">### Failures</span>
+          - Attempted streaming response via Server-Sent Events — CORS headers
+            blocked by nginx in current config. Reverted. Blocked until nginx is
+            configurable.
+
+          <span class="token-keyword">### Tests</span>
+          - <span class="token-prompt">test_auth.py</span>: all passing
+          - <span class="token-prompt">test_stream.py</span>: 2 failing (see Failures above)
+
+          <span class="token-keyword">### Gotchas</span>
+          - Hot-reload breaks if you edit <span class="token-prompt">config.py</span> while the dev server is running.
+            Restart required.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Each session (or coherent group of targeted changes) gets its own dated section. The header date uses
+      <span class="inline-code">YYYY-MM-DD</span> format. The label after the dash is a short, human-readable
+      description of what the session was about.
+    </p>
+
+    <h3 class="card-h3">Section Contents</h3>
+
+    <p class="body-text">
+      Placing a <strong>Current Status</strong> section at the very top of the file is a quite important part of the
+      <span class="inline-code">CHANGELOG.md</span> file. It gives Claude a front-loaded, overview of where the project
+      stands.
+    </p>
+
+    <p class="body-text">
+      Inside each session entry, include the following subsections as applicable:
+    </p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Subsection</th>
+            <th>What Goes Here</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">Added</span> / <span class="inline-code">Changed</span></td>
+            <td>
+              Completed features or tasks, with the files changed. Use <span class="inline-code">Added</span>
+              for new things, <span class="inline-code">Changed</span> for modifications to existing ones.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Decisions</span></td>
+            <td>Architecture or implementation choices, with the reason.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Failures</span></td>
+            <td>Failed approaches with explicit reasons. <strong>Highest-value content in the file.</strong></td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Tests</span></td>
+            <td>Which tests pass or fail at this checkpoint.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Gotchas</span></td>
+            <td>Known regressions, workarounds, or hacks currently in the codebase.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="body-text">
+      The <span class="inline-code">Failures</span> section deserves emphasis. Without an explicit record of what was
+      tried and why it did not work, Claude will attempt the same thing again in the next session. This is one of the
+      most expensive failure modes in long-running projects — not just in tokens, but in time and frustration.
+    </p>
+
+    <h3 class="card-h3">Managing Growth: Periodic Compression</h3>
+
+    <p class="body-text">
+      As the project progresses, <span class="inline-code">CHANGELOG.md</span> will grow. A long, dense file costs
+      tokens and buries the recent, relevant content under layers of old history.
+    </p>
+
+    <p class="body-text">
+      The practical solution is periodic compression. When the file becomes unwieldy, archive everything older than the
+      current sprint or milestone into a <span class="inline-code">## History</span> section at the bottom of the file.
+      Condense old session entries into their most important items — relevant decisions that still hold, failures that
+      are still worth remembering, gotchas that have not been resolved. Items that are no longer relevant (a failure
+      from a discarded approach, a decision that has since been reversed) should simply be dropped rather than carried
+      forward.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      You can look up the <span class="inline-code">CHANGELOG.md</span> from the
+      <a href="https://www.anthropic.com/research/long-running-Claude" target="_blank"
+         class="callout-link-inline">
+        clax
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a> project by <strong>Anthropic</strong> at:
+      <a href="https://github.com/smsharma/clax/blob/main/CHANGELOG.md" target="_blank"
+         class="callout-link-inline">
+        GitHub - Clax CHANGELOG.md
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>.
+    </div>
+
+    <h3 class="card-h3">Setting Up "project-notes" Directory</h3>
+
+    <p class="body-text">
+      Create a <span class="inline-code">project-notes/</span> directory in your project root or inside
+      <span class="inline-code">.claude/</span>. This is where deep, per-topic context lives.
+    </p>
+
+    <p class="body-text">
+      Each significant task, feature, or bug gets its own focused Markdown file. These files are where you put:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Detailed design context and diagrams
+      </li>
+      <li>
+        Subsystem-specific decisions and rationale
+      </li>
+      <li>
+        Known gotchas and edge cases for that area
+      </li>
+      <li>
+        Checklists of TODO items with checkboxes
+      </li>
+      <li>
+        Links to relevant external docs
+      </li>
+    </ul>
+
+    <p class="body-text">
+      In addition to per-feature files, you can create cross-cutting files: e.g. a <span class="inline-code">bugs.md</span>
+      listing open issues, or a <span class="inline-code">tooling-notes.md</span> documenting quirks and decisions around
+      external tools and dependencies.
+    </p>
+
+    <h3 class="card-h3">Connecting It to CLAUDE.md</h3>
+
+    <p class="body-text">
+      Reference both <span class="inline-code">CHANGELOG.md</span> and <span class="inline-code">project-notes/</span>
+      in your <span class="inline-code">CLAUDE.md</span>, without using the <span class="inline-code">@</span> import
+      syntax. The goal is to give Claude instructions for when and how to interact with these files, not to auto-load
+      them at session start (which would cost tokens every session whether or not you need them).
+    </p>
+
+    <p class="body-text">
+      A minimal <span class="inline-code">CLAUDE.md</span> section might look like:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Session Protocol</span>
+          <span class="token-keyword">**Session start:**</span> Read <span class="token-prompt">`CHANGELOG.md`</span>. Note Current Status and identify the next task.
+          If working on a specific feature or subsystem, read the relevant file in <span class="token-prompt">`project-notes/`</span>
+          before starting.
+          <span class="token-keyword">**Session end / significant milestone:**</span> Update <span class="token-prompt">`CHANGELOG.md`</span> with a dated entry covering:
+          what was completed, decisions made, approaches that failed and why, and next steps. Update
+          Current Status at the top. Check off completed tasks in the relevant <span class="token-prompt">`project-notes/`</span> file.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The explicit instruction to update "Current Status" is worth including by name, since it is the piece Claude Code must
+      maintain for the whole system to work.
+    </p>
+
+    <h3 class="card-h3">The Session Handoff Workflow in Practice</h3>
+
+    <p class="body-text">
+      With <span class="inline-code">CHANGELOG.md</span> and <span class="inline-code">project-notes/</span> in place, a
+      typical session looks like this:
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <p>
+          <span class="feature-key">1. Session starts:</span>
+        </p>
+        <p>
+          <span class="inline-code">CLAUDE.md</span> auto-loads. Claude reads <span class="inline-code">CHANGELOG.md</span>
+          per the session protocol, sees Current Status, the last entry, and the immediate next task.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">2. Starting a feature:</span>
+        </p>
+        <p>
+          You say <span class="inline-code">@project-notes/auth-flow.md — continue from where we left off</span>. Claude
+          reads the feature file, sees checked and unchecked tasks, and picks up exactly where work stopped.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">3. During work:</span>
+        </p>
+        <p>
+          Claude reads <span class="inline-code">@project-notes/auth-flow.md</span> again if it needs to make a decision
+          related to that area.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">4. Completing a task:</span>
+        </p>
+        <p>
+          Claude checks off the completed items in the feature file and adds an entry to
+          <span class="inline-code">CHANGELOG.md</span>.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">5. Context reset/Next session:</span>
+        </p>
+        <p>
+          Nothing is lost. The state lives in the files, not in the context window.
+        </p>
+      </li>
+
+    </ul>
+
+    <p class="body-text">
+      <strong>A Key Discipline:</strong>  Claude Writes, Not Just Reads. If you treat <span class="inline-code">CHANGELOG.md</span>
+      and the feature notes as read-only documentation that you update manually, you will be doing it yourself after every
+      session. The leverage comes from instructing Claude to maintain them as part of its normal workflow. That makes Claude
+      a participant in the project's own documentation, not just a tool that consumes it.
+    </p>
+
+    <p class="body-text">
+      Note that <span class="inline-code">CHANGELOG.md</span> is <strong>loaded explicitly</strong> (via prompt or instruction)
+      rather than auto-loaded. This is intentional. You <span class="inline-code">@</span>-mention it or any
+      <span class="inline-code">project-notes/*.md</span> file in your prompt when it is relevant to the current task, rather
+      than paying the token cost every session.
+    </p>
+
+    <h3 class="card-h3">Why The CHANGELOG.md Matters?</h3>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>Dead-end prevention.</strong> Without a record of failed approaches, Claude will attempt the same thing again
+        in the next session. This is one of the most expensive failure modes in long-running projects.
+      </li>
+      <li>
+        <strong>Resumption without re-explanation.</strong> At the start of a session, you or Claude can simply say <span class="inline-code">"Read
+        CHANGELOG.md and pick up the next task."</span> Claude immediately has the project's state — what works, what does not, and what comes next —
+        without you reconstructing it from memory.
+      </li>
+      <li>
+        <strong>Supervision without presence.</strong> In agentic workflows running over hours or days, <span class="inline-code">CHANGELOG.md</span>
+        acts as the log you check when you return to assess what the agent did. It is the equivalent of a commit log that explains why, not just what.
+      </li>
+    </ul>
+
+    <h3 class="card-h3">Is This Necessary?</h3>
+
+    <p class="body-text">
+      For short, single-session tasks: <strong>no</strong>.
+    </p>
+
+    <p class="body-text">
+      For anything spanning multiple sessions — a feature, a module, a multi-day project — the answer is <strong>effectively yes</strong>. Without it, you will
+      either waste time re-establishing context at the start of each session, or Claude will silently drift: re-attempting things that already
+      failed, inconsistently applying earlier decisions, or losing track of what is done.
+    </p>
+
+    <p class="body-text">
+      The pattern is particularly critical in agentic and autonomous work that include long background runs, <span class="inline-code">/loop</span> tasks or
+      multi-agent pipelines. For long-running software projects that span multiple agent sessions, memory files need to be bootstrapped deliberately
+      and maintained systematically, not written ad hoc as work progresses. <span class="inline-code">CHANGELOG.md</span> turns memory into a
+      structured recovery mechanism: <strong>each new session can pick up exactly where the last one left off.</strong>
+    </p>
+
+  </div>
+
+  <!-- Card 3: How the Harness Wraps Your CLAUDE.md -->
+  <div class="card">
+
+    <h2 class="section-title">3. How the Harness Wraps Your CLAUDE.md</h2>
+
+    <p class="body-text">
+      <span class="inline-code">CLAUDE.md</span> may resemble a system prompt, but it is not one. Understanding exactly how it gets
+      consumed by the underlying model explains a lot about why certain <span class="inline-code">CLAUDE.md</span> authoring choices matter more than others.
+    </p>
+
+    <p class="body-text">
+      There are two things to understand: the wrapper that is created around the <span class="inline-code">CLAUDE.md</span> content, and where that wrapped
+      content lives in the API call.
+    </p>
+
+    <h3 class="card-h3">The &lt;system-reminder&gt; Wrapper</h3>
+
+    <p class="body-text">
+      When Claude Code delivers your <span class="inline-code">CLAUDE.md</span> to the model, it does not inject the raw Markdown. First, it wraps the content
+      in a <span class="inline-code">&lt;system-reminder&gt;</span> XML tag. The global and local CLAUDE.md files are concatenated with the repository-level
+      file and added inside this tag together.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">HARNESS</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">&lt;system-reminder&gt;</span>
+          As you answer the user's questions, you can use the following context:
+
+          <span class="token-keyword"># claudeMd</span>
+          Codebase and user instructions are shown below. Be sure to adhere to these instructions.
+          <span class="token-keyword">IMPORTANT:</span> These instructions OVERRIDE any default behavior and you MUST follow them exactly as written.
+
+          Contents of <span class="token-prompt">/Users/userx/projectx/.claude/CLAUDE.md</span> (project instructions, checked into the codebase):
+          [...entire CLAUDE.md file content...]
+
+          <span class="token-keyword">IMPORTANT:</span> this context may or may not be relevant to your tasks.
+          You should not respond to this context unless it is highly relevant to your task.
+          <span class="token-keyword">&lt;/system-reminder&gt;</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The XML wrapper serves two purposes:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <strong>Structural boundaries:</strong> Claude models are fine-tuned on XML-style tags for separating instructions, context, tool outputs,
+        and artifacts. Using a named tag reduces ambiguity and attention drift compared to injecting raw Markdown.
+      </li>
+      <li>
+        <strong>Semantic signaling:</strong> The tag tells the model: <i>this is high-priority persistent guidance, not a user query or tool output
+        to reply to directly.</i>
+      </li>
+    </ul>
+
+    <h4 class="card-h4">The Three Statements Inside the Wrapper</h4>
+
+    <p class="body-text">
+      The <span class="inline-code">&lt;system-reminder&gt;</span> tag contains three distinct statements that together define how the model perceives
+      <span class="inline-code">CLAUDE.md</span> content:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>Statement 1 — The framing prelude:</strong> <i>"As you answer the user's questions, you can use the following context:"</i>
+        <br><br>
+        This tells the model that the block below is background material allowed to be referenced, while completing its real task
+        (answering the user, completing the coding task). It positions <span class="inline-code">CLAUDE.md</span> as a resource,
+        not a directive.
+      </li>
+      <li>
+        <strong>Statement 2 — The namespace label and override instruction.</strong>
+        <br><br>
+        The <span class="inline-code"># claudeMd</span> header acts as a namespace label telling the model where
+        <span class="inline-code">CLAUDE.md</span> content begins. The accompanying instruction declares that these
+        instructions override default Claude behavior and must be followed exactly as written. This gives the model
+        a strong signal that the content inside is authoritative project-specific guidance.
+      </li>
+      <li>
+        <strong>Statement 3 — The relevance guardrail:</strong> <i>"IMPORTANT: this context may or may not be relevant
+        to your tasks. You should not respond to this context unless it is highly relevant to your task."</i>
+        <br><br>
+        This is the anti-distraction statement. It gives the model explicit permission to deprioritize or ignore
+        <span class="inline-code">CLAUDE.md</span> content if the current task does not make it clearly useful.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      <strong>The Built-In Contradiction:</strong> Statement 2 says "IMPORTANT: These instructions OVERRIDE any default
+      behavior and you MUST follow them exactly as written." Statement 3 immediately says "this context may or may not
+      be relevant to your tasks."
+    </p>
+
+    <p class="body-text">
+      The second statement wins, because it is a meta-instruction about how to treat the first. In practical terms: <strong>Claude
+      will ignore the contents of your <span class="inline-code">CLAUDE.md</span> if it decides they are not relevant to
+      its current task.</strong>
+    </p>
+
+    <p class="body-text">
+      This has a direct implication for <span class="inline-code">CLAUDE.md</span> authoring. The more content you have in the
+      file that is not universally applicable — old decisions, context about completed features, documentation about areas Claude
+      is not currently working in — the more likely it is that Claude will deprioritize the whole block. The relevance guardrail
+      gives the model the authority to self-decide whether to apply your instructions.
+    </p>
+
+    <p class="body-text">
+      This is a real architectural tension. It has been filed as a bug on the Claude Code GitHub repository multiple times.
+      It is also one of the strongest arguments for keeping <span class="inline-code">CLAUDE.md</span> short, high-signal,
+      and universally applicable to the work Claude is actually doing.
+    </p>
+
+    <h3 class="card-h3">Where the Wrapped Content Lives in the API Call</h3>
+
+    <p class="body-text">
+      When Claude Code sends a request to the Anthropic API, the request is structured with three sections:
+      <span class="inline-code">system</span>, <span class="inline-code">tools</span>, and
+      <span class="inline-code">messages</span>.
+    </p>
+
+    <p class="body-text">
+      The <span class="inline-code">&lt;system-reminder&gt;</span> containing your <span class="inline-code">CLAUDE.md</span>
+      is not placed in the system field. It is injected as a fake user message in the messages array.
+    </p>
+
+    <pre class="dir-tree"><code>
+      <span style="color:#38bdf8">Anthropic API Request</span>
+      ├── <span style="color:#38bdf8">system[]</span>
+      │   ├── <span style="color:#28c840">"You are Claude Code..."</span>
+      │   ├── <span style="color:#a78bfa">Task execution rules</span>
+      │   ├── <span style="color:#a78bfa">Tool usage policy</span>
+      │   └── <span style="color:#d97757">__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__</span>
+      │       ├── <span style="color:#a78bfa">Git status snapshot</span>
+      │       └── <span style="color:#4a6a8a">(other per-session system content)</span>
+      │
+      ├── <span style="color:#38bdf8">tools[]</span>
+      │   └── <span style="color:#a78bfa">Read, Edit, Bash, Grep, ...</span>
+      │
+      └── <span style="color:#38bdf8">messages[]</span>
+          ├── {<span style="color:#a78bfa">role:</span> <span style="color:#28c840">"user"</span>, <span style="color:#a78bfa">content:</span> <span style="color:#28c840">"</span><span style="color:#d97757">&lt;system-reminder&gt;</span>
+          │       <span style="color:#28c840">As you answer the user's questions, you can use the following context:</span>
+          │
+          │       <span style="color:#28c840"># claudeMd</span>
+          │       <span style="color:#28c840">Codebase and user instructions are shown below...</span>
+          │       <span style="color:#28c840">IMPORTANT: These instructions OVERRIDE any default behavior...</span>
+          │
+          │       <span style="color:#28c840">Contents of /path/to/CLAUDE.md:</span>
+          │       <span style="color:#28c840">[YOUR CLAUDE.MD CONTENT HERE]</span>
+          │
+          │       <span style="color:#28c840">IMPORTANT: this context may or may not be relevant...</span>
+          │       <span style="color:#28c840"># currentDate</span>
+          │       <span style="color:#28c840">Today's date is 2026-04-09.</span>
+          │   <span style="color:#d97757">&lt;system-reminder&gt;</span><span style="color:#28c840">"</span>}     <span style="color:#4a6a8a">← Injected as fake user message, isMeta:true</span>
+          │
+          └── {<span style="color:#a78bfa">role:</span> <span style="color:#28c840">"user"</span>, <span style="color:#a78bfa">content:</span> <span style="color:#28c840">"your actual prompt"</span>}
+    </code></pre>
+
+    <p class="body-text">
+      This is a deliberate design choice. The core system prompt stays frozen and static, which is necessary for prompt
+      caching to work and to keep response costs and latency predictable. The per-project <span class="inline-code">CLAUDE.md</span>
+      content is delivered through the messages array, where it still receives high-priority treatment from the model
+      (because of the wrapper and its training) without breaking the cache.
+    </p>
+
+    <h3 class="card-h3">Re-Injection When Files Change Mid-Session</h3>
+
+    <p class="body-text">
+      Claude Code's native binary tracks every file it reads or edits in an internal <span class="inline-code">readFileState</span>
+      map. Each entry stores the file content and a timestamp derived from the file's modification time
+      (<span class="inline-code">Math.floor(mtimeMs)</span>).
+    </p>
+
+    <p class="body-text">
+      Before each conversation turn, the binary polls every tracked file. If a file's modification timestamp has changed since
+      the last read, the full file is re-read from disk and injected as a fresh <span class="inline-code">&lt;system-reminder&gt;</span>.
+      This applies to <span class="inline-code">CLAUDE.md</span> itself, if you edit it mid-session, the updated content will be
+      re-injected on the next turn.
+    </p>
+
+    <h3 class="card-h3">Other Content Injected via &lt;system-reminder&gt;</h3>
+
+    <p class="body-text">
+      <span class="inline-code">CLAUDE.md</span> is not the only thing delivered this way. The following are also injected using
+      the same <span class="inline-code">&lt;system-reminder&gt;</span> XML tag:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Empty To-Do List Reminder
+      </li>
+      <li>
+        File Modified by User or Linter notifications
+      </li>
+      <li>
+        Plan Mode Active status
+      </li>
+      <li>
+        Token Budget / USD Budget tracking
+      </li>
+      <li>
+        Agent Mention context
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- Card 4: Including Your CLAUDE.md in the System Prompt -->
+  <div class="card">
+
+    <h2 class="section-title">4. Including Your CLAUDE.md in the System Prompt</h2>
+
+    <p class="body-text">
+      For cases where the relevance guardrail is unacceptable — where you genuinely need certain instructions followed
+      every turn without exception — Claude Code offers a set of flags that let you inject content directly into the
+      system prompt. This is the nuclear option for adherence.
+    </p>
+
+    <p class="body-text">
+      The system prompt occupies a fundamentally different position than <span class="inline-code">CLAUDE.md</span>:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        It is positioned at the forefront of every turn and is never buried in context or compacted away.
+      </li>
+      <li>
+        There is no relevance filter, it is injected as a premise for the entire generation process.
+      </li>
+      <li>
+        During training, models are reinforced to treat the system prompt as highest-priority, non-negotiable rules.
+      </li>
+      <li>
+        Chat templates and special tokens signal to the model that this is authoritative developer-level instruction.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      All of this gives system prompt instructions significantly higher adherence and authority than anything delivered
+      via the messages array — including <span class="inline-code">CLAUDE.md</span>.
+    </p>
+
+    <h3 class="card-h3">The Four Flags</h3>
+
+    <p class="body-text">
+      All four flags are applied at startup:
+    </p>
+
+    <div class="table-wrap">
+      <table class="data-table-fixed">
+        <colgroup>
+          <col style="width: 38%;">   <!-- Flag column -->
+          <col style="width: 62%;">   <!-- Behavior column -->
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Flag</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">--append-system-prompt "text"</span></td>
+            <td>
+              Appends the given text to the end of the existing Claude Code system prompt. All built-in capabilities remain intact.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">--append-system-prompt-file ./path/to/file.md</span></td>
+            <td>
+              Same as above, but reads the content from a file.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">--system-prompt "text"</span></td>
+            <td>
+              Replaces the entire system prompt except tool definitions. Completely removes the built-in instructions. Use with caution!
+            </td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">--system-prompt-file ./path/to/file.md</span></td>
+            <td>
+              Same as above, but reads from a file.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="body-text">
+      Example usage:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">Bash</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword"># Inject CLAUDE.md content into the actual system prompt</span>
+
+          <span class="token-prompt">claude --append-system-prompt "$(cat CLAUDE.md)"</span>
+
+          <span class="token-comment"># Or using the file flag directly (cleaner)</span>
+          <span class="token-prompt">claude --append-system-prompt-file CLAUDE.md</span>
+
+          <span class="token-comment"># Or replace the entire system prompt (dangerous — you lose all built-in behaviors)</span>
+          <span class="token-prompt">claude --system-prompt-file my-custom-system.md</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <h3 class="card-h3">What You Get by Injecting Into the System Prompt</h3>
+
+    <p class="body-text">
+      Instructions placed in the system prompt via these flags are:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Always present in the model's attention, every turn, without exception.
+      </li>
+      <li>
+        Cannot be overridden by user messages or <span class="inline-code">CLAUDE.md</span> content.
+      </li>
+      <li>
+        Treated as foundational behavior rather than contextual guidance.
+      </li>
+      <li>
+        Persistent across context compaction.
+      </li>
+    </ul>
+
+    <h3 class="card-h3">The Cost: You Break Prompt Caching</h3>
+
+    <p class="body-text">
+      Injecting custom instructions into the system prompt has a significant downside: it breaks the prompt cache.
+    </p>
+
+    <p class="body-text">
+      Without going into the full mechanics of caching, the practical consequences are:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        You will be charged significantly more (or consume your quota faster) because cached tokens are billed at a
+        fraction of the cost of fresh tokens.
+      </li>
+      <li>
+        Response latency will increase.
+      </li>
+      <li>
+        If your injected instructions conflict with or partially duplicate the built-in system prompt, you may
+        introduce subtle behavioral conflicts that produce worse results than the default configuration.
+      </li>
+    </ul>
+
+    <h3 class="card-h3">When to Append Instructions to the System Prompt</h3>
+
+    <p class="body-text">
+      Use <span class="inline-code">--append-system-prompt</span> (or the file variant) when cost and latency are
+      acceptable and you need:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <strong>Absolute behavioral constraints</strong> that are non-negotiable and should not be subject to any
+        relevance filter — for example, "never commit directly to main" or "always write tests before implementation."
+      </li>
+      <li>
+        <strong>Role or persona definitions</strong> — if you want Claude to operate as a specialized agent:
+        security reviewer, performance optimizer, strict code reviewer.
+      </li>
+      <li>
+        <strong>CI/CD and automation pipelines</strong> — in non-interactive <span class="inline-code">-p</span>
+        mode where you cannot supervise, you need rules enforced absolutely.
+      </li>
+    </ul>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      In all of these cases, append only a small, focused set of hard rules — 3 to 7 lines — that you truly need
+      enforced every turn without exception. The more you inject here, the higher the cost and the greater the
+      risk of conflicts.
+    </div>
+
+    <h3 class="card-h3">When to Replace the System Prompt Entirely</h3>
+
+    <p class="body-text">
+      Use <span class="inline-code">--system-prompt</span> (or the file variant) only when:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        You are <strong>building a custom agent from scratch</strong> that is not a software engineering assistant and does not benefit from the default coding guidelines.
+      </li>
+      <li>
+        You need <strong>complete behavioral control</strong> and the default instructions are irrelevant or actively counterproductive.
+      </li>
+      <li>
+        You are doing <strong>research or testing</strong> on minimal or custom prompts and need a clean slate.
+      </li>
+    </ul>
+
+    <!--
+    <p class="body-text">
+      Replacing the system prompt removes approximately 50 carefully designed instructions. Do not do this for a standard
+      software development workflow.
+    </p>
+    -->
+
+    <div class="callout callout-warn">
+      <div class="callout-label">⚠ WARNING</div>
+      Replacing the system prompt removes approximately 50 carefully designed instructions. Do not do this for a standard
+      software development workflow.
+    </div>
+
+  </div>
+
+  <!-- Card 5: Good to Know -->
+  <div class="card">
+
+    <h2 class="section-title">5. Good to Know</h2>
+
+    <h3 class="card-h3">CLAUDE.md Is Re-Read After /clear</h3>
+
+    <p class="body-text">
+      The <span class="inline-code">/clear</span> command wipes conversation history but does not end the session. Critically,
+      it removes accumulated history while preserving your <span class="inline-code">CLAUDE.md</span> configuration. The
+      <span class="inline-code">CLAUDE.md</span> file — along with all other files loaded at startup, including rules files
+      and global/local files — is reinjected before the first new message in the cleared session.
+    </p>
+
+    <p class="body-text">
+      The practical implication: you can freely use <span class="inline-code">/clear</span> between unrelated tasks to reset
+      the context window entirely without losing your project configuration. Use it liberally.
+    </p>
+
+    <h3 class="card-h3">HTML Comments Are Stripped Before Injection</h3>
+
+    <p class="body-text">
+      HTML comment syntax (<span class="inline-code">&lt;!-- --&gt;</span>) is stripped by the Harness from
+      <span class="inline-code">CLAUDE.md</span> before the content is sent to the model. That means HTML comments cost
+      zero tokens and will never interfere with your instructions.
+    </p>
+
+    <p class="body-text">
+      This makes them ideal for maintenance notes — annotations you leave for yourself (or future maintainers) that have
+      no business being in the model's context. Any note in the format
+      <span class="inline-code">&lt;!-- maintenance note: ... --&gt;</span> will be silently removed before injection.
+      Every rule, section, or import in your CLAUDE.md can have a comment that is strictly for human readers.
+    </p>
+
+    <h3 class="card-h3">Re-Reference CLAUDE.md When Adherence Drops</h3>
+
+    <p class="body-text">
+      In long-running sessions, adherence to <span class="inline-code">CLAUDE.md</span> instructions can drop noticeably
+      as the conversation progresses and older context is deprioritized. A well-established mitigation is to explicitly
+      <span class="inline-code">@</span>-reference the <span class="inline-code">CLAUDE.md</span> file in your prompt
+      when you notice drift:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">Claude Code</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-prompt">@CLAUDE.md</span> — check these rules before proceeding.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      This forces the file back into the active attention window at that point in the conversation, effectively re-anchoring
+      Claude to the instructions. It works because it re-surfaces the document as a freshly relevant user-turn reference
+      rather than background context that may have been deprioritized by the relevance guardrail.
+    </p>
+
+    <h3 class="card-h3">Shell Commands: Code Fences vs. Prose</h3>
+
+    <p class="body-text">
+      Shell commands mentioned in <span class="inline-code">CLAUDE.md</span> should always be wrapped in backticks, not
+      described in plain prose.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          Run tests with <span class="token-prompt">`npm run test`</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The backtick signals to Claude that this is a literal executable command, not a description of one. For multi-line
+      commands, use a fenced code block:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-prompt">```bash</span>
+          <span class="token-prompt">cp .env.example .env</span>
+          <span class="token-prompt">npm install</span>
+          <span class="token-prompt">npm run db:migrate</span>
+          <span class="token-prompt">npm run db:seed</span>
+          <span class="token-prompt">```</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Claude treats content inside a code fence as a verbatim command to invoke. A command written in a sentence is a
+      suggestion it might improvise on; a command in a code fence is something it will run exactly as written.
+    </p>
+
+    <p class="body-text">
+      For this reason: <strong>make sure these are the correct commands before you put them in
+      <span class="inline-code">CLAUDE.md</span>.</strong> Claude will run them verbatim when you ask it to run tests,
+      build the project, or trigger a lint pass. Be specific rather than descriptive.
+    </p>
+
+  </div>
+
+</div>

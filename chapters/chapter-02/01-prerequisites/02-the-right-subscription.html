@@ -1,0 +1,939 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 2 · Claude Code Setup</span>
+    <span class="section-tag">Section 2.1 · Installing Claude Code</span>
+    <h1 class="page-title">The Right Subscription</h1>
+    <p class="page-subtitle">Choosing the LLM Brain that will power your Agentic Harness</p>
+    <div class="header-intro">
+      <p>
+        Selecting the perfect LLM "brain" for Claude Code can dramatically elevate your agentic coding experience—from
+        code quality and consistency to speed, cost, and overall flow.
+      </p>
+      <p>
+        This subsection compares Claude Opus/Sonnet, MiniMax, GLM (Z.ai), and Kimi across their unique vibes, language
+        strengths, real-world benchmarks, throughput, and subscription economics to help you pick the ideal model for
+        your workflow.
+      </p>
+      <p>
+        Discover the best subscription strategy—and smart power-user hacks—for maximum performance at minimum cost.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 2/3</span>
+      <span class="meta-chip">~14 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Card 1:  -->
+  <div class="card">
+
+    <h2 class="section-title">General Vibes on Choosing a Model</h2>
+
+    <p class="body-text">
+      Regardless of the model that is powering Claude Code, it works exactly the same way—it handles file editing,
+      planning, tool use, etc.—but the underlying model's intelligence, speed, and quirks make the overall agentic
+      coding experience feel very different.
+    </p>
+
+    <p class="body-text">
+      The single best way to decide what models fits your personal preferences is to try each one and see how the
+      experience feels. However, some community insights, benchmarks and technical specifications can help make an
+      educated gues on what to try out first.
+    </p>
+
+    <p class="body-text">
+      The table below maps each provider's default "vibe," where it excels at enforcing style, and where it can surprise you.
+    </p>
+
+    <div class="table-wrap" style="margin-top: var(--sp-m);">
+      <table class="data-table-rich">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Default Style "Vibe"</th>
+            <th>Strengths in Style Enforcement</th>
+            <th>Weaknesses / Gotchas</th>
+            <th>Best When You Want…</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-model">
+              <span class="model-name">Anthropic</span>
+              <span class="model-sub">Claude Opus 4.6 / Sonnet 4.6</span>
+            </td>
+            <td>Conservative, production-grade, heavily commented, "staff-engineer" clean</td>
+            <td>Best at matching existing repo style, strict adherence to PEP8 / Airbnb / Google etc., almost never drifts, excellent architecture &amp; safety</td>
+            <td class="cell-warn">Can be slightly verbose or overly defensive</td>
+            <td class="cell-good">Maximum consistency, code reviews, enterprise codebases</td>
+          </tr>
+          <tr>
+            <td class="cell-model">
+              <span class="model-name">Z.ai</span>
+              <span class="model-sub">GLM-5.1 / GLM-5 / GLM-4.7</span>
+            </td>
+            <td>Pragmatic, modern, concise, "sober &amp; thoughtful"</td>
+            <td>Excellent structured reasoning before coding; very reliable at following custom rules once set</td>
+            <td class="cell-warn">Occasionally a bit "textbook"</td>
+            <td class="cell-good">Balanced professional code with minimal fluff</td>
+          </tr>
+          <tr>
+            <td class="cell-model">
+              <span class="model-name">MiniMax</span>
+              <span class="model-sub">MiniMax-M2.7</span>
+            </td>
+            <td>Efficient, minimalistic, practical, "gets it done"</td>
+            <td>Great for clean one-shot tools / scripts; strong at real-world performance tweaks</td>
+            <td class="cell-warn">Can be inconsistent (highs / lows); sometimes skips comments or takes shortcuts</td>
+            <td class="cell-good">Fast iteration, CLI tools, performance-critical code</td>
+          </tr>
+          <tr>
+            <td class="cell-model">
+              <span class="model-name">Moonshot AI</span>
+              <span class="model-sub">Kimi K2.5</span>
+            </td>
+            <td>Creative / exploratory, often more verbose initially</td>
+            <td>Outstanding at architectural planning &amp; design patterns; shines when style needs creativity (UI, novel solutions)</td>
+            <td class="cell-warn">First draft can be over-engineered; needs more "refine this" loops</td>
+            <td class="cell-good">Frontend-heavy, visual-to-code, or innovative designs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="card-h3">Programming Language Nuances</h3>
+
+    <p class="body-text">
+      All models are excellent across the board: Python, TypeScript/JavaScript, Rust, Go, Java, C++, Kotlin, PHP, etc..
+      Frontier models in 2026 have largely erased the old “Python god / Rust weak” gaps.
+    </p>
+
+    <p class="body-text">
+      <strong>Subtle language-specific performance differences noted by users (April 2026):</strong>
+    </p>
+
+    <div class="table-wrap" style="margin-top: var(--sp-m);">
+      <table class="data-table-rich">
+        <thead>
+          <tr>
+            <th>Language / Use Case</th>
+            <th>Top Performers</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Python</strong></td>
+            <td><span class="inline-code">Claude</span> &amp <span class="inline-code">GLM</span></td>
+            <td>Best test writing, scientific-stack handling, clean pandas / numpy</td>
+          </tr>
+          <tr>
+            <td><strong>TypeScript / Frontend / React</strong></td>
+            <td><span class="inline-code">Kimi</span> &amp <span class="inline-code">MiniMax</span></td>
+            <td>Native multimodal = screenshot / video → pixel-perfect code. MiniMax excellent for full-stack</td>
+          </tr>
+          <tr>
+            <td><strong>Rust / Systems / Low-level</strong></td>
+            <td><span class="inline-code">Claude</span> &amp <span class="inline-code">GLM</span></td>
+            <td>Ownership, safety, and correctness</td>
+          </tr>
+          <tr>
+            <td><strong>Java / Go / Enterprise</strong></td>
+            <td><span class="inline-code">MiniMax</span></td>
+            <td>Clean idiomatic patterns + polyglot porting (e.g. Java → Python microservices)</td>
+          </tr>
+          <tr>
+            <td><strong>Multi-language repos / Migrations</strong></td>
+            <td><span class="inline-code">MiniMax</span> &amp <span class="inline-code">Kimi</span></td>
+            <td>Broad training across languages</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="card-h3">Practical Considerations in Claude Code</h3>
+
+    <div class="consideration-grid" style="margin-bottom:var(--sp-3xl);">
+
+      <div class="consideration-item">
+        <div class="consideration-icon">📏</div>
+        <div>
+          <div class="consideration-title">Consistency over long sessions</div>
+          <div class="consideration-rank">Claude &gt; GLM &gt; Kimi ≈ MiniMax</div>
+          <div class="consideration-note">Especially past ~50k–80k context in heavy agentic loops</div>
+        </div>
+      </div>
+
+      <div class="consideration-item">
+        <div class="consideration-icon">🧪</div>
+        <div>
+          <div class="consideration-title">Test-driven development</div>
+          <div class="consideration-rank">Claude is uniquely strong</div>
+          <div class="consideration-note">Autonomously writes and runs real throwaway test scripts — others sometimes just simulate</div>
+        </div>
+      </div>
+
+      <div class="consideration-item">
+        <div class="consideration-icon">🛡️</div>
+        <div>
+          <div class="consideration-title">Style drift in agentic edits</div>
+          <div class="consideration-rank">Claude almost never drifts</div>
+          <div class="consideration-note">Cheaper models occasionally do — but fix instantly when told</div>
+        </div>
+      </div>
+
+      <div class="consideration-item">
+        <div class="consideration-icon">⚡</div>
+        <div>
+          <div class="consideration-title">Agentic "loop efficiency"</div>
+          <div class="consideration-rank">MiniMax &amp; GLM usually win</div>
+          <div class="consideration-note">
+            Shorter, more decisive tool calls → fewer back-and-forth iterations per task.
+            Claude is more thorough but often takes 1.5–2.5× more model calls. For high-volume
+            work this compounds into significant time &amp; cost savings.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Claude Opus 4.6 and Sonnet 4.6 work natively with Claude Code — just add your Anthropic API key and it works
+      immediately with full feature support and zero extra configuration.
+      <br><br>
+      All other models (GLM-5.1/5/4.7, MiniMax-M2.7/2.5, and Kimi K2.5) require an additional setup step. You must
+      manually configure a custom base URL and model name mappings before Claude Code will recognize
+      or work with them.
+    </div>
+
+  </div>
+
+  <!-- Card 1:  -->
+  <div class="card">
+
+    <h2 class="section-title">Insights from Benchmarks</h2>
+
+    <p class="body-text">
+      The tables in the following sections give you snapshots of scores on five benchmarks relevant to Coding Assistants.
+      Furthermore, it walks you through each benchmark — what it actually measures, what it does not measure, and why it
+      belongs in a comparison focused on Coding Agents specifically. Some of these benchmarks are well-established;
+      others are relatively new but arguably more relevant to the agent use-case than anything that came before them.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      All scores in the charts to follow have been sourced from the Artificial Analysis website:
+      <br>
+      <a href="https://artificialanalysis.ai/" target="_blank" class="callout-link">
+        Artificial Analysis Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">SciCode Benchmark</h3>
+
+    <p class="body-text">
+      SciCode is a benchmark designed to measure one specific, high-value capability: a model's ability to write correct,
+      functional <strong>Python</strong> code for realistic, research-level scientific problems. This is not a general
+      coding benchmark and it is not a math reasoning benchmark — it sits at the intersection of both, and it is
+      Python-only. If your agent ever needs to produce code in another language for scientific computation, SciCode
+      tells you nothing about that.
+    </p>
+
+    <p class="body-text">
+      The benchmark was curated by PhD-level domain experts working from actual research scripts and publications,
+      which is what separates it from synthetic alternatives. The problems reflect the kind of work a scientist would
+      actually ask an AI coding assistant to help with on a given Tuesday, not contrived puzzles designed for
+      leaderboard optimisation.
+    </p>
+
+    <p class="body-text">
+      <strong>Domains covered:</strong>
+    </p>
+    <ul class="content-list">
+      <li>
+        <strong>Mathematics</strong> — Numerical Linear Algebra, Computational Mechanics, Finance
+      </li>
+      <li>
+        <strong>Physics</strong> — Condensed Matter, Optics, Quantum Information, Computational/Astrophysics/Particle Physics
+      </li>
+      <li>
+        <strong>Chemistry</strong> — Quantum Chemistry, Computational Chemistry
+      </li>
+      <li>
+        <strong>Biology</strong> — Ecology, Biochemistry, Genetics
+      </li>
+      <li>
+        <strong>Materials Science</strong> — Semiconductors, Molecular Modeling
+      </li>
+    </ul>
+
+    <p class="body-text">
+      The tasks test a full scientific coding workflow in sequence: scientific knowledge recall, domain-specific
+      reasoning, problem decomposition, code synthesis using standard scientific libraries (NumPy, SciPy, SymPy,
+      and similar), multi-step integration across those libraries, and correct handling of numerical error propagation.
+      Reference problems include things like implementing a DFT SCF loop, simulating the quantum Hall effect, or
+      running an Ising model — tasks drawn from real publications.
+    </p>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for picking a Coding Agent model:</strong></p>
+      <ul class="choice-list">
+        <li>
+          It is the best available proxy for real scientific research coding assistance — far closer to actual use
+          than HumanEval, MBPP, or math-only benchmarks.
+        </li>
+        <li>
+          A high score signals that the model can integrate domain knowledge with code generation without requiring
+          heavy hand-holding in the prompt.
+        </li>
+        <li>
+          It reveals where current frontier models still fall short in scientific reasoning, making it a useful
+          progress tracker for teams building toward research-grade AI agents.
+        </li>
+        <li>
+          Poor performance often manifests as code that is syntactically correct but numerically wrong — a failure
+          mode that is genuinely dangerous in scientific contexts.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      If your agent will assist with scientific computing, data analysis pipelines, or research workflows in Python,
+      SciCode is the most directly relevant benchmark in this table. Weight it heavily.
+    </div>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_01_SciCode.png" alt="SciCode Benchmark Scores">
+      <div class="image-caption">Fig 2.5 — SciCode Benchmark Scores</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For more information, visit the SciCode official website:
+      <br>
+      <a href="https://scicode-bench.github.io/" target="_blank" class="callout-link">
+        SciCode Official Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">Terminal-Bench Hard</h3>
+
+    <p class="body-text">
+      Terminal-Bench Hard evaluates something most coding benchmarks deliberately avoid: what happens after the code
+      is written. It places an agent inside a real shell environment and asks it to complete complex, multi-step tasks
+      autonomously — tasks that require not just writing code but also running it, recovering from failures, managing
+      the environment, and reaching a verified end state.
+    </p>
+
+    <p class="body-text">
+      This makes it one of the most production-relevant benchmarks available for Coding Agent evaluation. An agent that
+      scores well on code generation benchmarks but fails Terminal-Bench Hard will likely frustrate users the moment it
+      is asked to do anything beyond writing isolated functions.
+    </p>
+
+    <p class="body-text">
+      <strong>What the benchmark actually tests:</strong>
+    </p>
+    <ul class="content-list">
+      <li>
+        Long-horizon, multi-step reasoning inside a live terminal session
+      </li>
+      <li>
+        Bash and Python scripting, file-system navigation, and permission management
+      </li>
+      <li>
+        Compiling and building code, dependency installation, and environment setup from scratch
+      </li>
+      <li>
+        System administration tasks — server configuration, kernel parameters, networking, security hardening
+      </li>
+      <li>
+        Data and ML pipeline work, including training models under strict size and accuracy constraints
+      </li>
+      <li>
+        Debugging under realistic conditions: reading error output, recovering from partial failures, retrying with
+        adjusted strategies
+      </li>
+      <li>
+        Following precise specifications without hallucinating unavailable tools or commands
+      </li>
+      <li>
+        Tasks are deliberately selected to be unlikely to appear verbatim in training data
+      </li>
+    </ul>
+
+    <p class="body-text">
+      The "Hard" designation is meaningful. These are not tasks that can be solved by pattern-matching to training
+      examples. They require genuine state tracking across long sessions, correct sequencing of commands where order
+      matters, and the ability to back out of a bad state and try a different approach — exactly the skills that cause
+      most agents to fail silently or produce broken environments.
+    </p>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for picking a Coding Agent model:</strong></p>
+      <ul class="choice-list">
+        <li>
+          Directly predicts real-world performance in tools like Claude Code, Cursor, VS Code agents, Devin-style
+          pipelines, or custom DevOps agents.
+        </li>
+        <li>
+          Tests the specific failure modes that make agents unreliable in practice: losing track of state, issuing
+          malformed command sequences, failing to recover from errors.
+        </li>
+        <li>
+          Less gameable than many code generation benchmarks because the agent must produce a working, verifiable
+          artifact in a clean sandbox — there is no partial credit for plausible-looking code.
+        </li>
+        <li>
+          Particularly relevant if your use case involves automated environment provisioning, CI/CD pipeline work,
+          infrastructure-as-code, or any agentic loop that touches a real system.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      Terminal-Bench Hard is arguably the single most important benchmark for teams building production Coding Agents
+      that operate in terminal environments. A strong score here is a stronger signal than any pure code generation
+      benchmark.
+    </div>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_02_Terminal-Bench_Hard.png" alt="Termina-Bench Hard Scores">
+      <div class="image-caption">Fig 2.6 — Termina-Bench Hard Scores</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For more information, visit the Terminal-Bench official website:
+      <br>
+      <a href="https://www.tbench.ai/" target="_blank" class="callout-link">
+        Terminal-Bench Official Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">GDPval-AA Benchmark</h3>
+
+    <p class="body-text">
+      GDPval-AA is an agentic benchmark built by Artificial Analysis on top of OpenAI's original GDPval framework.
+      Where the original GDPval evaluated models in a one-shot setting, GDPval-AA runs them in a full agentic loop
+      using Artificial Analysis's open-source Stirrup harness. Models have shell access for code execution and file
+      operations, web browsing capability, and the ability to iterate using tools, manage context across steps,
+      and produce real output artifacts.
+    </p>
+
+    <p class="body-text">
+      The benchmark covers 1,320 tasks across 44 occupations drawn from the top 9 U.S. GDP-contributing industries:
+      finance/insurance, healthcare, manufacturing, professional/scientific/technical services, information, government,
+      retail, wholesale, and real estate. Tasks are calibrated to reflect the actual output quality of experienced
+      professionals — not simplified versions of work but the real thing.
+    </p>
+
+    <p class="body-text">
+      The output artifacts are concrete and evaluable: documents, spreadsheets, diagrams, slide decks, PDFs, data
+      exports. This is not a benchmark where a model can produce fluent text about a deliverable instead of the
+      deliverable itself.
+    </p>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for picking a Coding Agent model:</strong></p>
+      <ul class="choice-list">
+        <li>
+          Directly tests the cross-cutting skills a production Coding Agent relies on: multi-step planning, tool use
+          (including terminal/shell access), web research, iterative refinement, and producing structured professional
+          artifacts.
+        </li>
+        <li>
+          Includes software developer and engineering occupation tasks, as well as cross-domain work that coding
+          agents regularly encounter — data analysis, reporting, automation scripts, technical documentation.
+        </li>
+        <li>
+          Frontier models on GDPval-AA approach or match expert human quality while completing tasks roughly 100× faster
+          and at a fraction of the cost — performance on this benchmark is a direct signal for deployable economic value.
+        </li>
+        <li>
+          Because tasks span many industries, strong performance indicates general agentic robustness rather than narrow
+          domain optimisation.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      GDPval-AA is the most direct available measure of a model's general-purpose agentic value in professional work.
+      For teams building coding agents that produce deliverables beyond raw source code — reports, analysis,
+      documentation, automation — it is essential context.
+    </div>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_03_GDPval-AA.png" alt="GDPval-AA Benchmark Scores">
+      <div class="image-caption">Fig 2.7 — GDPval-AA Benchmark Scores</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For more information, visit the GDPval-AA official website:
+      <br>
+      <a href="https://artificialanalysis.ai/evaluations/gdpval-aa" target="_blank" class="callout-link">
+        GDPval-AA Official Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <br><br>
+      Note that this benchmark is built on top of the GDPval by OpenAI:
+      <br>
+      <a href="https://openai.com/index/gdpval/" target="_blank" class="callout-link">
+        OpenAI's GDPval Benchmark
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">AA-LCR (Long Context) Benchmark</h3>
+
+    <p class="body-text">
+      AA-LCR is Artificial Analysis's long-context reasoning benchmark. It addresses a well-known gap in long-context
+      evaluation: the fact that most retrieval-based benchmarks drastically overestimate real-world performance by
+      testing simple fact lookup rather than genuine reasoning across documents.
+    </p>
+
+    <p class="body-text">
+      The benchmark consists of 100 human-crafted questions based on approximately 30 document sets totalling around
+      2.98 million tokens across 234 real-world documents. Each question uses multiple independent documents
+      concatenated as context — averaging around 100,000 tokens per question — and requires multi-step reasoning
+      and synthesis across those documents to answer correctly. Simple retrieval is explicitly insufficient; the
+      questions are designed to require cross-document inference.
+    </p>
+
+    <p class="body-text">
+      <strong>Document categories include:</strong>
+    </p>
+    <ul class="content-list">
+      <li>
+        Academic papers
+      </li>
+      <li>
+        Company financials and annual reports
+      </li>
+      <li>
+        Government consultations
+      </li>
+      <li>
+        Legal documents
+      </li>
+      <li>
+        Industry reports
+      </li>
+      <li>
+        Marketing materials and survey reports
+      </li>
+    </ul>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for picking a Coding Agent model:</strong></p>
+      <ul class="choice-list">
+        <li>
+          Reasoning across multiple long documents closely mirrors what a coding agent must do when working with large
+          codebases: tracking state and logic across many files, integrating scattered documentation and specifications,
+          planning refactoring efforts that span an entire repository.
+        </li>
+        <li>
+          Long-horizon agent tasks frequently involve managing large contexts — conversation history, tool outputs,
+          retrieved code, and accumulated intermediate state — and AA-LCR is a better predictor of how models handle
+          this than raw context-window size.
+        </li>
+        <li>
+          Models that perform well on simple retrieval benchmarks often degrade significantly on tasks requiring genuine
+          multi-document synthesis; AA-LCR surfaces that degradation before it surprises you in production.
+        </li>
+        <li>
+          Particularly relevant for coding agents used in large codebase work, architectural review, cross-service
+          debugging, or any task requiring the model to hold a complex multi-file system in mind simultaneously.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      Do not confuse a large context window with the ability to use that context reliably. AA-LCR is currently the most
+      rigorous available test of whether a model's long-context capability translates to real reasoning performance.
+    </div>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_04_AA-LCR_(Long_Context).png" alt="AA-LCR (Long Context) Benchmark Scores">
+      <div class="image-caption">Fig 2.8 — AA-LCR (Long Context) Benchmark Scores</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For more information, visit the AA-LCR official website:
+      <br>
+      <a href="https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning" target="_blank" class="callout-link">
+        AA-LCR Official Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">Tau-2 Bench (Telecom)</h3>
+
+    <p class="body-text">
+      Tau-2 Bench Telecom, developed by Sierra Research, is a conversational agent benchmark set in realistic technical
+      support scenarios. An AI agent plays the role of a customer support representative handling telecom
+      troubleshooting — diagnosing mobile data failures, configuring roaming, resolving MMS issues, managing airplane
+      mode conflicts, handling data refueling — in collaboration with a simulated non-expert user.
+    </p>
+
+    <p class="body-text">
+      This might seem like an odd inclusion in a Coding Agent comparison. It is worth explaining why it belongs.
+    </p>
+
+    <p class="body-text">
+      The benchmark does not test whether a model knows telecom protocol specifications. It tests the underlying agentic
+      mechanics that make any collaborative, tool-using agent reliable in practice: sequencing tool calls correctly,
+      following policy documents under partial observability, adapting to unexpected user actions, escalating gracefully
+      when needed, and giving clear instructions to someone who cannot be assumed to understand the system.
+    </p>
+
+    <p class="body-text">
+      <strong>What it explicitly measures:</strong>
+    </p>
+    <ul class="content-list">
+      <li>
+        <strong>Tool use and policy adherence</strong>  — correct sequencing of agent tools (checking customer databases,
+        enabling roaming, refueling data) alongside guiding the user through their own tool interactions
+      </li>
+      <li>
+        <strong>Multi-turn diagnosis</strong> — identifying root causes when you cannot directly observe the user's
+        environment, following policy constraints, and handling variable user literacy
+      </li>
+      <li>
+        <strong>Communication and guidance</strong> — producing actionable, clear instructions for non-expert users and
+        adapting based on their feedback in real time
+      </li>
+      <li>
+        <strong>Coordination and recovery</strong> — handling state changes caused by user actions mid-task,
+        synchronising with a shared environment, and escalating when the situation exceeds agent scope
+      </li>
+    </ul>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong></strong></p>
+      <ul class="choice-list">
+        <li>
+          The mechanics being tested map directly onto coding agent scenarios: a model helping a developer debug
+          interactively, orchestrating multiple terminal tool calls in the right sequence, recovering gracefully when
+          a command produces unexpected output, and guiding a user through a deployment process step by step.
+        </li>
+        <li>
+          The telecom domain is deliberately one of the hardest for coordination — high performance here is a strong
+          positive signal for agentic robustness in dynamic, interactive environments.
+        </li>
+        <li>
+          Particularly relevant if your coding agent needs to operate autonomously in systems with shared state, follow
+          structured policies or runbooks, work in a human-in-the-loop setting, or handle pair-programming and
+          collaborative debugging scenarios.
+        </li>
+        <li>
+          Less relevant if your use case is purely offline code generation with no interactive component.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      Tau-2 Telecom is a proxy for something that is genuinely hard to measure directly: whether a model can act as a
+      reliable, collaborative agent in a dynamic environment rather than just a capable single-turn code generator.
+      Teams building interactive coding agents should weight it accordingly.
+    </div>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_05_Tau-2-Bench_Telecom.png" alt="Tau-2 Bench (Telecom) Scores">
+      <div class="image-caption">Fig 2.9 — Tau-2 Bench (Telecom) Scores</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For more information, visit the Tau-2 Bench official website:
+      <br>
+      <a href="https://sierra.ai/blog/benchmarking-agents-in-collaborative-real-world-scenarios" target="_blank" class="callout-link">
+        Tau-2 Bench Official Website
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h2 class="section-title">Additional Metrics</h2>
+
+    <h3 class="card-h3">API Cost per 1M Tokens</h3>
+
+    <p class="body-text">
+      While Claude Code subscriptions are sold as prepaid quota plans with 5-hour rolling limits, the underlying
+      <strong>API cost per million tokens</strong> becomes highly relevant the moment you exhaust your quota and
+      want to keep working without waiting for the next refresh window.
+    </p>
+
+    <p class="body-text">
+      Most providers do not allow simple overage charges—you are simply blocked until the quota resets. At that
+      point many power users either upgrade their plan, spin up a second account, or fall back to raw pay-as-you-go API
+      tokens. This is exactly where the chart below matters.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_07_cost_per_1M_tokens.png" alt="API Cost per 1M Tokens">
+      <div class="image-caption">Fig 2.9 — API Cost per 1M Tokens</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="choice-box-intro">Key Observations:</div>
+      <ul class="choice-list">
+        <li><strong>MiniMax models</strong> are dramatically cheaper than everything else (~$0.30 input / $1.20 output).</li>
+        <li>GLM-4.7, GLM-5, and Kimi models also sit in the very-affordable tier.</li>
+        <li>Claude Sonnet 4.6 is roughly 5–10× more expensive on output tokens.</li>
+        <li>Claude Opus 4.5 / 4.6 are premium-priced (≈ $5 input / $25 output).</li>
+      </ul>
+    </div>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters once you hit your quota and want more tokens:</strong></p>
+      <ul class="choice-list">
+        <li>
+          If you burn through your MiniMax Plus ($20) or Z.ai Pro ($72) quota on a heavy coding day, buying additional
+          tokens (or spinning up another low-tier account) is extremely affordable.
+        </li>
+        <li>
+          With Anthropic, the same situation on a Max plan quickly becomes expensive because you are now paying full
+          API rates for Opus/Sonnet tokens.
+        </li>
+        <li>
+          A single complex agentic task in Claude Code can easily consume 150k–300k+ tokens. The price gap means
+          continuing on MiniMax or GLM costs pennies while the same work on Claude can cost several dollars per task.
+        </li>
+        <li>
+          This is why many heavy users run MiniMax or GLM as their daily driver and only switch to Claude Opus when they
+          specifically need the extra intelligence.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      The combination of generous quotas + extremely low per-token API pricing is exactly why MiniMax Plus and Z.ai (GLM)
+      plans deliver such outsized value for Claude Code users. Claude remains the quality king, but you pay a substantial
+      premium both in the monthly subscription and in any extra tokens you need after hitting quota.
+    </div>
+
+    <h3 class="card-h3">Tokens per Second Throughput</h3>
+
+    <p class="body-text">
+      Throughput (tokens per second) directly affects how “snappy” the agent feels during live coding sessions.
+      In Claude Code you are often waiting for the model to finish a large edit, generate tests, or plan the next
+      step — every second counts when you’re in flow.
+    </p>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for Claude Code users:</strong></p>
+      <ul class="choice-list">
+        <li>Faster models reduce the “waiting for the agent” feeling that breaks developer flow.</li>
+        <li>In long agentic loops (plan → edit → test → fix) the cumulative time savings add up fast.</li>
+      </ul>
+    </div>
+
+    <p class="body-text">
+      The chart shows real measured output throughput for each model on API endpoints.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_09_tps.png" alt="Tokens per Second Throughput">
+      <div class="image-caption">Fig 2.10 — Tokens per Second Throughput</div>
+    </div>
+
+    <h3 class="card-h3">Quality vs Cost</h3>
+
+    <p class="body-text">
+      The final lens combines the Artificial Analysis Index (a composite quality score across coding, agentic, and
+      reasoning benchmarks) with the real-world cumulative cost (weighted 75 % input + 25 % output).
+    </p>
+
+    <p class="body-text">
+      This scatter plot is the single most useful overview for deciding which model gives you the best value for money
+      in Claude Code.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl);">
+      <img src="/data/outputs/bench_plot_10_scatter_quality_vs_cost.png" alt="Quality vs Cost Scatterplot">
+      <div class="image-caption">Fig 2.11 — Quality vs Cost Scatterplot</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="choice-box-intro">Key Observations:</div>
+      <ul class="choice-list">
+        <li><strong>Best Value quadrant</strong> (top-left): MiniMax M2.7, GLM-5.1, GLM-5 — excellent quality at extremely low cost.</li>
+        <li><strong>Premium quadrant</strong> (top-right): Claude Opus 4.6 (highest overall quality), Claude Sonnet 4.6, Claude Opus 4.5.</li>
+        <li>Kimi K2.5 sits in a strong middle-ground position.</li>
+        <li>MiniMax M2.7 is the standout “no-compromise” value pick right now.</li>
+      </ul>
+    </div>
+
+    <!--
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Key Observations:</strong></p>
+      <ul class="choice-list">
+        <li><strong>Best Value quadrant</strong> (top-left): MiniMax M2.7, GLM-5.1, GLM-5 — excellent quality at extremely low cost.</li>
+        <li><strong>Premium quadrant</strong> (top-right): Claude Opus 4.6 (highest overall quality), Claude Sonnet 4.6, Claude Opus 4.5.</li>
+        <li>Kimi K2.5 sits in a strong middle-ground position.</li>
+        <li>MiniMax M2.7 is the standout “no-compromise” value pick right now.</li>
+      </ul>
+    </div>
+    -->
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Why this matters for Claude Code users:</strong></p>
+      <ul class="choice-list">
+        <li>
+          You can literally see the trade-off curve: how much extra quality you are buying when you pay 5–20× more per token.
+        </li>
+        <li>
+          Many developers discover they get 90–95 % of the value from the “Best Value” models and only reach for Claude
+          Opus when they hit edge cases that demand maximum consistency.
+        </li>
+        <li>
+          The plot makes it easy to justify a multi-model strategy inside Claude Code (cheap + fast for daily work,
+          premium when needed).
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-bottom-line">
+      <div class="callout-label">◆ BOTTOM LINE</div>
+      MiniMax M2.7 and the GLM-5 series currently offer the best price/performance ratio for most Claude Code users.
+      Claude Opus 4.6 remains the quality king — but you pay a significant premium for that last 5–10 % of capability.
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h2 class="section-title">Final Verdict: Choosing the Right LLM to Power Claude Code</h2>
+
+    <p class="body-text">
+      You’ve now seen the full picture: the subscription economics, the real-world quota mechanics, the stylistic
+      “vibes” of each model family, language-specific strengths, and the benchmark data that actually matters for
+      agentic coding. The bottom line is simple — <strong>there is no single “best” model</strong>, but there is a best model
+      for your workflow.
+    </p>
+
+    <p class="body-text">
+      After weighing monthly cost, 5-hour rolling quotas, prompt/request/token metering differences, agentic loop
+      efficiency, long-context reliability, and raw reasoning quality, a clear decision hierarchy emerges in
+      mid-April 2026:
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <p>
+          <span class="feature-key">Maximum volume / best price-per-task (most tasks):</span>
+        </p>
+        <p>
+          <strong>
+            → MiniMax Plus ($20/mo) or MiniMax Max ($50/mo)
+          </strong>
+        </p>
+        <p>
+          Insanely generous request limits, fast throughput, extremely low per-token fallback pricing. Perfect daily
+          driver for heavy agentic work. Use the high-speed variant when you need even snappier edits.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Best prompt-based headroom & simplicity (heavy refactoring / complex sessions):</span>
+        </p>
+        <p>
+          <strong>
+            → Z.ai Pro or Max (especially quarterly/yearly billing)
+          </strong>
+        </p>
+        <p>
+          One user prompt = one billable unit no matter how many internal tool calls or context reads happen.
+          Feels 3–5× more generous than Claude Pro/Max at a fraction of the price. Excellent “overflow” plan when
+          Anthropic hits its token wall.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Absolute top-tier quality & polish (non-negotiable consistency):</span>
+        </p>
+        <p>
+          <strong>
+            → Anthropic Max 5× or Max 20× (Claude Opus 4.6 / Sonnet 4.6)
+          </strong>
+        </p>
+        <p>
+          Still the king of clean, production-grade, style-consistent code. Native integration, zero extra config. Only
+          worth the premium if you live in large enterprise codebases or need the highest possible safety and
+          architectural judgment.
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Balanced middle-ground option:</span>
+        </p>
+        <p>
+          <strong>
+            → Kimi (Moonshot) Allegretto or Allegro
+          </strong>
+        </p>
+        <p>
+          Solid weekly quotas, great creative/architectural thinking, very fast. Ideal if you want something between
+          MiniMax’s speed/usage and Claude’s conservatism without extreme volume or extreme cost.
+        </p>
+      </li>
+
+    </ul>
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Quick Decision Checklist:</strong></p>
+      <ul class="choice-list">
+        <li>
+          Need to crank out 200+ complex tasks per day without thinking? → MiniMax Plus
+        </li>
+        <li>
+          Want the simplest possible metering where one big refactor = one prompt? → Z.ai Pro/Max
+        </li>
+        <li>
+          Budget is secondary and you want the smoothest, most reliable experience? → Anthropic Max (Opus)
+        </li>
+        <li>
+          Doing a lot of frontend, visual-to-code, or novel design work? → Kimi K2.5 or MiniMax
+        </li>
+        <li>
+          Working in scientific Python, Rust, or safety-critical systems? → Claude or GLM-5 series
+        </li>
+        <li>
+          Want the absolute best value/quality ratio right now? → MiniMax M2.7
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-hack">
+    <div class="callout-label">⚡ Power User Hacks</div>
+      Run MiniMax or Z.ai as your default backend and keep an Anthropic Max plan as the “emergency brain.” Claude Code
+      makes switching more or less trivial — just flip the model name and API key in settings or use simple startup bash
+      aliases/env files. You get 95 % of the capability at 20–30 % of the cost on normal days, and instant access to the
+      absolute best model when you hit a genuinely hard problem.
+    </div>
+
+  </div>
+
+
+</div>

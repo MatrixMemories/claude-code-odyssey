@@ -1,0 +1,973 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">Progressive Disclosure</h1>
+    <p class="page-subtitle">Keeping Context Lean as Projects Grow</p>
+    <div class="header-intro">
+      <p>
+        As your Claude Code projects grow from simple prototypes into complex full-stack monorepos, a single monolithic
+        <span class="inline-code">CLAUDE.md</span> file quickly turns into a liability—bloating context, burning
+        tokens, and diluting the instructions that actually matter.
+      </p>
+      <p>
+        Progressive Disclosure solves this elegantly by distributing your rules and conventions across multiple
+        targeted files so Claude Code loads only the relevant guidance for the task at hand.
+      </p>
+      <p>
+        This section explores the most effective real-world techniques, from hierarchical nested
+        <span class="inline-code">CLAUDE.md</span> files and path-scoped rules to reliable manual methods,
+        giving you practical ways to keep your AI assistant sharp and efficient at any scale.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 6/8</span>
+      <span class="meta-chip">~11 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Header Card
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <h1 class="page-title">Progressive Disclosure: Keeping Context Lean as Projects Grow</h1>
+    <p class="body-text" style="color:var(--tx);font-size:16px;line-height:1.7;margin-bottom:0;">
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 6/7</span>
+      <span class="meta-chip">~11 min read</span>
+      <span class="meta-chip">Claude Code ≥ 1.0</span>
+    </div>
+  </div>
+  -->
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+
+    <p class="body-text">
+      Throughout this section we have hammered on two principles above all others: <strong>token discipline</strong> and an
+      <strong>ultrashort philosophy</strong> when writing <span class="inline-code">CLAUDE.md</span> files. The reasoning is simple: Claude Code operates within a
+      fixed context window; can only follow a limited number of instructions reliably, and performs best when that
+      context is packed with <i>usable</i>, directly relevant information rather than noise.
+    </p>
+
+    <p class="body-text">
+      We have also mentioned examples that reinforce these principles, such as removing backend related entries from your
+      <span class="inline-code">CLAUDE.md</span> once you have moved on to frontend work. It sounds clean in theory, but in
+      practice, it is almost impossible to follow.
+    </p>
+
+    <p class="body-text">
+      Most real world projects are not developed in a clean linear sequence. You switch between frontend, backend and
+      other components constantly. You have shared utilities, infrastructure code, tests, a CI configurations, all evolving
+      in parallel. In larger projects it can be genuinely challenging to squeeze everything relevant to even a single component
+      into one <span class="inline-code">CLAUDE.md</span> file. And even in the rare case where you manage it, you have
+      traded one problem for another: <strong>context pollution</strong>. When Claude Code loads your single monolithic
+      <span class="inline-code">CLAUDE.md</span>, it loads everything, which means that when you are working on a
+      React component, Claude is also sitting on instructions about your pandas data pipeline, instructions about
+      your FastAPI endpoints and your PostgreSQL schema patterns. None of that matters for the task at hand. It just
+      burns context and dilutes the instructions that do matter.
+    </p>
+
+  </div>
+
+  <!-- Card 2: Progressive Disclosure -->
+  <div class="card">
+
+    <h2 class="section-title">The Solution: Progressive Disclosure</h2>
+
+    <p class="body-text">
+      The idea is straightforward: <strong>instead of cramming all project instructions into one file, you distribute them across
+      multiple markdown files</strong>. The key constraint is that for any given task, Claude Code should read only the
+      instruction files relevant to that task. Irrelevant instructions stay out of context entirely.
+    </p>
+
+    <p class="body-text">
+      There are several ways to achieve this, amongst the most popular are the following five:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>1. The Hierarchical Way</strong> — nested CLAUDE.md files living inside subdirectories.
+      </li>
+      <li>
+        <strong>2. The Rules Way</strong> — scoped instruction files inside <span class="inline-code">.claude/rules/</span>,
+        linked to file paths.
+      </li>
+      <li>
+        <strong>3. The Cowboy Way</strong> — a hand-rolled <span class="inline-code">agent_docs</span> directory with
+        semi-manual read enforcement.
+      </li>
+      <li>
+        <strong>4. The Skills Way</strong> — misappropriating Claude Code's skills feature <i>(covered in the Skills section)</i>.
+      </li>
+      <li>
+        <strong>5. The Hooks Way</strong> — on-demand loading driven by programmatic hooks <i>(covered in the Hooks section)</i>.
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- Card 3: The Hierarchical Way -->
+  <div class="card">
+
+    <h2 class="section-title">1. The Hierarchical Way: Nested CLAUDE.md Files</h2>
+
+    <p class="body-text">
+      If your project has distinct modules, or if you are working in a monorepo, you likely already have a clear
+      directory structure: a root directory with subdirectories like <span class="inline-code">backend/</span>,
+      <span class="inline-code">frontend/</span>, <span class="inline-code">infra/</span> and so on. The hierarchical
+      approach maps instruction files onto that same structure.
+    </p>
+
+    <h3 class="card-h3">How It Works</h3>
+
+    <p class="body-text">
+      You place a <span class="inline-code">CLAUDE.md</span> in the root directory, and additional
+      <span class="inline-code">CLAUDE.md</span> files inside any subdirectories that warrant their own instructions.
+      The behavior is:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        The <strong>root <span class="inline-code">CLAUDE.md</span> is eagerly loaded</strong> at the start of every
+        session, unconditionally.
+      </li>
+      <li>
+        <strong>Subdirectory <span class="inline-code">CLAUDE.md</span> files are lazy-loaded</strong>  — they are
+        pulled into context only when Claude Code reads a file inside that directory.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      So for a project with <span class="inline-code">backend/</span> and <span class="inline-code">frontend/</span>
+      subdirectories, the root <span class="inline-code">CLAUDE.md</span> holds project-wide context (repository layout,
+      shared conventions, tooling), while <span class="inline-code">backend/CLAUDE.md</span> holds backend-specific
+      instructions and <span class="inline-code">frontend/CLAUDE.md</span> holds frontend-specific ones. When Claude
+      is working on an API route, it loads the root and backend files. The frontend instructions never enter the picture.
+    </p>
+
+    <p class="body-text">
+      You can go deeper. If <span class="inline-code">backend/</span> contains <span class="inline-code">src/</span>,
+      <span class="inline-code">tests/</span>, <span class="inline-code">api/</span>, and
+      <span class="inline-code">data/</span> subdirectories, each of those can have its own
+      <span class="inline-code">CLAUDE.md</span>. The same lazy-loading rule applies at every level.
+    </p>
+
+    <p class="body-text">
+      Your directory tree might look similar to:
+    </p>
+
+    <pre class="dir-tree"><code>
+      <span style="color:#38bdf8">project_root/</span>
+      ├── <span style="color:#38bdf8">.claude/</span>
+      │   ├── <span style="color:#38bdf8">rules/</span>
+      ├── <span style="color:#38bdf8">backend/</span>
+      │   ├── <span style="color:#38bdf8">venv/</span>
+      │   ├── <span style="color:#38bdf8">src/</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   ├── <span style="color:#38bdf8">api/</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   │   ├── __init__.py
+      │   │   ├── router.py
+      │   │   └── router_health.py
+      │   ├── <span style="color:#38bdf8">test/</span>
+      │   │    ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   ├── pyproject.toml
+      │   └── uv.lock
+      ├── <span style="color:#38bdf8">frontend/</span>
+      │   ├── <span style="color:#38bdf8">src/</span>
+      │   │    ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>
+      │   ├── package.json
+      │   ├── vite.config.ts
+      │   └── tsconfig.json
+      ├── .gitignore
+      ├── .env
+      ├── <span style="color:#e49f89;font-weight:600">CLAUDE.md</span>
+      ├── <span style="color:#e49f89;font-weight:600">CLAUDE.local.md</span>
+      └── README.md
+    </code></pre>
+
+    <h3 class="card-h3">Path Walking</h3>
+
+    <p class="body-text">
+      This is the most important detail to internalize: <strong>Claude Code does not just load the
+      <span class="inline-code">CLAUDE.md</span> of the directory it is currently reading, it walks the full path
+      upward to the root and loads every CLAUDE.md it encounters along the way.</strong>
+    </p>
+
+    <p class="body-text">
+      If Claude Code reads a file at <span class="inline-code">backend/api/router.py</span>, it will load:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <span class="inline-code">backend/api/CLAUDE.md</span>
+      </li>
+      <li>
+        <span class="inline-code">backend/CLAUDE.md</span>
+      </li>
+      <li>
+        <span class="inline-code">CLAUDE.md</span> (root)
+      </li>
+    </ul>
+
+    <p class="body-text">
+      All three are returned together as part of the read tool output. This is what makes the hierarchy coherent:
+      lower-level files can assume the higher-level ones have been loaded.
+    </p>
+
+    <!--
+    <p class="body-text">
+      The flip side of this is that you must keep the files consistent with each other. Specifically:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Do not repeat yourself across levels. If a convention is stated in the root <span class="inline-code">CLAUDE.md</span>,
+        the subdirectory files do not need to restate it.
+      </li>
+      <li>
+        Do not let instructions contradict each other. A rule in <span class="inline-code">backend/api/CLAUDE.md</span> must
+        not conflict with a rule in <span class="inline-code">backend/CLAUDE.md</span> or the root.
+      </li>
+      <li>
+        The total instruction budget still applies across all loaded files. Three short files that are all loaded
+        simultaneously are no different from one medium file.
+      </li>
+    </ul>
+    -->
+
+    <ul class="feature-list-empty">
+
+      <li>
+        The flip side of this is that you must keep the files consistent with each other. Specifically:
+        <ul class="example-list">
+          <li>
+            Do not repeat yourself across levels. If a convention is stated in the root <span class="inline-code">CLAUDE.md</span>,
+            the subdirectory files do not need to restate it.
+          </li>
+          <li>
+            Do not let instructions contradict each other. A rule in <span class="inline-code">backend/api/CLAUDE.md</span> must
+            not conflict with a rule in <span class="inline-code">backend/CLAUDE.md</span> or the root.
+          </li>
+          <li>
+            The total instruction budget still applies across all loaded files. Three short files that are all loaded
+            simultaneously are no different from one medium file.
+          </li>
+        </ul>
+
+      </li>
+
+    </ul>
+
+    <h3 class="card-h3">When Is a Subdirectory CLAUDE.md Actually Loaded?</h3>
+
+    <p class="body-text">
+      This is where developers get tripped up, so it is worth stating it explicitly.
+      <strong>A subdirectory <span class="inline-code">CLAUDE.md</span> is loaded if and only
+        if Claude Code uses the read tool on a file inside that directory.</strong> That is the entire trigger.
+      Nothing else causes it to load:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Claude Code creating a new file in a directory (write tool) does not trigger loading.
+      </li>
+      <li>
+        <span class="inline-code">Glob</span> and <span class="inline-code">Grep</span> tools do not
+        trigger loading, even though they are read-adjacent operations.
+      </li>
+      <li>
+        Simply being told to work in a directory does not trigger loading.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      The practical implication: instructions about creating brand-new files, building features from scratch,
+      or anything not anchored to an existing file are unreliable if placed only in a subdirectory
+      <span class="inline-code">CLAUDE.md</span>. Claude Code needs to read something in that directory first and in
+      most cases it will. Especially, if you ask it to modify an existing module, it will read the relevant files
+      before writing. But for greenfield work you cannot count on it.
+    </p>
+
+    <h3 class="card-h3">The Burial Problem</h3>
+
+    <p class="body-text">
+      There is a subtler issue that goes beyond just whether a file gets loaded: where in the context it lands and when
+      it gets loaded.
+    </p>
+
+    <p class="body-text">
+      Imagine this session:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        1. You start a session, provide some planning context, exchange a few messages.
+      </li>
+      <li>
+        2. You ask Claude Code to update <span class="inline-code">backend/api/router.py</span>. It reads the file,
+        and along with it, <span class="inline-code">backend/api/CLAUDE.md</span> is loaded into context.
+      </li>
+      <li>
+        3. You continue the conversation. You now ask Claude Code to create a new endpoint file in
+        <span class="inline-code">backend/api/</span>. Claude deems it does not need to re-read any
+        existing files and goes straight to writing.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      At step 3, the content of <span class="inline-code">backend/api/CLAUDE.md</span> is buried several messages
+      back in the session context. LLMs have a well-documented primacy/recency bias, that is information at the beginning
+      and end of the context window gets prioritized. Information in the middle gets ignored. Your carefully written
+      instructions are sitting exactly where they are most likely to be disregarded.
+    </p>
+
+    <p class="body-text">
+      If Claude Code re-reads a file from <span class="inline-code">backend/api/</span>, the
+      <span class="inline-code">CLAUDE.md</span> content gets surfaced again into recent context. But if
+      it does not, those instructions may as well not exist for that message.
+    </p>
+
+    <!--
+    <p class="body-text">
+      The mitigation is manual, but reliable: <span class="inline-code">@</span>-mention
+      the <span class="inline-code">CLAUDE.md</span> file in your message. Claude Code will read it as
+      part of processing your message, placing its content in the most recent part of context where it
+      will actually be attended to.
+    </p>
+    -->
+    <div class="callout callout-hack">
+    <div class="callout-label">⚡ Power User Hacks</div>
+      <p class="body-text">
+        The mitigation is manual, but reliable: <span class="inline-code">@</span>-mention
+        the <span class="inline-code">CLAUDE.md</span> file in your message. Claude Code will read it as
+        part of processing your message, placing its content in the most recent part of context where it
+        will actually be attended to.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <span class="code-label">CLI</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <div class="code-body">
+          <pre><code>
+            @backend/api/CLAUDE.md Add a new POST /users endpoint following the existing conventions.
+          </code></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="card-h3">Excluding Files You Don't Want Loaded</h3>
+
+    <p class="body-text">
+      Sometimes Claude Code will read a file in a directory, but you do not want the corresponding
+      <span class="inline-code">CLAUDE.md</span> to be loaded because it is not relevant to the current
+      task. For example, if you are building a backend API component and Claude Code only needs to know what
+      shape of response the frontend expects — not the full frontend development conventions — you can suppress
+      the frontend <span class="inline-code">CLAUDE.md</span> loading.
+    </p>
+
+    <p class="body-text">
+      This is done via the <span class="inline-code">claudeMdExcludes</span> setting in your project configuration:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">json</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          {
+            "<span class="token-keyword">claudeMdExcludes</span>": [
+              "<span class="token-prompt">frontend/CLAUDE.md</span>",
+              "<span class="token-prompt">docs/**</span>"
+            ]
+          }
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Files matching these patterns will be silently skipped even if Claude Code reads files in those directories.
+    </p>
+
+    <h3 class="card-h3">A Note on Stability</h3>
+
+    <p class="body-text">
+      As of March 2026, there are known issues with hierarchical <span class="inline-code">CLAUDE.md</span>
+      loading on certain Claude Code versions — particularly the VSCode extension. The CLI is more stable.
+      After setting up nested <span class="inline-code">CLAUDE.md</span> files, verify that they are actually
+      being loaded using the <span class="inline-code">/status</span> command. Do not assume they are working
+      until you have confirmed it.
+    </p>
+
+    <h3 class="card-h3">Why Bother With the Hierarchy?</h3>
+
+    <p class="body-text">
+      When it works well, the payoff is significant:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Your root <span class="inline-code">CLAUDE.md</span> stays lean and project-relevant, instead of
+        ballooning with module-specific details.
+      </li>
+      <li>
+        Instructions are co-located with the code they govern, making them easier to maintain.
+      </li>
+      <li>
+        A component's instructions stay available and correct even while you are working elsewhere, they do
+        not need to be deleted and rewritten when you context-switch.
+      </li>
+      <li>
+        The amount of irrelevant instruction loaded for any given task is naturally minimized.
+      </li>
+    </ul>
+
+
+    <!--
+    <h3 class="card-h3">Why Bother With the Hierarchy?</h3>
+
+    <ul class="feature-list-empty">
+
+      <li>
+        When it works well, the payoff is significant:
+        <ul class="example-list">
+          <li>
+            Your root <span class="inline-code">CLAUDE.md</span> stays lean and project-relevant, instead of
+            ballooning with module-specific details.
+          </li>
+          <li>
+            Instructions are co-located with the code they govern, making them easier to maintain.
+          </li>
+          <li>
+            A component's instructions stay available and correct even while you are working elsewhere, they do
+            not need to be deleted and rewritten when you context-switch.
+          </li>
+          <li>
+            The amount of irrelevant instruction loaded for any given task is naturally minimized.
+          </li>
+        </ul>
+
+      </li>
+
+    </ul>
+    -->
+
+  </div>
+
+  <!-- Card 4: The Hierarchical Way -->
+  <div class="card">
+
+    <h2 class="section-title">2. The Rules Way: Path-Scoped Files</h2>
+
+    <p class="body-text">
+      The <span class="inline-code">rules/</span> directory is Claude Code's built-in mechanism for modular, scoped
+      instruction files. It lives at <span class="inline-code">.claude/rules/</span> in your project root — exact
+      spelling, case-sensitive.
+    </p>
+
+    <p class="body-text">
+      A parallel personal version can exist at <span class="inline-code">~/.claude/rules/</span> for user-level rules
+      you want across all projects.
+    </p>
+
+    <h3 class="card-h3">Structure and File Requirements</h3>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        All files inside <span class="inline-code">rules/</span> must be
+        <span class="inline-code">.md</span> files. Non-markdown files are silently ignored.
+      </li>
+      <li>
+        Files are discovered recursively, so you can organize them into subdirectories:
+        <span class="inline-code">.claude/rules/frontend/</span>,
+        <span class="inline-code">.claude/rules/backend/</span>, etc.
+      </li>
+      <li>
+        Filenames should be descriptive kebab-case: <span class="inline-code">api-conventions.md</span>,
+        <span class="inline-code">python-style.md</span>, <span class="inline-code">test-patterns.md</span>.
+        Names like <span class="inline-code">rules1.md</span> or <span class="inline-code">r.md</span> are not useful.
+      </li>
+    </ul>
+
+    <pre class="dir-tree"><code>
+      <span style="color:#38bdf8">project_root/</span>
+      ├── <span style="color:#38bdf8">.claude/</span>
+      │   ├── <span style="color:#d97757;font-weight:600">rules/</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">api-conventions.md</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">python-style.md</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">test-patterns.md</span>
+      ├── <span style="color:#38bdf8">backend/</span>
+      │   ├── <span style="color:#38bdf8">venv/</span>
+      │   ├── <span style="color:#38bdf8">src/</span>
+      │   ├── <span style="color:#38bdf8">api/</span>
+      │   ├── <span style="color:#38bdf8">test/</span>
+      ├── <span style="color:#38bdf8">frontend/</span>
+      ├── .gitignore
+      ├── .env
+      ├── <span style="color:#e49f89;font-weight:600">CLAUDE.md</span>
+      ├── <span style="color:#e49f89;font-weight:600">CLAUDE.local.md</span>
+      └── README.md
+    </code></pre>
+
+    <p class="body-text">
+      Each rules file has two optional sections:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        A <strong>YAML frontmatter block</strong> at the top, delimited by <span class="inline-code">---</span>.
+      </li>
+      <li>
+        <strong>Markdown body content</strong>  below the frontmatter.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      Neither section is strictly required.
+    </p>
+
+    <h3 class="card-h3">Two Modes: Always-Loaded vs. Path-Scoped</h3>
+
+    <p class="body-text">
+      The presence of a "<span class="inline-code">paths:</span>" key in the frontmatter is the single deciding
+      factor in how a file is loaded.
+    </p>
+
+    <h4 class="card-h4">
+      Always-loaded (no frontmatter, or frontmatter without <span class="inline-code">paths:</span>)
+    </h4>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Python Style Conventions</span>
+
+          - Always use type hints on function signatures
+          - Use <span class="token-prompt">pathlib.Path</span> instead of <span class="token-prompt">os.path</span>
+          - Prefer <span class="token-prompt">dataclasses</span> over plain dicts for structured data
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Files like this are loaded at the start of every session alongside the root <span class="inline-code">CLAUDE.md</span>.
+      They are useful for keeping the root <span class="inline-code">CLAUDE.md</span> readable and organized, but they
+      do not reduce the total instruction count or solve the context pollution problem. They are essentially an
+      extension of your root <span class="inline-code">CLAUDE.md</span>.
+    </p>
+
+    <h4 class="card-h4">
+      Path-scoped (frontmatter with <span class="inline-code">paths:</span>)
+    </h4>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">---</span>
+          paths:
+            - "<span class="token-prompt">backend/src/**/*.py</span>"
+            - "<span class="token-prompt">backend/tests/**/*.py</span>"
+          <span class="token-keyword">---</span>
+
+          <span class="token-keyword"># Python Style Conventions</span>
+
+          - Always use type hints on function signatures
+          - Use <span class="token-prompt">pathlib.Path</span> instead of <span class="token-prompt">os.path</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      A file with a <span class="inline-code">paths:</span> key is only loaded when Claude Code reads a file that
+      matches one of the specified paths. This is the mechanism that achieves progressive disclosure.
+    </p>
+
+    <p class="body-text">
+      Note that the <span class="inline-code">paths:</span> parameter uses glob synthax:
+    </p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">**</td>
+            <td>Any number of directories, recursively</td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">*</td>
+            <td>Anything within a single directory segment</td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">?</td>
+            <td>Any single character</td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">{a,b}</td>
+            <td>Matches either <span class="inline-code">a</span> or <span class="inline-code">b</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">[abc]</td>
+            <td>Matches any character in the set</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="body-text">
+      You can match multiple file types with brace expansion:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">---</span>
+          paths:
+            - "<span class="token-prompt">frontend/src/**/*.{ts,tsx}</span>"
+            - "<span class="token-prompt">frontend/src/**/*.{js,jsx}</span>"
+          <span class="token-keyword">---</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <h3 class="card-h3">When Is a Path-Scoped Rule Loaded?</h3>
+
+    <p class="body-text">
+      Same constraint as with nested <span class="inline-code">CLAUDE.md</span> files: only when Claude Code uses the
+      <span class="inline-code">Read</span> tool on a file whose path matches the glob pattern.
+      <span class="inline-code">Write</span>, <span class="inline-code">Glob</span>,
+      <span class="inline-code">Grep</span>, and other tools do not trigger loading. If Claude Code never reads a
+      matching file during a session, the rule is never loaded.
+    </p>
+
+    <h3 class="card-h3">Advantages Over Nested CLAUDE.md</h3>
+
+    <p class="body-text">
+      Path-scoped rules have one structural advantage over the directory-based approach: they are not constrained by
+      directory boundaries. You can bind a single rules file to paths across multiple unrelated directories:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">---</span>
+          paths:
+            - "<span class="token-prompt">backend/**/*.py</span>"
+            - "<span class="token-prompt">scripts/**/*.py</span>"
+            - "<span class="token-prompt">tools/**/*.py</span>"
+          <span class="token-keyword">---</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      This instruction file loads whenever Claude reads any Python file across your entire repository,
+      regardless of where it lives. With nested <span class="inline-code">CLAUDE.md</span> files you would
+      need to duplicate content into each relevant subdirectory.
+    </p>
+
+    <h3 class="card-h3">Limitations</h3>
+
+    <p class="body-text">
+      The same failure modes that affect nested <span class="inline-code">CLAUDE.md</span> files apply here:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        If Claude Code does not read a matching file, the rules file is never loaded.
+      </li>
+      <li>
+        If the rules content is loaded early in the session and then buried by subsequent messages, it may
+        be effectively ignored.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      One thing to watch out for: **do not place path-scoped rules in subdirectories of
+      <span class="inline-code">.claude/rules/</span> and expect them to work based on their location.
+      The subdirectory organization is cosmetic, what determines loading is the <span class="inline-code">paths:</span>
+      frontmatter, not where the file sits within <span class="inline-code">rules/</span>. Also, user-level rules at
+      <span class="inline-code">~/.claude/rules/</span> with <span class="inline-code">paths:</span> frontmatter only match files
+      that are children of the working directory Claude Code was launched from. They will not scope correctly
+      across arbitrary repositories.
+    </p>
+  </div>
+
+  <!-- Card 4: The Cowboy Way -->
+  <div class="card">
+
+    <h2 class="section-title">3. The Cowboy Way: Semi-Manual Read Enforcement</h2>
+
+    <p class="body-text">
+      Both of the above approaches share the same fundamental weakness: they depend on Claude Code deciding to
+      read a file before the relevant instructions enter context. Sometimes that does not happen. Sometimes the
+      instructions land in the wrong part of context. Sometimes Claude Code is tasked with something completely new
+      and never reads anything.
+    </p>
+
+    <p class="body-text">
+      If you want real control, take matters into your own hands.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+
+        <p>
+          <span class="feature-key">1.</span> Create an <span class="inline-code">agent_docs/</span> directory
+          somewhere in your repo. Keeping it inside <span class="inline-code">.claude/</span> is clean and
+          keeps project tooling consolidated:
+        </p>
+
+        <pre class="dir-tree"><code>
+          <span style="color:#38bdf8">project_root/</span>
+          ├── <span style="color:#38bdf8">.claude/</span>
+          │   ├── <span style="color:#d97757;font-weight:600">agent_docs/</span>
+          │   │   ├── <span style="color:#d97757;font-weight:600">backend-conventions.md</span>
+          │   │   ├── <span style="color:#d97757;font-weight:600">frontend-conventions.md</span>
+          │   │   ├── <span style="color:#d97757;font-weight:600">testing-patterns.md</span>
+          │   │   └── <span style="color:#d97757;font-weight:600">data-pipeline-guide.md</span>
+        </code></pre>
+
+        <p>
+          The name <span class="inline-code">agent_docs</span> is just a convention, call it whatever you like.
+          The location does not matter either.
+        </p>
+
+      </li>
+
+      <li>
+
+        <p>
+          <span class="feature-key">2.</span> Populate it with focused, task-specific instruction files. Each
+          file covers one domain or concern.
+        </p>
+
+      </li>
+
+      <li>
+
+        <p>
+          <span class="feature-key">3.</span> In your root <span class="inline-code">CLAUDE.md</span>, add a
+          section that describes these files and tells Claude Code when to consult each one:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots">
+              <span class="dot-red"></span>
+              <span class="dot-yellow"></span>
+              <span class="dot-green"></span>
+            </div>
+            <span class="code-label">FILE · CLAUDE.md</span>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+          <div class="code-body">
+            <pre><code>
+              <span class="token-keyword">## Additional Reference Files</span>
+
+              When working on tasks in the following areas, read the corresponding
+              file from <span class="token-prompt">.claude/agent_docs/</span> before proceeding:
+
+              - Backend API development → <span class="token-prompt">.claude/agent_docs/backend-conventions.md</span>
+              - React components → <span class="token-prompt">.claude/agent_docs/frontend-conventions.md</span>
+              - Writing or editing tests → <span class="token-prompt">.claude/agent_docs/testing-patterns.md</span>
+              - Data ingestion or transformation → <span class="token-prompt">.claude/agent_docs/data-pipeline-guide.md</span>
+            </code></pre>
+          </div>
+        </div>
+
+      </li>
+
+      <li>
+
+        <p>
+          <span class="feature-key">4.</span> Tell Claude Code, in that same section, to make the call autonomously:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots">
+              <span class="dot-red"></span>
+              <span class="dot-yellow"></span>
+              <span class="dot-green"></span>
+            </div>
+            <span class="code-label">FILE · CLAUDE.md</span>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+          <div class="code-body">
+            <pre><code>
+              <span class="token-keyword">## Additional Reference Files</span>
+
+              Use your judgment to determine which files are relevant. Read them
+              autonomously before starting work on the corresponding area.
+            </code></pre>
+          </div>
+        </div>
+
+      </li>
+
+    </ul>
+
+    <h3 class="card-h3">How it plays out</h3>
+
+    <p class="body-text">
+      With this setup, Claude Code may decide to read the relevant file on its own when it understands the task.
+      You have given it explicit guidance on what exists and when to use it. That is your fallback layer.
+    </p>
+
+    <p class="body-text">
+      But here is where the "cowboy" part comes in: you do not rely on that fallback. Whenever you know which
+      <span class="inline-code">agent_docs</span> file is relevant to a task, you
+      <span class="inline-code">@</span>-mention it in your message:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLI</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          @.claude/agent_docs/frontend-conventions.md
+          Refactor the UserProfile component to use the new design token system.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Claude Code will read that file as part of processing your message. Its content lands in the most recent
+      part of the context window, exactly where it needs to be. No burial. No missed loads. No ambiguity.
+    </p>
+
+    <p class="body-text">
+      This approach has a layered quality that makes it robust:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <strong>Primary layer:</strong> You <span class="inline-code">@</span>-mention the file when you know
+        it is needed.
+      </li>
+      <li>
+        <strong>Fallback layer:</strong> Claude Code may autonomously read it based on your
+        <span class="inline-code">CLAUDE.md</span> instructions, even if you forget.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      You have full authorship over what these files contain and complete confidence over when they are read.
+      The tradeoff is that it requires slightly more discipline in how you write your prompts. In practice,
+      once the habit of <span class="inline-code">@</span>-mentioning the relevant doc is established,
+      it becomes second nature.
+    </p>
+
+  </div>
+
+  <!-- Card 5: Choosing an Approach -->
+  <div class="card">
+
+    <h2 class="section-title">Choosing an Approach</h2>
+
+    <p class="body-text">
+      These three methods are not mutually exclusive. A real project might use all of them:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>Nested <span class="inline-code">CLAUDE.md</span></strong> for per-module conventions that naturally
+        align with directory structure
+      </li>
+      <li>
+        <strong>Path-scoped rules</strong> for cross-cutting concerns that apply to specific file types across multiple
+        directories (e.g., all TypeScript files, all test files)
+      </li>
+      <li>
+        <strong><span class="inline-code">agent_docs</span> with manual
+          <span class="inline-code">@</span>-mentions</strong> for heavyweight reference guides, onboarding
+        documentation, or context that should only be loaded for specific high-level tasks.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      The hierarchical and rules approaches give you passive, automatic loading that works well when Claude Code
+      naturally reads the relevant files. The <span class="inline-code">agent_docs</span> approach gives you active,
+      deliberate loading that works in all cases. Use the combination that fits your project's shape and your own
+      working style.
+    </p>
+
+    <p class="body-text">
+      The goal is always the same: when Claude Code is working on a specific task, its context should include
+      exactly what it needs and nothing it does not.
+    </p>
+
+  </div>
+
+</div>

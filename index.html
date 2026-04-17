@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude Code Odyssey — The definitive guide to Claude Code CLI">
+  <title>Claude Code Odyssey</title>
+
+  <!-- Inline theme restore — must run before first paint -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles/neon-glass.css">
+
+  <style>
+    /* ============================================================
+       LANDING PAGE — Claude Code Odyssey
+       All styles are landing-page-specific. No frameworks.
+       ============================================================ */
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ---- Theme Toggle ----------------------------------------- */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 200;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--brd);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mu);
+      font-size: 15px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .theme-toggle:hover {
+      color: var(--acc);
+      border-color: rgba(217, 119, 87, 0.35);
+    }
+
+    /* ---- Map Background --------------------------------------- */
+    .map-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .map-bg svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Light theme: tint the map slightly */
+    [data-theme="light"] .map-bg {
+      opacity: 0.5;
+    }
+
+    /* ---- Page Wrapper ----------------------------------------- */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 var(--sp-xl);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--sp-3xl) var(--sp-xl);
+    }
+
+    .hero-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: var(--sp-m);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-s);
+    }
+
+    .hero-kicker::before,
+    .hero-kicker::after {
+      content: '◆';
+      font-size: 7px;
+      color: var(--acc);
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(46px, 10vw, 96px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -2.5px;
+      margin-bottom: var(--sp-m);
+    }
+
+    [data-theme="dark"] .hero-title {
+      background: linear-gradient(135deg, #ffffff 15%, #d97757 65%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    [data-theme="light"] .hero-title {
+      color: var(--hd);
+    }
+
+    .hero-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(15px, 2.2vw, 17px);
+      font-weight: 300;
+      color: var(--tx);
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .hero-subtitle strong {
+      font-weight: 500;
+      color: var(--hd);
+    }
+
+    .hero-accent-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--acc), var(--blue));
+      border-radius: 2px;
+      margin: 0 auto var(--sp-2xl);
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: var(--sp-2xl);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-s);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mu);
+      animation: float-down 2.2s ease-in-out infinite;
+    }
+
+    .hero-scroll-arrow {
+      width: 18px;
+      height: 18px;
+      border-right: 1.5px solid var(--mu);
+      border-bottom: 1.5px solid var(--mu);
+      transform: rotate(45deg);
+      margin-top: -4px;
+    }
+
+    @keyframes float-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+      50%       { transform: translateX(-50%) translateY(8px); opacity: 1; }
+    }
+
+    .hero {
+      position: relative; /* for scroll hint absolute positioning */
+    }
+
+    /* ============================================================
+       JOURNEY SECTION
+       ============================================================ */
+    .journey {
+      padding: var(--sp-3xl) 0 var(--sp-2xl);
+    }
+
+    .section-eyebrow {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--acc);
+      margin-bottom: var(--sp-3xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-m);
+    }
+
+    .section-eyebrow::before,
+    .section-eyebrow::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--brd));
+    }
+
+    .section-eyebrow::after {
+      background: linear-gradient(to left, transparent, var(--brd));
+    }
+
+    /* ---- Journey Spine ---------------------------------------- */
+    .journey-spine {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* The vertical dashed path running down the center */
+    .journey-spine::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--brd) 0px,
+        var(--brd) 7px,
+        transparent 7px,
+        transparent 16px
+      );
+      z-index: 0;
+    }
+
+    /* ---- Journey Stop ----------------------------------------- */
+    .journey-stop {
+      display: grid;
+      grid-template-columns: 1fr 72px 1fr;
+      align-items: center;
+      margin-bottom: 72px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* The node dot on the spine */
+    .stop-node {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stop-node-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--acc);
+      box-shadow: 0 0 10px rgba(217, 119, 87, 0.35), 0 0 20px rgba(217, 119, 87, 0.15);
+      flex-shrink: 0;
+    }
+
+    [data-theme="light"] .stop-node-dot {
+      background: var(--bg);
+      box-shadow: 0 0 8px rgba(199, 80, 48, 0.3);
+    }
+
+    /* Horizontal connector: node → card */
+    .stop-left .stop-node::before {
+      content: '';
+      position: absolute;
+      right: calc(50% + 8px);
+      left: 0;
+      top: 50%;
+      height: 1px;
+      background: linear-gradient(to left, var(--brd), transparent);
+      transform: translateY(-50%);
+    }
+
+    .stop-right .stop-node::after {
+      content: '';
+      position: absolute;
+      left: calc(50% + 8px);
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: linear-gradient(to right, var(--brd), transparent);
+      transform: translateY(-50%);
+    }
+
+    /* Empty column spacer */
+    .stop-empty {
+      /* intentionally blank — holds grid column space */
+    }
+
+    /* ---- Stop Card -------------------------------------------- */
+    .stop-card {
+      background: var(--card);
+      border: 1px solid var(--brd);
+      border-radius: 12px;
+      padding: 28px 32px;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    [data-theme="light"] .stop-card {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Gradient top accent line on cards */
+    .stop-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(217, 119, 87, 0.25), transparent);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .stop-chapter-label {
+      position: absolute;
+      top: -20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mu);
+    }
+
+    .stop-left .stop-chapter-label  { right: var(--sp-m); }
+    .stop-right .stop-chapter-label { left: var(--sp-m); }
+
+    .stop-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(217, 119, 87, 0.10);
+      color: var(--acc);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(217, 119, 87, 0.18);
+      margin-bottom: var(--sp-m);
+    }
+
+    .stop-card-tag::before { content: '◆'; font-size: 7px; }
+
+    [data-theme="light"] .stop-card-tag {
+      background: rgba(199, 80, 48, 0.08);
+      border-color: rgba(199, 80, 48, 0.16);
+    }
+
+    .stop-card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--hd);
+      margin-bottom: var(--sp-m);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stop-card-title::before {
+      content: '';
+      width: 3px;
+      height: 20px;
+      background: linear-gradient(180deg, var(--acc), var(--blue));
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ---- Bullet List ------------------------------------------ */
+    .stop-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-m);
+    }
+
+    .stop-bullet {
+      display: flex;
+      gap: var(--sp-m);
+      align-items: flex-start;
+    }
+
+    .bullet-pip {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(217, 119, 87, 0.10);
+      border: 1px solid rgba(217, 119, 87, 0.22);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--acc);
+      font-size: 9px;
+    }
+
+    .bullet-text {
+      flex: 1;
+    }
+
+    .bullet-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--hd);
+      margin-bottom: 2px;
+    }
+
+    .bullet-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--tx);
+      line-height: 1.6;
+    }
+
+    /* ---- Map-variant stop card -------------------------------- */
+    .stop-card--map {
+      overflow: hidden;   /* clip absolute decorations */
+      /* Subtle nautical-chart grid */
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* Coordinate labels pinned to card corners */
+    .stop-coord {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.50;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .stop-coord-tl { top: 10px; left: 14px; }
+    .stop-coord-br { bottom: 10px; right: 14px; }
+
+    /* Miniature compass rose — top-right corner */
+    .stop-compass {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      color: var(--blue);
+      opacity: 0.18;
+      pointer-events: none;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    /* Topographic contour rings — bottom corner accent */
+    .stop-contour {
+      position: absolute;
+      pointer-events: none;
+      color: var(--blue);
+      opacity: 0.09;
+      width: 140px;
+      height: 140px;
+    }
+    .stop-contour--br { bottom: -28px; right: -28px; }
+    .stop-contour--tl { top: -28px;    left: -28px; }
+
+    /* Dotted bearing line across the card */
+    .stop-bearing-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* ---- Stop Card Prose (text-only variant) ------------------- */
+    .stop-card-prose {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--tx);
+      line-height: 1.85;
+    }
+
+    .stop-card-prose p { margin: 0 0 14px; }
+    .stop-card-prose p:last-child { margin-bottom: 0; }
+
+    .stop-card-prose strong {
+      font-weight: 500;
+      color: var(--hd);
+    }
+
+    .stop-card-prose em {
+      font-style: italic;
+      color: var(--mu);
+    }
+
+    .stop-card-pull {
+      margin: 18px 0 14px;
+      padding: 14px 20px;
+      border-left: 2px solid var(--acc);
+      background: rgba(217, 119, 87, 0.05);
+      border-radius: 0 6px 6px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--hd);
+      font-weight: 400;
+      line-height: 1.75;
+    }
+
+    [data-theme="light"] .stop-card-pull {
+      background: rgba(199, 80, 48, 0.05);
+    }
+
+    /* Mono signal-tag — subtle annotation above pull quote */
+    .stop-card-signal {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-s);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .stop-card-signal::before { content: '//'; color: var(--mu); }
+
+    /* ---- Journey End Marker ----------------------------------- */
+    .journey-end {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-s);
+      padding: var(--sp-xl) 0 var(--sp-3xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .journey-end-x {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--acc);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 24px rgba(217, 119, 87, 0.25), 0 0 48px rgba(217, 119, 87, 0.10);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--acc);
+    }
+
+    .journey-end-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mu);
+    }
+
+    /* ============================================================
+       AUTHORS SECTION
+       ============================================================ */
+    .authors {
+      padding: var(--sp-3xl) 0;
+    }
+
+    .authors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-xl);
+    }
+
+    .author-card {
+      background: var(--card);
+      border: 1px solid var(--brd);
+      border-radius: 12px;
+      padding: 32px;
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--sp-m);
+      position: relative;
+    }
+
+    [data-theme="light"] .author-card {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+    }
+
+    .author-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.3), transparent);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .author-avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: var(--card-header);
+      border: 2px solid rgba(217, 119, 87, 0.25);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--acc);
+      flex-shrink: 0;
+    }
+
+    .author-avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Letter fallback — hidden when img loads successfully */
+    .author-avatar-fallback {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* When img is present and loaded, hide the fallback letter */
+    .author-avatar img + .author-avatar-fallback {
+      display: none;
+    }
+
+    /* When img fails (display:none via onerror), show letter again */
+    .author-avatar img[style*="display: none"] ~ .author-avatar-fallback,
+    .author-avatar img[style*="display:none"] ~ .author-avatar-fallback {
+      display: inline;
+    }
+
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--hd);
+    }
+
+    .author-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-top: -8px;
+    }
+
+    .author-bio {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--tx);
+      line-height: 1.75;
+    }
+
+    .author-links {
+      display: flex;
+      gap: var(--sp-s);
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: auto;
+    }
+
+    .author-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mu);
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--brd);
+      background: transparent;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .author-link:hover {
+      color: var(--acc);
+      border-color: rgba(217, 119, 87, 0.4);
+      background: rgba(217, 119, 87, 0.05);
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       CTA SECTION
+       ============================================================ */
+    .cta {
+      padding: var(--sp-2xl) 0 var(--sp-3xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-xl);
+      text-align: center;
+    }
+
+    .cta-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 600;
+      color: var(--hd);
+      max-width: 520px;
+      line-height: 1.3;
+    }
+
+    [data-theme="dark"] .cta-headline {
+      background: linear-gradient(135deg, #ffffff 40%, #d97757 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--tx);
+      max-width: 440px;
+      line-height: 1.7;
+      margin-top: calc(-1 * var(--sp-s));
+    }
+
+    /* ---- Button frame with corner tick marks ------------------- */
+    .cta-btn-frame {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      z-index: 1;
+    }
+
+    .cbf-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+    }
+    .cbf-tl { top: 0; left: 0;  border-top: 1.5px solid rgba(217,119,87,0.6); border-left: 1.5px solid rgba(217,119,87,0.6); }
+    .cbf-tr { top: 0; right: 0; border-top: 1.5px solid rgba(217,119,87,0.6); border-right: 1.5px solid rgba(217,119,87,0.6); }
+    .cbf-bl { bottom: 0; left: 0;  border-bottom: 1.5px solid rgba(217,119,87,0.6); border-left: 1.5px solid rgba(217,119,87,0.6); }
+    .cbf-br { bottom: 0; right: 0; border-bottom: 1.5px solid rgba(217,119,87,0.6); border-right: 1.5px solid rgba(217,119,87,0.6); }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 44px;
+      background: linear-gradient(135deg, #e8845a 0%, var(--acc) 45%, #b85c38 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.18s;
+      box-shadow:
+        0 4px 28px rgba(217, 119, 87, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shimmer sweep on hover */
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -110%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+      transform: skewX(-18deg);
+      transition: left 0.45s ease;
+    }
+    .cta-btn:hover::before { left: 160%; }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 12px 44px rgba(217, 119, 87, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.30),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      text-decoration: none;
+      border-bottom: none;
+    }
+
+    .cta-btn:active { transform: scale(0.98) translateY(0); }
+
+    /* Compass icon inside the button */
+    .cta-btn-compass {
+      flex-shrink: 0;
+      opacity: 0.90;
+    }
+
+    /* Arrow indicator */
+    .cta-btn-arr {
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 300;
+      letter-spacing: 0;
+      opacity: 0.85;
+    }
+
+    .cta-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mu);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- Hero stats badge row ---------------------------------- */
+    .htb-stats {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-s);
+      margin-top: var(--sp-m);
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .htb-stat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--acc);
+      background: rgba(217,119,87,0.09);
+      border: 1px solid rgba(217,119,87,0.22);
+      border-radius: 4px;
+      padding: 4px 12px;
+    }
+
+    .htb-stat-sep {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--mu);
+      opacity: 0.5;
+    }
+
+    /* ---- Mission briefing panel inside hero box ---------------- */
+    .htb-brief {
+      width: 100%;
+      max-width: 640px;
+      background: rgba(56,189,248,0.04);
+      border: 1px solid rgba(56,189,248,0.13);
+      border-radius: 10px;
+      padding: 20px 26px;
+      position: relative;
+      z-index: 1;
+      text-align: left;
+    }
+
+    [data-theme="light"] .htb-brief {
+      background: rgba(2,132,199,0.05);
+      border-color: rgba(2,132,199,0.16);
+    }
+
+    .htb-brief-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: var(--sp-s);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .htb-brief-label::before { content: '◆'; font-size: 7px; }
+
+    .htb-brief .hero-subtitle {
+      margin-bottom: 0;
+      max-width: none;
+      color: var(--hd);
+      font-size: 15px;
+      line-height: 1.75;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    [data-theme="light"] .htb-brief .hero-subtitle {
+      color: var(--hd);
+    }
+
+    /* ============================================================
+       HERO TITLE BOX
+       ============================================================ */
+    .hero-title-box {
+      background: var(--card-header);
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.028) 1px, transparent 1px);
+      background-size: 72px 72px;
+      border: 1px solid rgba(217, 119, 87, 0.28);
+      border-radius: 16px;
+      padding: 52px 60px 48px;
+      margin-bottom: var(--sp-3xl);
+      position: relative;
+      overflow: hidden;
+      max-width: 1016px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Top gradient accent line */
+    .hero-title-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--acc) 35%, var(--blue) 65%, transparent 95%);
+    }
+
+    /* Bottom mirror line */
+    .hero-title-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.18), transparent);
+    }
+
+    [data-theme="light"] .hero-title-box {
+      background-color: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 48px rgba(199, 80, 48, 0.10);
+    }
+
+    /* Corner bracket ornaments */
+    .htb-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+    }
+    .htb-corner-tl { top: 10px; left: 10px; border-top: 1.5px solid var(--acc); border-left: 1.5px solid var(--acc); opacity: 0.7; }
+    .htb-corner-tr { top: 10px; right: 10px; border-top: 1.5px solid var(--acc); border-right: 1.5px solid var(--acc); opacity: 0.7; }
+    .htb-corner-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid var(--acc); border-left: 1.5px solid var(--acc); opacity: 0.7; }
+    .htb-corner-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid var(--acc); border-right: 1.5px solid var(--acc); opacity: 0.7; }
+
+    /* Corner coordinate labels */
+    .htb-coord {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.55;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    .htb-coord-tl { top: 15px; left: 36px; }
+    .htb-coord-tr { top: 15px; right: 36px; }
+    .htb-coord-bl { bottom: 15px; left: 36px; }
+    .htb-coord-br { bottom: 15px; right: 36px; }
+
+    /* Compass rose in corner */
+    .htb-compass {
+      position: absolute;
+      top: 14px;
+      right: 44px;
+      color: var(--acc);
+      opacity: 0.20;
+      z-index: 2;
+      width: 56px;
+      height: 56px;
+      pointer-events: none;
+    }
+
+    /* Dotted map-path divider between title and subtitle */
+    .htb-divider {
+      width: 100%;
+      max-width: 720px;
+      height: 1px;
+      margin: var(--sp-s) 0 var(--sp-m);
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 5px,
+        rgba(217, 119, 87, 0.22) 5px,
+        rgba(217, 119, 87, 0.22) 11px
+      );
+    }
+
+    /* Left/right vertical accent bars inside the box */
+    .htb-side-bar {
+      position: absolute;
+      top: 20%;
+      bottom: 20%;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(217, 119, 87, 0.18), transparent);
+    }
+    .htb-side-bar-l { left: 32px; }
+    .htb-side-bar-r { right: 32px; }
+
+    /* Hero title spacing inside box */
+    .hero-title-box .hero-title { margin-bottom: 0; }
+    .hero-title-box .hero-subtitle { margin-bottom: 0; max-width: 640px; }
+    .hero-title-box .hero-accent-line { margin-bottom: 0; }
+
+    /* ============================================================
+       CTA BOX
+       ============================================================ */
+    .cta-box {
+      background: var(--card);
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      border: 1px solid var(--brd);
+      border-radius: 16px;
+      padding: 52px 60px 48px;
+      max-width: 1016px;
+      width: calc(100% - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-xl);
+      text-align: center;
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top accent — orange fading to blue, destination theme */
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--blue) 35%, var(--acc) 65%, transparent 95%);
+    }
+
+    .cta-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(217, 119, 87, 0.18), transparent);
+    }
+
+    [data-theme="light"] .cta-box {
+      background-color: rgba(255, 255, 255, 0.90);
+      box-shadow: 0 4px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    /* CTA corner brackets — blue tint (destination color) */
+    .ctb-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+    }
+    .ctb-corner-tl { top: 10px; left: 10px; border-top: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); opacity: 0.45; }
+    .ctb-corner-tr { top: 10px; right: 10px; border-top: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); opacity: 0.45; }
+    .ctb-corner-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); opacity: 0.45; }
+    .ctb-corner-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); opacity: 0.45; }
+
+    /* CTA coordinate labels */
+    .ctb-coord {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.5;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    .ctb-coord-tl { top: 15px; left: 36px; }
+    .ctb-coord-tr { top: 15px; right: 36px; }
+    .ctb-coord-bl { bottom: 15px; left: 36px; }
+    .ctb-coord-br { bottom: 15px; right: 36px; }
+
+    /* Big destination X mark behind content */
+    .cta-dest-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+      color: var(--acc);
+      opacity: 0.055;
+      z-index: 0;
+      pointer-events: none;
+    }
+    [data-theme="light"] .cta-dest-bg { opacity: 0.04; }
+
+    /* Dotted sea-path lines across the CTA background */
+    .cta-path-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* "Destination" kicker label above headline */
+    .cta-dest-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--acc);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-dest-label::before,
+    .cta-dest-label::after {
+      content: '';
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(217, 119, 87, 0.35));
+    }
+    .cta-dest-label::after {
+      background: linear-gradient(to left, transparent, rgba(217, 119, 87, 0.35));
+    }
+
+    /* Ensure all content sits above background decorations */
+    .cta-headline, .cta-sub, .cta-btn, .cta-meta { position: relative; z-index: 1; }
+
+    /* ============================================================
+       SHARED UTILITIES
+       ============================================================ */
+    .accent-divider {
+      width: 56px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--acc), var(--blue));
+      border-radius: 2px;
+      margin: 0 auto var(--sp-xl);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .journey-stop {
+        grid-template-columns: 1fr;
+        margin-bottom: var(--sp-2xl);
+      }
+
+      .journey-stop .stop-node,
+      .journey-stop .stop-empty {
+        display: none;
+      }
+
+      .journey-spine::before {
+        display: none;
+      }
+
+      .stop-chapter-label {
+        top: -18px;
+        left: var(--sp-m) !important;
+        right: auto !important;
+      }
+
+      .authors-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title-box {
+        padding: 44px 32px 40px;
+      }
+
+      .htb-coord-tr,
+      .htb-compass { display: none; }
+
+      .cta-box {
+        padding: 44px 28px 40px;
+        width: calc(100% - 32px);
+      }
+
+      .ctb-coord-tr,
+      .ctb-coord-br { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .stop-card {
+        padding: 22px 20px;
+      }
+
+      .author-card {
+        padding: 24px 20px;
+      }
+
+      .cta-btn {
+        padding: 14px 36px;
+        font-size: 16px;
+      }
+
+      .hero-title-box {
+        padding: 36px 24px 32px;
+      }
+
+      .htb-coord-tl,
+      .htb-coord-br { display: none; }
+
+      .cta-box {
+        padding: 36px 20px 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       MAP BACKGROUND — Cyberpunk Pirate Chart
+       ================================================================ -->
+  <div class="map-bg" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <!-- Sea dot grid texture -->
+        <pattern id="sea-dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="16" cy="16" r="0.7" fill="rgba(56,189,248,0.06)"/>
+        </pattern>
+        <!-- Subtle grid lines -->
+        <pattern id="sea-grid" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+          <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(56,189,248,0.03)" stroke-width="1"/>
+        </pattern>
+        <!-- Atmosphere gradients -->
+        <radialGradient id="atm-warm" cx="280" cy="200" r="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(217,119,87,0.07)"/>
+          <stop offset="100%" stop-color="rgba(217,119,87,0)"/>
+        </radialGradient>
+        <radialGradient id="atm-cool" cx="1160" cy="700" r="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(56,189,248,0.06)"/>
+          <stop offset="100%" stop-color="rgba(56,189,248,0)"/>
+        </radialGradient>
+        <radialGradient id="atm-mid" cx="720" cy="450" r="400" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(217,119,87,0.03)"/>
+          <stop offset="100%" stop-color="rgba(217,119,87,0)"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Sea texture base -->
+      <rect width="1440" height="900" fill="url(#sea-dots)"/>
+      <rect width="1440" height="900" fill="url(#sea-grid)"/>
+
+      <!-- Atmosphere layers -->
+      <rect width="1440" height="900" fill="url(#atm-warm)"/>
+      <rect width="1440" height="900" fill="url(#atm-cool)"/>
+      <rect width="1440" height="900" fill="url(#atm-mid)"/>
+
+      <!-- === ISLANDS === -->
+
+      <!-- Island 1 — large, top-left (main island) -->
+      <g opacity="0.9">
+        <path d="M -40 60 C 40 10, 200 -10, 300 50 C 400 110, 440 200, 380 270 C 320 340, 160 360, 70 300 C -20 240, -100 160, -40 60 Z"
+              fill="rgba(217,119,87,0.06)" stroke="rgba(217,119,87,0.14)" stroke-width="1.5"/>
+        <!-- Island detail: inner lighter area -->
+        <path d="M 60 100 C 120 60, 240 55, 290 110 C 340 165, 310 230, 230 250 C 150 270, 70 240, 50 180 Z"
+              fill="rgba(217,119,87,0.04)"/>
+        <!-- Mountain peaks on island 1 -->
+        <path d="M 110 220 L 145 170 L 180 220" fill="none" stroke="rgba(217,119,87,0.18)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M 185 230 L 225 178 L 265 230" fill="none" stroke="rgba(217,119,87,0.14)" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Forest dots -->
+        <circle cx="100" cy="240" r="2.5" fill="rgba(52,211,153,0.15)"/>
+        <circle cx="115" cy="248" r="2" fill="rgba(52,211,153,0.12)"/>
+        <circle cx="130" cy="242" r="2.5" fill="rgba(52,211,153,0.15)"/>
+        <circle cx="145" cy="250" r="2" fill="rgba(52,211,153,0.12)"/>
+        <circle cx="160" cy="244" r="2.5" fill="rgba(52,211,153,0.15)"/>
+      </g>
+
+      <!-- Island 2 — mid-right -->
+      <g opacity="0.85">
+        <path d="M 1160 260 C 1240 220, 1420 240, 1460 340 C 1500 440, 1420 530, 1320 548 C 1220 566, 1130 510, 1100 430 C 1070 350, 1080 300, 1160 260 Z"
+              fill="rgba(56,189,248,0.05)" stroke="rgba(56,189,248,0.12)" stroke-width="1.5"/>
+        <path d="M 1200 310 C 1260 285, 1360 295, 1390 360 C 1420 425, 1360 475, 1285 478 C 1210 481, 1165 440, 1160 385 Z"
+              fill="rgba(56,189,248,0.03)"/>
+        <!-- Mountain on island 2 -->
+        <path d="M 1250 420 L 1290 365 L 1330 420" fill="none" stroke="rgba(56,189,248,0.16)" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Forest dots -->
+        <circle cx="1200" cy="460" r="2.5" fill="rgba(52,211,153,0.12)"/>
+        <circle cx="1215" cy="468" r="2"   fill="rgba(52,211,153,0.10)"/>
+        <circle cx="1230" cy="462" r="2.5" fill="rgba(52,211,153,0.12)"/>
+      </g>
+
+      <!-- Island 3 — bottom-left, small -->
+      <g opacity="0.8">
+        <path d="M -10 720 C 60 680, 200 695, 240 760 C 280 825, 210 878, 130 880 C 50 882, -30 845, -20 785 Z"
+              fill="rgba(217,119,87,0.05)" stroke="rgba(217,119,87,0.11)" stroke-width="1"/>
+        <path d="M 40 770 L 70 738 L 100 770" fill="none" stroke="rgba(217,119,87,0.14)" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Island 4 — bottom-right corner -->
+      <g opacity="0.75">
+        <path d="M 1300 840 C 1350 800, 1460 810, 1480 870 L 1480 900 L 1270 900 Z"
+              fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.09)" stroke-width="1"/>
+      </g>
+
+      <!-- === MAP GRID (lat/lon lines) === -->
+      <line x1="0" y1="300" x2="1440" y2="300" stroke="rgba(56,189,248,0.04)" stroke-width="1" stroke-dasharray="10 14"/>
+      <line x1="0" y1="600" x2="1440" y2="600" stroke="rgba(56,189,248,0.04)" stroke-width="1" stroke-dasharray="10 14"/>
+      <line x1="360"  y1="0" x2="360"  y2="900" stroke="rgba(56,189,248,0.03)" stroke-width="1" stroke-dasharray="10 14"/>
+      <line x1="720"  y1="0" x2="720"  y2="900" stroke="rgba(56,189,248,0.03)" stroke-width="1" stroke-dasharray="10 14"/>
+      <line x1="1080" y1="0" x2="1080" y2="900" stroke="rgba(56,189,248,0.03)" stroke-width="1" stroke-dasharray="10 14"/>
+
+      <!-- Map border frame (old chart style) -->
+      <rect x="12" y="12" width="1416" height="876" fill="none" stroke="rgba(217,119,87,0.07)" stroke-width="1"/>
+      <rect x="20" y="20" width="1400" height="860" fill="none" stroke="rgba(217,119,87,0.04)" stroke-width="1"/>
+
+      <!-- === COMPASS ROSE — top right === -->
+      <g transform="translate(1330, 130)" opacity="0.18">
+        <circle cx="0" cy="0" r="54" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1"/>
+        <circle cx="0" cy="0" r="38" fill="none" stroke="rgba(217,119,87,1)" stroke-width="0.5"/>
+        <circle cx="0" cy="0" r="6" fill="rgba(217,119,87,0.3)"/>
+        <!-- N arrow (filled) -->
+        <path d="M 0 -54 L 7 -34 L 0 -20 L -7 -34 Z" fill="rgba(217,119,87,1)"/>
+        <!-- S arrow (outline) -->
+        <path d="M 0 54 L 7 34 L 0 20 L -7 34 Z" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1"/>
+        <!-- E arrow -->
+        <path d="M 54 0 L 34 -7 L 20 0 L 34 7 Z" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1"/>
+        <!-- W arrow -->
+        <path d="M -54 0 L -34 -7 L -20 0 L -34 7 Z" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1"/>
+        <!-- Tick marks -->
+        <line x1="0"   y1="-54" x2="0"   y2="-46" stroke="rgba(217,119,87,0.9)" stroke-width="1"/>
+        <line x1="0"   y1="54"  x2="0"   y2="46"  stroke="rgba(217,119,87,0.9)" stroke-width="1"/>
+        <line x1="-54" y1="0"   x2="-46" y2="0"   stroke="rgba(217,119,87,0.9)" stroke-width="1"/>
+        <line x1="54"  y1="0"   x2="46"  y2="0"   stroke="rgba(217,119,87,0.9)" stroke-width="1"/>
+        <!-- N label -->
+        <text x="-4.5" y="-62" fill="rgba(217,119,87,1)" font-size="13" font-family="serif" font-weight="bold">N</text>
+      </g>
+
+      <!-- === X MARKS THE SPOT === -->
+
+      <!-- X mark 1 — upper middle area -->
+      <g transform="translate(860, 155)" opacity="0.22">
+        <circle cx="0" cy="0" r="20" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="-12" y1="-12" x2="12" y2="12" stroke="rgba(217,119,87,1)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="12" y1="-12" x2="-12" y2="12" stroke="rgba(217,119,87,1)" stroke-width="2" stroke-linecap="round"/>
+      </g>
+
+      <!-- X mark 2 — left mid -->
+      <g transform="translate(310, 590)" opacity="0.18">
+        <circle cx="0" cy="0" r="16" fill="none" stroke="rgba(56,189,248,1)" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="-10" y1="-10" x2="10" y2="10" stroke="rgba(56,189,248,1)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="10" y1="-10" x2="-10" y2="10" stroke="rgba(56,189,248,1)" stroke-width="2" stroke-linecap="round"/>
+      </g>
+
+      <!-- X mark 3 — MAIN destination, lower center -->
+      <g transform="translate(720, 840)" opacity="0.28">
+        <circle cx="0" cy="0" r="28" fill="none" stroke="rgba(217,119,87,1)" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <circle cx="0" cy="0" r="18" fill="none" stroke="rgba(217,119,87,1)" stroke-width="0.5"/>
+        <line x1="-18" y1="-18" x2="18" y2="18" stroke="rgba(217,119,87,1)" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="18" y1="-18" x2="-18" y2="18" stroke="rgba(217,119,87,1)" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="-32" y="46" fill="rgba(217,119,87,0.9)" font-size="9" font-family="serif" letter-spacing="3" text-anchor="middle">DESTINATION</text>
+      </g>
+
+      <!-- === DOTTED SEA PATHS (decorative) === -->
+      <path d="M 120 280 Q 400 240 700 320 Q 1000 400 1300 350"
+            fill="none" stroke="rgba(56,189,248,0.07)" stroke-width="1.5" stroke-dasharray="6 10"/>
+      <path d="M 0 500 Q 300 460 600 500 Q 900 540 1200 480"
+            fill="none" stroke="rgba(217,119,87,0.07)" stroke-width="1.5" stroke-dasharray="6 10"/>
+
+      <!-- === MAP TITLE BANNER === -->
+      <g transform="translate(100, 820)" opacity="0.12">
+        <rect x="-8" y="-16" width="260" height="28" rx="3"
+              fill="none" stroke="rgba(217,119,87,1)" stroke-width="1"/>
+        <text x="0" y="0" fill="rgba(217,119,87,1)" font-size="11" font-family="serif"
+              letter-spacing="4" text-anchor="start">CLAUDE CODE ODYSSEY</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ================================================================
+       PAGE CONTENT
+       ================================================================ -->
+  <div class="page-wrap">
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark">◑</button>
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero-title-box">
+        <!-- Corner bracket ornaments -->
+        <div class="htb-corner htb-corner-tl"></div>
+        <div class="htb-corner htb-corner-tr"></div>
+        <div class="htb-corner htb-corner-bl"></div>
+        <div class="htb-corner htb-corner-br"></div>
+        <!-- Corner coordinate labels -->
+        <span class="htb-coord htb-coord-tl">25°12'45"N · 55°16'47"E</span>
+        <span class="htb-coord htb-coord-br">REF · CC-ODYSSEY-001</span>
+        <!-- Vertical side accent bars -->
+        <div class="htb-side-bar htb-side-bar-l"></div>
+        <div class="htb-side-bar htb-side-bar-r"></div>
+        <!-- Compass rose top-right -->
+        <div class="htb-compass" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="56" height="56">
+            <circle cx="30" cy="30" r="27" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="30" cy="30" r="19" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+            <circle cx="30" cy="30" r="4" fill="currentColor" opacity="0.35"/>
+            <path d="M30 3 L33.5 21 L30 18 L26.5 21 Z" fill="currentColor"/>
+            <path d="M30 57 L33.5 39 L30 42 L26.5 39 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+            <path d="M3 30 L21 26.5 L18 30 L21 33.5 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+            <path d="M57 30 L39 26.5 L42 30 L39 33.5 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+            <text x="30" y="10" text-anchor="middle" font-size="8" font-family="serif" font-weight="bold" fill="currentColor">N</text>
+          </svg>
+        </div>
+        <!-- Content -->
+
+        <div class="htb-divider"></div>
+        <h1 class="hero-title">Claude Code<br>Odyssey</h1>
+        <!-- Stats badges -->
+        <div class="htb-divider" style="margin-bottom:var(--sp-m);margin-top:var(--sp-m);"></div>
+        <div class="htb-stats" style="margin-bottom:var(--sp-s);margin-top:0;">
+          <span class="htb-stat">3 Chapters</span>
+          <span class="htb-stat-sep">·</span>
+          <span class="htb-stat">10+ Topics</span>
+          <span class="htb-stat-sep">·</span>
+          <span class="htb-stat">In the Making</span>
+        </div>
+        <div class="htb-divider"></div>
+        <!-- Mission briefing panel -->
+          <p class="hero-subtitle">
+            A dense, high-signal technical manual crafted for users of all backgrounds and experience levels, guiding you
+            on the full journey to expert mastery of Claude Code.
+          </p>
+        <div class="htb-divider"></div>
+
+      </div>
+      <div class="hero-scroll-hint">
+        <span>Begin the voyage</span>
+        <div class="hero-scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         JOURNEY — Alternating content boxes with dotted trail
+         ============================================================ -->
+    <section class="journey">
+      <div class="container">
+        <p class="section-eyebrow">THE NEW FRONTIER</p>
+
+        <div class="journey-spine">
+
+          <!-- ── STOP 1 — LEFT ───────────────────────────────── -->
+          <div class="journey-stop stop-left">
+            <div class="stop-card">
+              <span class="stop-chapter-label">Reflection</span>
+              <div class="stop-card-tag">Turbulent Beginnings</div>
+              <h2 class="stop-card-title">The Opening of the AI Era</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                        We are no longer waiting for the age of AI to begin. We are living through its opening chapter now.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      A glance back at just the past few years shows how turbulent and consequential that opening has already
+                        been. LLMs emerged and almost immediately began revealing a new scale of possibility —
+                        a vast, still-unfolding frontier of capability reshaping how we work, create, and navigate
+                        everyday life.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      The pace of change has been extraordinary. But recent months have made one thing clear: the next
+                        phase of the AI era will not be determined by the model alone. It will be determined by the Harness
+                        — the system of tools, workflows, and human judgment that shapes how intelligence is actually applied.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-empty"></div>
+          </div>
+          <!-- ────────────────────────────────────────────────── -->
+
+
+          <!-- ── STOP 4 — RIGHT ───────────────────────────────── -->
+          <div class="journey-stop stop-right">
+            <div class="stop-empty"></div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-card">
+              <span class="stop-chapter-label">PRESENT</span>
+              <div class="stop-card-tag">The now</div>
+              <h2 class="stop-card-title">Force Multipliers are Already Here</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      The AI future is assembling itself in real time. Agents are starting to support tasks that, until
+                        recently, felt deeply human — from research and planning to communication and decision-making.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                        The landscape is evolving along two important tracks. General-purpose agents are becoming useful
+                        force multipliers across organizations, helping people move faster across a wide range of tasks.
+                        Coding agents, meanwhile, are having a particularly strong impact by automating large parts of the
+                        development workflow and enabling individual engineers to work with far greater speed and leverage.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      Of all the domains AI has touched, none has been transformed more than the one
+                        where it first took hold: software development. Coding agents are the most mature,
+                        most capable, and most deployed of any AI tools in the wild.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="stop-card-pull">
+                Disruption and opportunity are the same thing, seen from different angles.
+              </div>
+            </div>
+          </div>
+
+          <!-- ── STOP 5 — LEFT ───────────────────────────────── -->
+          <div class="journey-stop stop-left">
+            <div class="stop-card">
+              <span class="stop-chapter-label">VANGUARD</span>
+              <div class="stop-card-tag">CLAUDE CODE AT THE FRONTIER</div>
+              <h2 class="stop-card-title">From Suggestion to Execution</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      At the current vanguard of coding agents stands Claude Code. Unlike
+                      traditional code completion tools that suggest the next line as you type, Claude Code
+                      operates at the project level — reading the full codebase, planning across multiple files,
+                      executing changes, running tests, and iterating until things work.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      What started as a developer productivity tool has grown into something broader. At Anthropic,
+                      it now powers deep research, video creation, and almost all major agent loops — the coding agent
+                      quietly became a general-purpose one.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="stop-card-pull">
+                Getting started is straightforward. Extracting the full potential is not.
+              </div>
+            </div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-empty"></div>
+          </div>
+          <!-- ────────────────────────────────────────────────── -->
+
+          <!-- ── STOP 6 — RIGHT ───────────────────────────────── -->
+          <div class="journey-stop stop-right">
+            <div class="stop-empty"></div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-card">
+              <span class="stop-chapter-label">OPPORTUNITY</span>
+              <div class="stop-card-tag">THE ADOPTION GAP</div>
+              <h2 class="stop-card-title">Compounding Advantage Starts Now</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      Today, fewer than a third of developers use coding agents as a regular part of their workflow.
+                      Those extracting anywhere near their full potential are a fraction of that.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      The ones who do are pulling ahead — in their careers, their companies, their side projects.
+                      They're shipping faster, operating at a scale that wasn't possible before, and compounding
+                      that advantage with every week that passes. For companies, the delta between an AI-augmented
+                      team and a traditional one is already becoming hard to ignore.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="stop-card-pull">
+                The gap is real, it is growing, and it does not close on its own. The best time to start is now.
+              </div>
+            </div>
+          </div>
+
+          <!-- ── STOP 7 — LEFT ───────────────────────────────── -->
+          <div class="journey-stop stop-left">
+            <div class="stop-card">
+              <span class="stop-chapter-label">OUTSET</span>
+              <div class="stop-card-tag">CLAUDE CODE ODYSSEY</div>
+              <h2 class="stop-card-title">Deep Dive Into How & Why Handbook</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      This guide is written for anyone looking to close that gap — whether you're just getting
+                      started with Claude Code or looking to push your existing use further.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      It covers the full journey: from initial setup and model selection to unlocking the features
+                      most people never reach. But it is not a step-by-step manual. Rather than telling you what to do,
+                      it aims to explain how and why things work — the principles behind Claude Code's behavior, not
+                      just the surface mechanics.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      Because a guide that only tells you what to click leaves you helpless the moment something
+                      doesn't go as expected. Understanding the principles means you can adapt, improvise, and keep
+                      pushing — long after you've closed this page.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-empty"></div>
+          </div>
+          <!-- ────────────────────────────────────────────────── -->
+
+          <!-- ── STOP 8 — RIGHT ───────────────────────────────── -->
+          <div class="journey-stop stop-right">
+            <div class="stop-empty"></div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-card">
+              <span class="stop-chapter-label">PAYLOAD</span>
+              <div class="stop-card-tag">STRUCTURED JOURNEY</div>
+              <h2 class="stop-card-title">Setup • Stack • Orchestration</h2>
+              <div class="stop-card-pull">
+                This guide covers the full Claude Code lifecycle, structured as a progression from first principles
+                to advanced mastery.
+              </div>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                        The guide begins with the fundamentals of coding agents — what they are, how they work, and why
+                        the right mental model matters before you run a single command. It then moves into setup:
+                        choosing the right subscription, configuring your environment, and pairing Claude Code with the
+                        tools that strengthen it most, from IDEs to LM Studio, Obsidian, and more.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      The core of the guide walks through the full Claude Code stack. Basic usage and project configuration.
+                      Memory files and how to structure context that persists. Building and managing skills. Running
+                      extended sessions without losing coherence. And at the deeper end — agent orchestration,
+                      multi-agent setups, and the architectural decisions that separate a power user from everyone else.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                       Throughout the guide, you will find the kinds of optimizations that rarely make it into official
+                        documentation — patterns, habits, and practical lessons that add up over time. Finally, tt ends with
+                        hands-on examples that bring everything together, showing not just what each feature does,
+                        but how they work together in practice.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── STOP 9 — LEFT ───────────────────────────────── -->
+          <div class="journey-stop stop-left">
+            <div class="stop-card">
+              <span class="stop-chapter-label">DESTINATION</span>
+              <div class="stop-card-tag">PREPARED FOR WHAT’S NEXT</div>
+              <h2 class="stop-card-title">Deep Principles That Don’t Expire</h2>
+              <ul class="stop-bullets">
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                        Whatever your background — developer, founder, designer, or someone who has never written a
+                        line of code — coding agents are no longer a niche tool. They are becoming a core part of modern
+                        knowledge work, much like search engines or spreadsheets before them. The window to get ahead of
+                        the curve is still open, but not for long.
+                    </div>
+                  </div>
+                </li>
+                <li class="stop-bullet">
+                  <div class="bullet-pip">—</div>
+                  <div class="bullet-text">
+                    <div class="bullet-desc">
+                      This guide is built around Claude Code, but the principles run deeper than any single tool.
+                      The way agents think, how context shapes their behavior, why memory and structure matter — these
+                      translate. By the time you finish, you will have a working mental model for coding agents broadly,
+                      not just a set of instructions for one product.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="stop-card-pull">
+                  What comes next will not wait — but you will be ready.
+              </div>
+            </div>
+            <div class="stop-node"><div class="stop-node-dot"></div></div>
+            <div class="stop-empty"></div>
+          </div>
+          <!-- ────────────────────────────────────────────────── -->
+
+          <!-- End of Journey Marker -->
+          <div class="journey-end">
+            <div class="journey-end-x">✕</div>
+            <!--<div class="journey-end-label">Start the Journey</div>-->
+          </div>
+
+        </div><!-- .journey-spine -->
+      </div><!-- .container -->
+    </section>
+
+    <!-- ============================================================
+         CTA — Start Guide (above authors)
+         ============================================================ -->
+    <section class="cta">
+      <div class="cta-box">
+        <!-- Corner bracket ornaments -->
+        <div class="ctb-corner ctb-corner-tl"></div>
+        <div class="ctb-corner ctb-corner-tr"></div>
+        <div class="ctb-corner ctb-corner-bl"></div>
+        <div class="ctb-corner ctb-corner-br"></div>
+        <!-- Corner coordinate labels -->
+        <span class="ctb-coord ctb-coord-tl">FINAL DESTINATION</span>
+        <span class="ctb-coord ctb-coord-br">CHART END · CC-ODYSSEY</span>
+        <!-- Big destination X mark in background -->
+        <div class="cta-dest-bg" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="260" height="260">
+            <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="8 6"/>
+            <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="100" cy="100" r="8" fill="currentColor" opacity="0.4"/>
+            <line x1="22" y1="22" x2="178" y2="178" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            <line x1="178" y1="22" x2="22" y2="178" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            <text x="100" y="194" text-anchor="middle" font-size="10" font-family="serif" letter-spacing="5" fill="currentColor">DESTINATION</text>
+          </svg>
+        </div>
+        <!-- Dotted sea-path lines decoration -->
+        <svg class="cta-path-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 0 55 Q 180 25 380 75 Q 580 125 800 58 Q 900 35 1000 55"
+                fill="none" stroke="rgba(217,119,87,0.14)" stroke-width="1.5" stroke-dasharray="6 10"/>
+          <path d="M 0 185 Q 220 210 480 168 Q 720 128 1000 185"
+                fill="none" stroke="rgba(56,189,248,0.12)" stroke-width="1.5" stroke-dasharray="6 10"/>
+        </svg>
+        <!-- Content -->
+        <div class="cta-dest-label">✕ Begin the Journey ✕</div>
+        <h2 class="cta-headline">Your voyage awaits.</h2>
+        <p class="cta-sub">
+          Start from the beginning or jump straight to any chapter — the map is yours to navigate.
+        </p>
+        <div class="cta-btn-frame">
+          <div class="cbf-corner cbf-tl"></div>
+          <div class="cbf-corner cbf-tr"></div>
+          <div class="cbf-corner cbf-bl"></div>
+          <div class="cbf-corner cbf-br"></div>
+          <a href="shell.html" class="cta-btn">
+            <svg class="cta-btn-compass" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1"/>
+              <path d="M9 2 L10.5 8 L9 6.5 L7.5 8 Z" fill="currentColor"/>
+              <path d="M9 16 L10.5 10 L9 11.5 L7.5 10 Z" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="0.7" opacity="0.5"/>
+              <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
+            </svg>
+            Start Guide
+            <span class="cta-btn-arr">→</span>
+          </a>
+        </div>
+        <p class="cta-meta">No login required &nbsp;·&nbsp; Static site &nbsp;·&nbsp; Open source</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         AUTHORS
+         ============================================================ -->
+    <section class="authors">
+      <div class="container">
+        <div class="accent-divider"></div>
+        <p class="section-eyebrow">The Authors</p>
+        <div class="authors-grid">
+
+          <!-- Author 1 -->
+          <div class="author-card">
+            <div class="author-avatar">
+              <img src="images/additional/author_1.webp" alt="Author One" onerror="this.style.display='none'">
+              <span class="author-avatar-fallback">A</span>
+            </div>
+            <div class="author-name">Anes Valentic</div>
+            <div class="author-role">AI Developer</div>
+            <div class="author-bio">
+              There's a quote I once heard: <i>"Cigarettes, coffee, and mathematics at all hours of the day."</i> Supposedly
+              a paraphrase of something Jim Simons once said, or aspired to as a young mathematician. It was his vision of the good life.
+            </div>
+            <div class="author-bio">
+              I had the fortune to live that life at what I still believe was one of the most magical moments in technological
+              history: the narrow window when the entire world's knowledge was suddenly online, but
+              AI wasn't babysitting us through it.
+            </div>
+            <div class="author-bio">
+              I learned Analysis from Rudin's books, studied Algebra all the way into abstraction,
+              and met Probability through measures.
+              I wrote my first program in QBasic and my first Python program using penup and pendown commands. I was around
+              to play with AlexNet and Word2Vec when they first started circling through developer communities — back when
+              the whole field was still called Deep Learning. The best part: I’m exactly the right age to be in the thick
+              of AI’s true takeoff.
+            </div>
+            <div class="author-bio">
+              Along the way I've cycled through degrees, startups, side projects, and a rotating cast of cities. Some
+              worked out, some didn't. Today, I still smoke cigarettes, I drink more coffee than I should, and
+              I'm enjoying all the toys that mathematics has brought us — the things we now call LLMs, Agents,
+              or just AI. And given how fast the space is moving, "at all hours of the day" has never felt more fitting.
+            </div>
+            <div class="author-links">
+              <a href="https://x.com/Matrix_Memories" class="author-link" title="X">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M13.3174 10.7749L19.1457 4H17.7646L12.7039 9.88578L8.66193 4H3.99999L10.1332 12.7901L4.00001 20H5.38119L10.7254 13.6783L15 20H19.638L13.3174 10.7749ZM11.4863 12.7901L10.8398 11.8661L5.86543 5.16932H8.0892L12.0664 10.5151L12.713 11.4391L17.7646 19.0021H15.5408L11.4863 12.7901Z"/>
+                </svg>
+
+              </a>
+
+              <!-- LinkedIn (keep your existing href) -->
+              <a href="https://www.linkedin.com/in/anes-valentic-b848b5115/" class="author-link" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 1-1.68-1.68c0-.93.75-1.69 1.68-1.69 0 .93.75 1.69 1.68 1.69 0 .93-.75 1.68-1.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                </svg>
+                LinkedIn
+              </a>
+
+              <!-- GitHub -->
+              <a href="https://github.com/MatrixMemories" class="author-link" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577 0-.285-.01-1.044-.015-2.051-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.652 1.652.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.897-.015 3.293 0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+
+              <!-- Hugging Face — official detailed logo (using your provided SVG) -->
+              <a href="https://huggingface.co/MatrixMemories" class="author-link" title="Hugging Face">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" fill-rule="evenodd">
+                  <title>HuggingFace</title>
+                  <path d="M16.781 3.277c2.997 1.704 4.844 4.851 4.844 8.258 0 .995-.155 1.955-.443 2.857a1.332 1.332 0 011.125.4 1.41 1.41 0 01.2 1.723c.204.165.352.385.428.632l.017.062c.06.222.12.69-.2 1.166.244.37.279.836.093 1.236-.255.57-.893 1.018-2.128 1.5l-.202.078-.131.048c-.478.173-.89.295-1.061.345l-.086.024c-.89.243-1.808.375-2.732.394-1.32 0-2.3-.36-2.923-1.067a9.852 9.852 0 01-3.18.018C9.778 21.647 8.802 22 7.494 22a11.249 11.249 0 01-2.541-.343l-.221-.06-.273-.08a16.574 16.574 0 01-1.175-.405c-1.237-.483-1.875-.93-2.13-1.501-.186-.4-.151-.867.093-1.236a1.42 1.42 0 01-.2-1.166c.069-.273.226-.516.447-.694a1.41 1.41 0 01.2-1.722c.233-.248.557-.391.917-.407l.078-.001a9.385 9.385 0 01-.44-2.85c0-3.407 1.847-6.554 4.844-8.258a9.822 9.822 0 019.687 0zM4.188 14.758c.125.687 2.357 2.35 2.14 2.707-.19.315-.796-.239-.948-.386l-.041-.04-.168-.147c-.561-.479-2.304-1.9-2.74-1.432-.43.46.119.859 1.055 1.42l.784.467.136.083c1.045.643 1.12.84.95 1.113-.188.295-3.07-2.1-3.34-1.083-.27 1.011 2.942 1.304 2.744 2.006-.2.7-2.265-1.324-2.685-.537-.425.79 2.913 1.718 2.94 1.725l.16.04.175.042c1.227.284 3.565.65 4.435-.604.673-.973.64-1.709-.248-2.61l-.057-.057c-.945-.928-1.495-2.288-1.495-2.288l-.017-.058-.025-.072c-.082-.22-.284-.639-.63-.584-.46.073-.798 1.21.12 1.933l.05.038c.977.721-.195 1.21-.573.534l-.058-.104-.143-.25c-.463-.799-1.282-2.111-1.739-2.397-.532-.332-.907-.148-.782.541zm14.842-.541c-.533.335-1.563 2.074-1.94 2.751a.613.613 0 01-.687.302.436.436 0 01-.176-.098.303.303 0 01-.049-.06l-.014-.028-.008-.02-.007-.019-.003-.013-.003-.017a.289.289 0 01-.004-.048c0-.12.071-.266.25-.427.026-.024.054-.047.084-.07l.047-.036c.022-.016.043-.032.063-.049.883-.71.573-1.81.131-1.917l-.031-.006-.056-.004a.368.368 0 00-.062.006l-.028.005-.042.014-.039.017-.028.015-.028.019-.036.027-.023.02c-.173.158-.273.428-.31.542l-.016.054s-.53 1.309-1.439 2.234l-.054.054c-.365.358-.596.69-.702 1.018-.143.437-.066.868.21 1.353.055.097.117.195.187.296.882 1.275 3.282.876 4.494.59l.286-.07.25-.074c.276-.084.736-.233 1.2-.42l.188-.077.065-.028.064-.028.124-.056.081-.038c.529-.252.964-.543.994-.827l.001-.036a.299.299 0 00-.037-.139c-.094-.176-.271-.212-.491-.168l-.045.01c-.044.01-.09.024-.136.04l-.097.035-.054.022c-.559.23-1.238.705-1.607.745h.006a.452.452 0 01-.05.003h-.024l-.024-.003-.023-.005c-.068-.016-.116-.06-.14-.142a.22.22 0 01-.005-.1c.062-.345.958-.595 1.713-.91l.066-.028c.528-.224.97-.483.985-.832v-.04a.47.47 0 00-.016-.098c-.048-.18-.175-.251-.36-.251-.785 0-2.55 1.36-2.92 1.36-.025 0-.048-.007-.058-.024a.6.6 0 01-.046-.088c-.1-.238.068-.462 1.06-1.066l.209-.126c.538-.32 1.01-.588 1.341-.831.29-.212.475-.406.503-.6l.003-.028c.008-.113-.038-.227-.147-.344a.266.266 0 00-.07-.054l-.034-.015-.013-.005a.403.403 0 00-.13-.02c-.162 0-.369.07-.595.18-.637.313-1.431.952-1.826 1.285l-.249.215-.033.033c-.08.078-.288.27-.493.386l-.071.037-.041.019a.535.535 0 01-.122.036h.005a.346.346 0 01-.031.003l.01-.001-.013.001c-.079.005-.145-.021-.19-.095a.113.113 0 01-.014-.065c.027-.465 2.034-1.991 2.152-2.642l.009-.048c.1-.65-.271-.817-.791-.493zM11.938 2.984c-4.798 0-8.688 3.829-8.688 8.55 0 .692.083 1.364.24 2.008l.008-.009c.252-.298.612-.46 1.017-.46.355.008.699.117.993.312.22.14.465.384.715.694.261-.372.69-.598 1.15-.605.852 0 1.367.728 1.562 1.383l.047.105.06.127c.192.396.595 1.139 1.143 1.68 1.06 1.04 1.324 2.115.8 3.266a8.865 8.865 0 002.024-.014c-.505-1.12-.26-2.17.74-3.186l.066-.066c.695-.684 1.157-1.69 1.252-1.912.195-.655.708-1.383 1.56-1.383.46.007.889.233 1.15.605.25-.31.495-.553.718-.694a1.87 1.87 0 01.99-.312c.357 0 .682.126.925.36.14-.61.215-1.245.215-1.898 0-4.722-3.89-8.55-8.687-8.55zm1.857 8.926l.439-.212c.553-.264.89-.383.89.152 0 1.093-.771 3.208-3.155 3.262h-.184c-2.325-.052-3.116-2.06-3.156-3.175l-.001-.087c0-1.107 1.452.586 3.25.586.716 0 1.379-.272 1.917-.526zm4.017-3.143c.45 0 .813.358.813.8 0 .441-.364.8-.813.8a.806.806 0 01-.812-.8c0-.442.364-.8.812-.8zm-11.624 0c.448 0 .812.358.812.8 0 .441-.364.8-.812.8a.806.806 0 01-.813-.8c0-.442.364-.8.813-.8zm7.79-.841c.32-.384.846-.54 1.33-.394.483.146.83.564.878 1.06.048.495-.212.97-.659 1.203-.322.168-.447-.477-.767-.585l.002-.003c-.287-.098-.772.362-.925.079a1.215 1.215 0 01.14-1.36zm-4.323 0c.322.384.377.92.14 1.36-.152.283-.64-.177-.925-.079l.003.003c-.108.036-.194.134-.273.24l-.118.165c-.11.15-.22.262-.377.18a1.226 1.226 0 01-.658-1.204c.048-.495.395-.913.878-1.059a1.262 1.262 0 011.33.394z"/>
+                </svg>
+                HF
+              </a>
+            </div>
+            <!--
+            <div class="author-links">
+              <a href="#" class="author-link">𝕏 X</a>
+              <a href="https://www.linkedin.com/in/anes-valentic-b848b5115/" class="author-link">in LinkedIn</a>
+              <a href="#" class="author-link">⌥ GitHub</a>
+              <a href="#" class="author-link">🤗 HF</a>
+            </div>
+            -->
+          </div>
+
+          <!-- Author 2 -->
+          <div class="author-card">
+            <div class="author-avatar">
+              <img src="images/additional/author_2.jpg" alt="Author Two" onerror="this.style.display='none'">
+              <span class="author-avatar-fallback">B</span>
+            </div>
+            <div class="author-name">Dr. Maria Tepegjozova</div>
+            <div class="author-role">AI Developer</div>
+            <div class="author-bio">
+              My name is Maria, and I have a PhD in AI, specializing in mathematical machine learning. I’m driven by
+              an incurable curiosity for almost everything math touches, which turns out to be nearly everything.
+              I’ve always been drawn to the space between theory and practice: where complex ideas leave the page
+              and start becoming useful in the real world.
+            </div>
+            <div class="author-bio">
+              After beginning my career in academia, I moved into industry and discovered how much I enjoy bridging
+              both worlds — combining analytical depth with practical problem-solving, and building systems that
+              turn complexity into something people can actually use. I’m especially drawn to work that sits at
+              the intersection of technical systems, human behavior, and decision-making.
+            </div>
+            <div class="author-bio">
+              Today, I work in healthcare, where data is never just data. It reflects real lives, real choices,
+              and real outcomes, and that human dimension is a big part of why the work feels so meaningful to me.
+            </div>
+            <div class="author-bio">
+              I’m also a proud woman in AI, building in a field that is changing fast and, I hope, becoming more open,
+              visible, and inspiring for more women along the way. Outside of work, you’ll usually find me reading
+              about business, management, or psychology, doing pilates, mentoring, or going for long walks — often
+              where some of my best ideas happen.
+            </div>
+            <div class="author-links">
+              <a href="https://x.com/mariatepeai" class="author-link" title="X">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M13.3174 10.7749L19.1457 4H17.7646L12.7039 9.88578L8.66193 4H3.99999L10.1332 12.7901L4.00001 20H5.38119L10.7254 13.6783L15 20H19.638L13.3174 10.7749ZM11.4863 12.7901L10.8398 11.8661L5.86543 5.16932H8.0892L12.0664 10.5151L12.713 11.4391L17.7646 19.0021H15.5408L11.4863 12.7901Z"/>
+                </svg>
+
+              </a>
+
+              <!-- LinkedIn (keep your existing href) -->
+              <a href="https://www.linkedin.com/in/maria-tepegjozova-phd-832bb029b/" class="author-link" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 1-1.68-1.68c0-.93.75-1.69 1.68-1.69 0 .93.75 1.69 1.68 1.69 0 .93-.75 1.68-1.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                </svg>
+                LinkedIn
+              </a>
+
+              <!-- GitHub -->
+              <a href="https://github.com/mariate-ai" class="author-link" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577 0-.285-.01-1.044-.015-2.051-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.652 1.652.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.897-.015 3.293 0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+
+              <!-- Hugging Face
+              <a href="#" class="author-link" title="Hugging Face">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2v-2h2v2zm6 4h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+                </svg>
+                HF
+              </a>
+              -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+  </div><!-- .page-wrap -->
+
+  <script>
+    function toggleTheme() {
+      var root = document.documentElement;
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+
+</body>
+</html>

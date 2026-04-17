@@ -1,0 +1,884 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">Deep Dive II: Tactics</h1>
+    <p class="page-subtitle">Task-specific file switching, emphasis patterns, effective instructions, and automated reviews</p>
+    <div class="header-intro">
+      <p>
+        Most <span class="inline-code">CLAUDE.md</span> files are rigid, one-size-fits-all documents that struggle
+        to serve complex projects effectively.
+      </p>
+      <p>
+        In this final tactics deep dive, discover powerful techniques for switching task-specific root configurations on
+        demand, using strategic emphasis patterns to dramatically improve adherence, crafting precise instructions that
+        target real failure modes, and leveraging Claude itself for automated reviews and self-correction—transforming
+        your <span class="inline-code">CLAUDE.md</span> into a living, adaptive control system for superior AI coding
+        sessions.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 8/8</span>
+      <span class="meta-chip">~17 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="body-text">
+      This deep dive covers the following key topics:
+    </p>
+
+    <div style="flex:2;min-width:220px;align-items:center;">
+      <ul class="content-list highlighted" style="margin:0">
+        <li><strong>1. Switching CLAUDE.md Files</strong></li>
+        <li><strong>2. Using Emphasis in CLAUDE.md</strong></li>
+        <li><strong>3. "Claude Make No Mistake!" — Incantations</strong></li>
+        <li><strong>4. Using Claude Code to Review Your CLAUDE.md</strong></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Card 1: Switching CLAUDE.md Files -->
+  <div class="card">
+
+    <h2 class="section-title">1. Switching CLAUDE.md Files</h2>
+
+    <p class="body-text">
+      The "Progressive Disclosure" section placed heavy emphasis on mitigating context window constraints and instruction-following
+      degradation by splitting instructions across layers of <span class="inline-code">CLAUDE.md</span> files — global, project-level,
+      subdirectory, and rules folders. That layering strategy goes a long way.
+    </p>
+
+    <p class="body-text">
+      But it does not change one stubborn fact: the root <span class="inline-code">CLAUDE.md</span> file — the one that is always
+      loaded, always pulled into the active context — remains rigid. It cannot adapt to what you are about to do. And the conventional
+      wisdom around that file makes it even harder to work with: <strong>keep it universally applicable to all tasks.</strong>
+    </p>
+
+    <p class="body-text">
+      That is a reasonable guideline in principle. In practice, for anything beyond a simple project, it becomes genuinely difficult.
+      Consider a Python monorepo that contains a FastAPI backend, a React frontend, a data ingestion pipeline, and a suite of database
+      migration scripts. A root <span class="inline-code">CLAUDE.md</span> that must meaningfully serve all of those contexts at once
+      will either be too abstract to be useful — full of vague directives that apply loosely to everything — or it will balloon into a
+      long, dense file that tries to cover every sub-context explicitly. Neither is good. The first provides weak signal, while the second
+      exceeds the instruction-following budget quickly, drowning high-priority rules in noise.
+    </p>
+
+    <h3 class="card-h3">Switching Root Files on Demand</h3>
+
+    <p class="body-text">
+      An underexplored but powerful technique to solve this problem is to simply switch out the root
+      <span class="inline-code">CLAUDE.md</span> file according to the task at hand.
+    </p>
+
+    <p class="body-text">
+      The workflow is almost embarrassingly simple
+    </p>
+
+    <ul class="content-list">
+      <li>
+        1. Create and maintain multiple versions of your root CLAUDE.md file, stored somewhere on disk.
+      </li>
+      <li>
+        2. Before starting a session, copy the appropriate version into your project root and name it
+        <span class="inline-code">CLAUDE.md</span>
+      </li>
+      <li>
+        3. Proceed as usual.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      That is the entire technique. No tooling required. Here is how to do it directly from the terminal:
+    </p>
+
+    <p class="body-text">
+      <strong>Bash (Linux / macOS):</strong>
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">Bash</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-comment"># Switch to the database-audit config</span>
+          <span class="token-prompt">cp ~/.claude-configs/db-audit.md ./CLAUDE.md</span>
+
+          <span class="token-comment"># Switch to the rapid-prototyping config</span>
+          <span class="token-prompt">cp ~/.claude-configs/rapid-proto.md ./CLAUDE.md</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      <strong>Windows CMD:</strong>
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">cmd</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-comment">REM Switch to the database-audit config</span>
+          <span class="token-prompt">copy %USERPROFILE%\.claude-configs\db-audit.md .\CLAUDE.md</span>
+
+          <span class="token-comment">REM Switch to the rapid-prototyping config</span>
+          <span class="token-prompt">copy %USERPROFILE%\.claude-configs\rapid-proto.md .\CLAUDE.md</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The core benefits are the same ones described in the Progressive Disclosure section: you avoid bloating your root
+      <span class="inline-code">CLAUDE.md</span> and keep every instruction highly task-relevant. A file that only loads
+      what a given session actually needs is a tighter, more reliable instruction set.
+    </p>
+
+    <h3 class="card-h3">Behavior Isolation</h3>
+
+    <p class="body-text">
+      There is a more subtle benefit that the Progressive Disclosure framing does not fully capture:
+      <strong>behavior isolation.</strong>
+    </p>
+
+    <p class="body-text">
+      Most people encode Claude Code's behavioral defaults — how autonomous it is, how much it confirms before acting,
+      how aggressively it refactors — directly in the root <span class="inline-code">CLAUDE.md</span>. The problem is
+      that different tasks genuinely warrant radically different behaviors. A single file cannot express this duality
+      without compromise.
+    </p>
+
+    <p class="body-text">
+      Consider two scenarios in the same codebase:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <strong>Production database audit:</strong> You want Claude to be maximally cautious. It should pause before
+        touching anything, ask for explicit confirmation before running queries, flag ambiguity rather than resolve
+        it silently, and treat every irreversible action as requiring prior approval.
+      </li>
+      <li>
+        <strong>Rapid prototyping session:</strong> You want Claude moving fast. You want it to make reasonable
+        assumptions, not stop to ask about every edge case, commit changes as it goes, and keep the momentum going
+        without constant check-ins.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      These are not just different task contexts, they require genuinely opposite behavioral modes. A single root
+      <span class="inline-code">CLAUDE.md</span> tuned for the audit will make the prototyping session feel sluggish
+      and over-managed. A single file tuned for prototyping will make the audit feel reckless.
+    </p>
+
+    <p class="body-text">
+      Switching configs means the behavioral contract for each session is exactly what that session demands.
+    </p>
+
+    <h3 class="card-h3">The Config Archive</h3>
+
+    <p class="body-text">
+      To take this further, many practitioners maintain a structured archive of root <span class="inline-code">CLAUDE.md</span> files rather than just
+      keeping a few loose copies around.
+    </p>
+
+    <p class="body-text">
+      The archive serves several distinct purposes:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>1. Cycling through project phases.</strong> A project's lifecycle involves phases with fundamentally
+        different needs. During initial development, you want Claude operating with high autonomy, making architectural
+        decisions, scaffolding quickly. During maintenance, you want conservative behavior — minimal diffs, extensive
+        context-reading before edits, no unsanctioned refactors. When a new feature development phase begins, you will
+        likely want the original development config again. An archive lets you cycle between these phase-specific
+        configs without rebuilding them from scratch each time.
+      </li>
+      <li>
+        <strong>2. Capturing hard-won knowledge.</strong> A well-tuned <span class="inline-code">CLAUDE.md</span> file
+        is not a throwaway artifact. It represents weeks or months of observation — you noticed Claude making a particular
+        class of mistake, you figured out the right phrasing to prevent it, you refined the wording until it actually held.
+        That is institutional knowledge. Deleting a refined config, or overwriting it carelessly with an experiment,
+        throws that knowledge away. The archive is the preservation layer.
+      </li>
+      <li>
+        <strong>3. Reuse across projects.</strong>  A config built for, say, FastAPI backend
+        development — with the right conventions, error-handling contracts, and scope guards for that context — is largely
+        reusable on the next FastAPI project. Special-purpose configs are transferable assets if you keep them.
+      </li>
+      <li>
+        <strong>4. Experimentation without risk.</strong> When you want to try a radically different instruction
+        style — restructured sections, new emphasis patterns, different behavioral defaults — you create a new test
+        file in the archive and switch to it. Your working production config is untouched. If the experiment works,
+        you promote it. If it breaks things, you flip back.
+      </li>
+      <li>
+        <strong>5. Debugging by comparison.</strong> When a new config is causing unexpected behavior, having the
+        previous version available makes debugging straightforward. You can ask Claude to diff the two files and
+        reason about which instruction change is likely responsible, or you can simply roll back to the last
+        known-good version while you investigate.
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- Card 2: Using Emphasis in CLAUDE.md -->
+  <div class="card">
+
+    <h2 class="section-title">2. Using Emphasis in CLAUDE.md</h2>
+
+    <p class="body-text">
+      Emphasis, in the context of <span class="inline-code">CLAUDE.md</span> authoring, refers to the strategic use of
+      strong, capitalized directive phrases placed at the start of key rules or sections. They function as
+      attention-boosting signals, ways of telling Claude Code that a particular instruction carries elevated weight
+      and must not be treated as background prose.
+    </p>
+
+    <p class="body-text">
+      Some of the most used emphasis:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <span class="inline-code">IMPORTANT</span>: General-purpose high-priority marker. Use it for rules that are
+        consequential but not catastrophic if missed once.
+      </li>
+      <li>
+        <span class="inline-code">YOU MUST</span>: Frames the rule as an obligation rather than a preference.
+        Useful for procedural constraints where skipping a step has downstream consequences.
+      </li>
+      <li>
+        <span class="inline-code">NEVER</span> / <span class="inline-code">ALWAYS</span>: Absolute prohibitions and
+        mandates. They signal binary constraints with no acceptable deviation. Use when there is genuinely no
+        valid exception.
+      </li>
+      <li>
+        <span class="inline-code">CRITICAL</span>: Reserved for the highest-stakes constraints. Rules where violation
+        causes serious, possibly irreversible harm like data loss, broken production state, security exposure.
+      </li>
+      <li>
+        <span class="inline-code">VERY IMPORTANT</span>:  A step below <span class="inline-code">CRITICAL</span>, but
+        above <span class="inline-code">IMPORTANT</span>. Useful as an intermediate tier.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      Beyond text prefixes, <strong>markdown formatting itself functions as emphasis.</strong> This is easy to overlook,
+      but it matters. Frontier LLMs were trained on enormous quantities of structured text — documentation, technical
+      specs, guides — that used heading hierarchies, bold, and lists to signal information priority. That structural
+      grammar is deeply embedded in how these models process text.
+    </p>
+
+    <p class="body-text">
+      The official Anthropic documentation on this is deliberately brief: <i>"You can tune instructions by adding emphasis
+      (e.g., 'IMPORTANT' or 'YOU MUST') to improve adherence"</i>.
+    </p>
+
+    <p class="body-text">
+      What the documentation does not mention — and what is worth noting — is that Claude Code's own internal system prompt,
+      the one Anthropic's own team wrote to govern Claude Code's behavior, uses emphasis extensively. The irony here is that
+      Anthropic uses emphasis heavily in their internal prompts, while keeping the documentation about them minimal.
+    </p>
+
+    <h3 class="card-h3">Why Emphasis Works</h3>
+
+    <p class="body-text">
+      To understand why emphasis improves adherence, it helps to understand what is actually happening at the model level.
+    </p>
+
+    <h4 class="card-h4">The Attention Mechanism</h4>
+
+    <p class="body-text">
+      Frontier LLMs like Claude are transformer-based. Their core operation is the attention mechanism: each token in
+      the context attends to every other token, with learned weights that determine how much each token influences the
+      representation of every other.
+    </p>
+
+    <p class="body-text">
+      When a strong signal word like <span class="inline-code">IMPORTANT</span> or <span class="inline-code">MUST</span>
+      appear in the context, two things happen:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        <strong>First, it changes the embedding neighborhood of every token near it.</strong> Words like "important",
+        "never", "always", and "must" have dense semantic relationships with concepts of constraint, obligation, and
+        priority. When they appear, the attention scores for the tokens immediately following are recalculated in that
+        context. The self-attention layers redistribute weight toward these sentinel tokens, making the rule they
+        precede more salient in the overall representation.
+      </li>
+      <li>
+        <strong>Second, it enriches the representation built for the rule itself.</strong> A rule prefixed with
+        <span class="inline-code">IMPORTANT</span> accumulates a richer, obligation-weighted representation as it passes
+        through the transformer layers than the same rule written without that prefix. The "important" token directly
+        contributes to the value vectors of the rule tokens it precedes. The rule doesn't just appear in context, it
+        appears in a context that marks it as high-priority.
+      </li>
+    </ul>
+
+    <h4 class="card-h4">What Training Reinforced</h4>
+
+    <p class="body-text">
+      The other mechanism is statistical. During pretraining, Claude processed enormous volumes of human writing that
+      consistently uses capitalization and specific phrases to signal elevated priority:
+    </p>
+
+    <ul class="content-list">
+      <li>
+        Legal documents use <span class="inline-code">WHEREAS</span> and <span class="inline-code">SHALL</span>.
+      </li>
+      <li>
+        Safety manuals use <span class="inline-code">WARNING:</span> and <span class="inline-code">DANGER:</span>.
+      </li>
+      <li>
+        Technical specifications use <span class="inline-code">MUST</span>, <span class="inline-code">REQUIRED</span>,
+        and <span class="inline-code">SHALL NOT</span>.
+      </li>
+    </ul>
+
+    <p class="body-text">
+      This is a cross-domain, deeply consistent pattern in human writing. Claude learned the statistical signature of what
+      follows these markers: compliance, constraint, obligation.
+    </p>
+
+    <p class="body-text">
+      Then, during instruction fine-tuning and Reinforcement Learning from Human Feedback (RLHF), this got reinforced directly. When human annotators rated responses,
+      they consistently preferred responses that honored explicitly flagged constraints. That preference signal trained
+      Claude to upweight compliance with emphasis-marked instructions. The result is that <span class="inline-code">IMPORTANT:</span>
+      and <span class="inline-code">YOU MUST</span> are not merely semantic words, they are learned compliance triggers.
+      They appear in thousands of training examples where the correct behavior was to follow the instruction exactly,
+      and that pattern was reinforced through reward.
+    </p>
+
+    <div class="callout callout-note" style="--callout-margin-top: var(--sp-xl);">
+      <div class="callout-label">ℹ NOTE</div>
+      A practical corollary: <strong>inventing novel emphasis strings like <span class="inline-code">!!!CRITICAL!!!</span>
+      is less reliable.</strong> The weirder the token sequence, the less training data existed for it in obligation
+      contexts. Stick to the standard markers.
+    </div>
+
+    <h3 class="card-h3">How to Use Emphasis Correctly</h3>
+
+    <p class="body-text">
+      Knowing that emphasis works is only half the picture. The other half is knowing how to use it without undermining itself.
+    </p>
+
+    <p class="body-text">
+      <strong>Use it sparingly.</strong> Emphasis scales poorly. If every rule in your <span class="inline-code">CLAUDE.md</span>
+      is prefixed with <span class="inline-code">IMPORTANT:</span> or <span class="inline-code">CRITICAL:</span>, the signal
+      collapses. Nothing stands out. The file begins to read like a document that is shouting uniformly, and Claude cannot
+      distinguish between what is truly high-stakes and what you merely wanted to emphasize a little. Reserve the strongest
+      markers for the rules where violation genuinely matters.
+    </p>
+
+    <p class="body-text">
+      <strong>Use it as a diagnostic tool, not a first resort.</strong> The correct workflow is: write the rule plainly → observe
+      whether it is violated → if it is repeatedly violated, add emphasis. You should not be pre-emphasizing every rule
+      speculatively. Over-emphasizing from the start means you have no escalation path when something important gets
+      ignored.
+    </p>
+
+    <p class="body-text">
+      <strong>Pair emphasis with brevity.</strong> An emphasized rule buried inside a 500-line <span class="inline-code">CLAUDE.md</span>
+      that Claude is already filtering heavily will lose most of its impact. Adding <span class="inline-code">IMPORTANT:</span>
+      to a rule in a bloated file won't fix the underlying problem — pruning the file will. Emphasis only works when Claude is
+      actively attending to the instruction, which requires the overall file to be short enough to merit that attention.
+    </p>
+
+    <p class="body-text">
+      <strong>Pair it with positioning.</strong> Place critical rules near the top of the file. This connects to a well-documented
+      property of LLM instruction-following: primacy/recency bias. Instructions appearing at the periphery of the context — especially
+      near the start — land with more consistency than the same instruction buried mid-file. An <span class="inline-code">IMPORTANT:</span>
+      rule on line 3 will be more reliably followed than the same rule on line 180.
+    </p>
+
+    <p class="body-text">
+      <strong>Prefer a dedicated section.</strong> Group all high-stakes constraints under a heading like
+      <span class="inline-code">## Rules Claude Must Always Follow</span> or <span class="inline-code">## Critical Constraints</span>.
+      This gives you both structural emphasis through heading hierarchy and clustering, making the rule group harder to overlook as a unit.
+    </p>
+
+    <h3 class="card-h3">The Honest Picture</h3>
+
+    <p class="body-text">
+      Emphasis improves adherence. It does not guarantee it.
+    </p>
+
+    <p class="body-text">
+      Claude can still cross emphasized lines, especially as conversations grow longer, context fills, and the weight of earlier
+      instructions dilutes. In long, complex tasks, even well-placed <span class="inline-code">CRITICAL:</span> markers can get
+      overridden by task momentum or context crowding.
+    </p>
+
+    <p class="body-text">
+      The realistic framing is this: emphasis raises the probability of compliance. It is not a lock. It is one tool in a system
+      that must also include good file structure, appropriate length, correct positioning, and the layered disclosure techniques
+      covered in earlier sections. No single technique is sufficient on its own.
+    </p>
+
+  </div>
+
+  <!-- Card 3: "Claude Make No Mistake!" — Incantations -->
+  <div class="card">
+
+    <h2 class="section-title">3. "Claude Make No Mistake!" — Incantations</h2>
+
+    <p class="body-text">
+      The internet and developer-adjacent corners of social media are full of Claude Code "secret commands" that promise to
+      unlock a "10x engineer" hiding inside the model. Forums have entire threads dedicated to them. Some users swear by them.
+      Others laugh at them.
+    </p>
+
+    <p class="body-text">
+      The truth sits somewhere between those reactions, but one thing should be said plainly before going any further:
+      <strong>there are no secret commands, magical incantations, or spells.</strong> Claude Code is a sophisticated
+      piece of software, not a system that responds to ritual phrases with special unlocked behaviors. The
+      "Claude make no mistake!" meme captures a real pattern of wishful thinking that is worth naming directly.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xxl)">
+      <img src="/images/meme_1.png" alt="Claude Make No Mistake">
+      <div class="image-caption">Fig 3.3.1 — Claude Make No Mistake</div>
+    </div>
+
+    <p class="body-text">
+      That said, some widely-circulated instructions do actually work well. Not because they are magic, but because
+      they are well-written rules that address real failure modes.
+    </p>
+
+    <h4 class="card-h4">Instructions That Work</h4>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <span class="inline-code">"Never modify a file without fully reading it first."</span>
+        <br><br>
+        This is a read-first constraint. It forces Claude to load and analyze the entire relevant file before producing
+        any edits. Without this, Claude can, and will, make changes based on partial context, stale assumptions, or
+        inference rather than actual file state. The result is broken diffs, wrong imports, subtle logic errors. The
+        instruction works because it directly addresses a concrete failure mode with a concrete procedural requirement.
+      </li>
+      <li>
+        <span class="inline-code">"Surgical edits only. Never refactor or change more than required."</span>
+        <br><br>
+         This addresses scope creep — Claude's tendency to confidently rewrite surrounding code it was not asked to
+        touch when you asked for a small fix. Community consensus is that this instruction, or close derivatives of it,
+        demonstrably reduces unnecessary diffs. It works because it is specific and enforceable: Claude can check its
+        own output against "did I change more than required?"
+      </li>
+      <li>
+        <span class="inline-code">"Never mark a task complete without proving it works."</span>
+        <br><br>
+        Prevents premature task closure. Claude has a tendency to declare work done based on the plausibility of its
+        changes rather than verification. This instruction makes completion conditional on demonstrated correctness.
+      </li>
+      <li>
+        <span class="inline-code">"Avoid temporary fixes. Always find and fix the root cause of bugs."</span>
+        <br><br>
+        Pushes back against the path-of-least-resistance failure mode: patching a symptom quickly rather than diagnosing
+        the actual cause. This matters especially in Auto Edit sessions where you may not be reviewing every diff.
+        Unaddressed root causes compound into silent technical debt.
+      </li>
+      <li>
+        <span class="inline-code">"Default to Plan mode before any code. Always plan first."</span>
+        <br><br>
+        Sometimes paired with criteria specifying when planning is required. This instruction increases code quality
+        by forcing Claude to spend tokens on reasoning before acting — surfacing edge cases, identifying dependencies,
+        and clarifying scope before any edits land.
+      </li>
+    </ul>
+
+    <h4 class="card-h4">Why These Work, and Why They Sometimes Don't</h4>
+
+    <p class="body-text">
+      These instructions work because they are concrete rules that target specific failure modes. They are not
+      compliments or vague aspirations. Each one describes a detectable, enforceable behavior.
+    </p>
+
+    <p class="body-text">
+      But they are not immune to the general problems of <span class="inline-code">CLAUDE.md</span> authoring. Buried
+      in a 1000-line config with 500+ instructions, none of them will hold reliably. Their effectiveness depends on
+      the overall file quality: appropriate length, good structure, minimal noise. A well-written instruction in
+      a well-maintained file will work in most cases. The same instruction in a bloated, contradictory file will
+      behave unpredictably.
+    </p>
+
+    <h4 class="card-h4">Things That Don't Work</h4>
+
+    <p class="body-text">
+      <strong>Chain-of-thought nudges in global configs</strong>, like <span class="inline-code">"No mistakes"</span>
+      or <span class="inline-code">"Think carefully"</span> — these can elicit more structured reasoning when placed
+      in a task prompt, close to the actual problem. In a global config file read once at session startup, they lose
+      nearly all of that effect. At best they produce a marginal shift in behavior. Simply, they are not worth the tokens.
+    </p>
+
+    <p class="body-text">
+      <strong>Generic motivational phrases</strong> — <span class="inline-code">"Be a 10x engineer"</span>,
+      <span class="inline-code">"No mistakes ever"</span>, <span class="inline-code">"Think step by step always"</span>
+      — these are bloat. They add no actionable constraint Claude can check itself against. They describe qualities
+      rather than behaviors. They do not belong in a <span class="inline-code">CLAUDE.md</span> file, they are not worth
+      the bits they're saved on.
+    </p>
+
+    <p class="body-text">
+      The broader lesson: rather than collecting pre-made incantations or copying <span class="inline-code">CLAUDE.md</span>
+      sections from someone else's setup, invest the time to understand why instructions work and write your own,
+      project-specific rules from that understanding.
+    </p>
+
+    <h3 class="card-h3">Types of Instructions That Matter</h3>
+
+    <p class="body-text">
+      Most instructions in <span class="inline-code">CLAUDE.md</span> can be classified into four categories. Knowing
+      which category you are writing for helps you write more precisely.
+    </p>
+
+    <h4 class="card-h4">1. Workflow Constraints</h4>
+
+    <p class="body-text">
+      Workflow constraints enforce a fixed sequence of steps, things Claude must do in a specific order, or must not do
+      without explicit permission first.
+    </p>
+
+    <p class="body-text">
+      The failure mode they prevent: Claude jumping ahead, skipping verification steps, or committing changes you did not sanction.
+    </p>
+
+    <p class="body-text">
+      Examples: requiring Claude to read a file before editing it; requiring a plan before any code is written; requiring test runs
+      before marking a task complete.
+    </p>
+
+    <h4 class="card-h4">2. Scope Guards</h4>
+
+    <p class="body-text">
+      Scope guards constrain what Claude is allowed to touch. They prevent one of the most expensive failure modes in agentic
+      coding: Claude confidently rewriting code outside the task boundary — surrounding functions, unrelated modules, or files
+      you did not ask it to open.
+    </p>
+
+    <p class="body-text">
+      The failure mode they prevent: scope creep, unsanctioned refactors, reverting your manual changes, editing files outside
+      the stated task.
+    </p>
+
+    <p class="body-text">
+      One important note: if a scope guard is truly non-negotiable, encode it in <span class="inline-code">settings.json</span>
+      or a hook — not just in <span class="inline-code">CLAUDE.md</span>. A fenced code block is something Claude runs verbatim.
+      A prose instruction in <span class="inline-code">CLAUDE.md</span> is something Claude interprets. For hard behavioral
+      constraints, the settings layer is deterministic in a way that <span class="inline-code">CLAUDE.md</span> is not.
+      Putting <span class="inline-code">"NEVER add Co-Authored-By"</span> in <span class="inline-code">CLAUDE.md</span>
+      is weaker than encoding it in the attribution settings directly.
+    </p>
+
+    <h4 class="card-h4">3. Project-Specific Context</h4>
+
+    <p class="body-text">
+      This category covers things Claude cannot infer from reading your code: your toolchain choices, the reasoning behind
+      architectural decisions, forbidden patterns, and conventions that look arbitrary without context.
+    </p>
+
+    <p class="body-text">
+      The failure mode they prevent: Claude silently substituting its preferred libraries, re-implementing something that
+      already exists in your codebase, or making technically correct but architecturally wrong choices that conflict with
+      decisions made months ago.
+    </p>
+
+    <p class="body-text">
+      The project context is exactly where <span class="inline-code">CLAUDE.md</span> proves its worth — by giving Claude the
+      background information it can’t figure out on its own. Instructions here are not behavioral nudges, they are facts
+      Claude does not have access to in any other way.
+    </p>
+
+    <h4 class="card-h4">4. Error Handling and Behavior Contracts</h4>
+
+    <p class="body-text">
+      This category defines how Claude handles uncertainty, failure, and ambiguity — which, without instruction, defaults
+      to whatever feels most accommodating in the moment.
+    </p>
+
+    <p class="body-text">
+      The failure mode they prevent: silent fallbacks, swallowed errors, masked root causes, and Claude "fixing" symptoms
+      rather than diagnosing causes.
+    </p>
+
+    <p class="body-text">
+      A behavior contract might specify: always raise errors explicitly rather than catching and continuing silently;
+      always surface ambiguity to the user rather than resolving it with an assumption; never handle an exception by
+      substituting a default value without logging why.
+    </p>
+
+    <h3 class="card-h3">Writing Good Instructions</h3>
+
+    <h4 class="card-h4">The Test Every Instruction Must Pass</h4>
+
+    <p class="body-text">
+      Before writing any rule, ask: "Would Claude get this wrong without this line?"
+    </p>
+
+    <p class="body-text">
+      If the answer is no — if Claude already handles the case correctly by default — the instruction does not earn its
+      place. This is not just a length optimization. It is a relevance filter. Every line in
+      <span class="inline-code">CLAUDE.md</span> competes for the limited instruction-following budget. Filler
+      instructions crowd out real ones. Every instruction that does not need to be there marginally increases the
+      chance that one that does need to be there gets under-weighted.
+    </p>
+
+    <h4 class="card-h4">Structure: Claim + Rationale</h4>
+
+    <p class="body-text">
+      A flat rule is weaker than a rule with a reason. The reason lets Claude generalize the instruction to cases it was
+      not explicitly anticipated for.
+    </p>
+
+    <p class="body-text">
+      Add a rationale to any instruction where the reason is non-obvious. If the reason is obvious, skip it — it is dead
+      weight that adds length without adding signal.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <p>
+          <span class="feature-key">Weak:</span> <span class="inline-code">"Don't use print statements for logging."</span>
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Stronger:</span> <span class="inline-code">"Don't use print statements for logging —
+          use the project logger so that log levels and formatting are consistent across all modules."</span>
+        </p>
+      </li>
+
+    </ul>
+
+    <h4 class="card-h4">Commands: Prose vs. Code Blocks</h4>
+
+    <p class="body-text">
+      Prose is a suggestion Claude may interpret and adapt. A fenced code block is something Claude treats as literal,
+      i.e. something to be executed verbatim.
+    </p>
+
+    <p class="body-text">
+      If you want Claude to run a specific command, put it in a code block. If you write the command in prose, Claude
+      may paraphrase it, modify it, or substitute a variant it considers equivalent.
+    </p>
+
+    <h4 class="card-h4">Specificity: Concrete Nouns Over Abstract Adjectives</h4>
+
+    <p class="body-text">
+      Instructions fail when they describe a quality rather than an action.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <p>
+          <span class="feature-key">Vague:</span> <span class="inline-code">"Write clean code."</span>
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Specific:</span> <span class="inline-code">"Functions should do one thing. If a
+          function requires a docstring to explain what it does, split it."</span>
+        </p>
+      </li>
+
+    </ul>
+
+    <p class="body-text">
+      The first gives Claude nothing to check itself against. The second describes a detectable, enforceable shape.
+    </p>
+
+    <p class="body-text">
+      The principle generalizes: <span class="inline-code">"handle errors properly"</span> is not an instruction.
+      <span class="inline-code">"Always raise errors explicitly, never silently catch and continue"</span> is.
+    </p>
+
+    <h4 class="card-h4">Negative Instructions Need Specificity Too</h4>
+
+    <p class="body-text">
+       <span class="inline-code">"Don't use X"</span> works when X is unambiguous, but it fails when X is vague.
+    </p>
+
+    <p class="body-text">
+      If you find yourself writing a vague negative instruction, it usually means you need to describe the positive
+      alternative instead.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <p>
+          <span class="feature-key">Vague negative:</span> <span class="inline-code">"Don't over-engineer."</span>
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="feature-key">Positive alternative:</span> <span class="inline-code">"If you could describe the
+          diff in one sentence, implement it directly without a plan."</span>
+        </p>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <!-- Card 3: Using Claude Code to Review Your CLAUDE.md -->
+  <div class="card">
+
+    <h2 class="section-title">4. Using Claude Code to Review Your CLAUDE.md</h2>
+
+    <p class="body-text">
+      The <span class="inline-code">CLAUDE.md</span> is a living document, and living documents have a natural tendency
+      towards entropy.
+    </p>
+
+    <p class="body-text">
+      The pattern is almost universal: you add a rule during a frustrating session, then forget it exists. Weeks later,
+      you encounter the same class of problem and add a slightly different version of the same rule. Eventually, you
+      have a file that contains contradictions, redundancies, rules that no longer reflect how the project works,
+      and instructions that made sense in March, but are actively wrong in June.
+    </p>
+
+    <p class="body-text">
+      Even if you avoid outright contradictions, the accumulated authoring problem is real. Every time you add an
+      instruction, you should re-read the file to check for conflicts. As the file grows, that task becomes more
+      expensive and easier to skip.
+    </p>
+
+    <p class="body-text">
+      When two instructions address the same behavior and conflict, Claude will pick one arbitrarily. There is no
+      warning. It just makes a choice you did not intend, and it makes that same choice every session until you fix it.
+      It is a silent failure, one that costs you both reliability and tokens.
+    </p>
+
+    <p class="body-text">
+      The problem compounds significantly if you also maintain a <span class="inline-code">Global CLAUDE.md</span>, a
+      <span class="inline-code">Local CLAUDE.md</span>, <span class="inline-code">.claude/rules/files</span>, and
+      agent docs. Now you have many files across different locations, all potentially interacting, and no automatic
+      mechanism to detect conflicts across them.
+    </p>
+
+    <h3 class="card-h3">Running the Audit</h3>
+
+    <p class="body-text">
+      The fix is a regular, thorough review of <span class="inline-code">CLAUDE.md</span> and all associated files.
+      The most efficient way to do it is to ask Claude itself.
+    </p>
+
+    <p class="body-text">
+      Claude is surprisingly good at this task. It will surface things you would not catch in a manual re-read:
+      instructions that technically contradict each other but are phrased differently enough that the conflict is
+      not obvious, phrasing so vague it provides no real constraint, and rules that have been superseded by newer
+      ones lower in the file without the old version being removed.
+    </p>
+
+    <p class="body-text">
+      The Anthropic documentation is explicit about this: <i>Review your <span class="inline-code">CLAUDE.md</span>
+      files, nested <span class="inline-code">CLAUDE.md</span> files in subdirectories, and
+      <span class="inline-code">.claude/rules/</span> periodically to remove outdated or conflicting instructions.</i>
+    </p>
+
+    <p class="body-text">
+      A practical trigger that many users find useful: run the audit whenever your <span class="inline-code">CLAUDE.md</span>
+      crosses 150 lines, or after any sprint where you added more than five new rules in rapid succession.
+      Both conditions are reliable proxies for "the file has accumulated enough changes to be worth reviewing."
+    </p>
+
+    <h3 class="card-h3">Let Claude Write Its Own Rules After a Mistake</h3>
+
+    <p class="body-text">
+      There is a closely related habit that helps prevent contradictions from accumulating in the first place:
+      <strong>let Claude write its own rules after it makes an error.</strong>
+    </p>
+
+    <p class="body-text">
+      When Claude makes a mistake and you correct it, the default response is to either re-explain the problem in the
+      session or add a vague rule to <span class="inline-code">CLAUDE.md</span> yourself after the fact. There is a
+      better approach. End the correction with a single instruction:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">Claude Code</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          "Update your CLAUDE.md so you don't make that mistake again."
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      This works for reasons that are not immediately obvious.
+    </p>
+
+    <p class="body-text">
+      Claude knows exactly what phrasing would have blocked the error, because it understands the structure of its own
+      reasoning. A human writing a corrective rule is reverse-engineering what Claude needed to hear. Claude already
+      knows. The rules it generates for itself tend to be tighter, more specific, and phrased in patterns that match
+      how it processes instructions, which means higher adherence from the start.
+    </p>
+
+    <p class="body-text">
+      Watch for failure modes in the generated rule. Claude may write something overly narrow — a rule that only
+      prevents the exact mistake that just occurred, rather than the class of mistakes it represents. Push back:
+      ask for the generalized version. Conversely, if the rule it produces is too broad, ask it to tighten the scope.
+    </p>
+
+    <p class="body-text">
+      The deeper point: this approach naturally populates your <span class="inline-code">CLAUDE.md</span> with rules
+      derived from real mistakes in your real codebase, not from imagined future scenarios. Rules written speculatively,
+      before you have observed a failure, tend to be generic. Rules written in response to a specific observed failure
+      tend to be precise and durable. That is a meaningfully stronger foundation.
+    </p>
+
+    <h3 class="card-h3">The # Prefix: Fastest Path to Capturing a Rule in the Moment</h3>
+
+    <p class="body-text">
+      Insight about what a rule should say tends to arrive at the worst times: mid-session, while debugging something
+      unrelated, when you do not want to break flow to open an editor and navigate to the right file.
+    </p>
+
+    <p class="body-text">
+      Claude Code includes a shortcut specifically for this. If you prefix a message with a hash symbol
+      (<span class="inline-code">#</span>), Claude will save the information to your
+      <span class="inline-code">CLAUDE.md</span> file.
+    </p>
+
+    <p class="body-text">
+      <strong>A reliability note:</strong> the <span class="inline-code">#</span> prefix has shown intermittent
+      behavior in some setups, occasionally failing to trigger the save prompt. If it is not working in your
+      environment, the fallback is simple: ask Claude in natural language to add the rule to
+      <span class="inline-code">CLAUDE.md</span>. The effect is identical; the shortcut just removes
+      the need to phrase it as an explicit request.
+    </p>
+
+  </div>
+
+</div>

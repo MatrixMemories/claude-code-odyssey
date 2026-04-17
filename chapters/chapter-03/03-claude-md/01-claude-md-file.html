@@ -1,0 +1,511 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">The CLAUDE.md file</h1>
+    <p class="page-subtitle">What It Is, Why It Matters, and How to Build It Right</p>
+    <div class="header-intro">
+      <p>
+        <span class="inline-code">CLAUDE.md</span> is the single most powerful way to turn Claude Code from a
+        forgetful blank slate into a true extension of your brain.
+      </p>
+      <p>
+        Every time you start a new session, Claude knows absolutely nothing about your codebase, until you give it
+        the right context. This guide shows exactly how to create a well-structured
+        <span class="inline-code">CLAUDE.md</span> (plus its global and local siblings) that instantly teaches the
+        model your tech stack, your philosophy, and your exact workflow.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 1/8</span>
+      <span class="meta-chip">~5 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+
+    <p class="body-text">
+      LLMs are stateless functions. After their training concludes and by the time
+      they are deployed for wide scale inference, their weights get frozen.
+      This implies that any LLM, including the one that will run your Claude Code
+      Agent, does not learn over time. This means that the only information known
+      to the LLM about your codebase are the tokens supplied during one session.
+    </p>
+
+    <p class="body-text">
+      Similarly, the Agentic Harness itself, being a pure facilitator between
+      your codebase and the LLM, does not learn or remember over time neither.
+      Therefore, we have the situation where any Coding Agent, including Claude
+      Code, does not know absulutely anything about your codebase at the
+      beginning of each session. <strong>Thus, you need to provide all relevant
+      information about your codebase to the Coding Agent each time you start a
+      session.</strong>
+    </p>
+
+    <p class="body-text">
+      The <span class="inline-code">CLAUDE.md</span> file is the preferred way of
+      providing that information to Claude Code. The <span class="inline-code">CLAUDE.md</span>
+      file is a plain Markdown file (<span class="inline-code">.md</span> stands
+      for Markdown). It sits in your project root directory and as per Anthropic, it is loaded at
+      the start of every conversation and forwarded, by the harness to the LLM as context.
+      Note that the <span class="inline-code">CLAUDE.md</span> naming is case-sensitive
+      and the location of the file is extremely important. If you are working on a project
+      whose root directory is <span class="inline-code">project_root</span>,
+      your project structure should look somewhat similar to the following:
+    </p>
+
+    <pre class="dir-tree"><code>
+      <span style="color:#38bdf8">~/project_root/</span>
+      ├── <span style="color:#38bdf8">src/</span>
+      ├── <span style="color:#38bdf8">tests/</span>
+      ├── <span style="color:#38bdf8">data/</span>
+      ├── <span style="color:#38bdf8">static/</span>
+      ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>                 <span class="dt-note">← Exact name, case-sensitive, in project root</span>
+      ├── pyproject.toml
+      ├── README.md
+      └── requirements.txt
+    </code></pre>
+    
+    <p class="body-text">
+      Note that there is no need to manually mention <span class="inline-code">@</span>
+      your <span class="inline-code">CLAUDE.md</span> file. Once you add the
+      <span class="inline-code">CLAUDE.md</span> file to your
+      <span class="inline-code">project_root</span> directory, it will onboard Claude Code
+      to the full codebase sitting in the
+      <span class="inline-code">project_root</span> directory every time a new session is started.
+    </p>
+
+  </div>
+
+  <!-- Card 2: CLAUDE.md Structure — WHAT / WHY / HOW -->
+  <div class="card">
+
+    <h2 class="section-title">CLAUDE.md Structure — WHAT / WHY / HOW</h2>
+
+    <p class="body-text">
+      A well-structured <span class="inline-code">CLAUDE.md</span> file is organized around three
+      questions — <strong>what</strong> the project is, <strong>why</strong> it is built the way it is,
+      and <strong>how</strong> Claude Code must behave while working on it.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <strong>
+          <span class="feature-key">WHAT:</span> the raw facts and map
+          of your project (tech stack, folders, structure).
+        </strong>
+        <p>
+          This section supplies Claude Code with an immediate, objective blueprint of
+          the project. It gives exact technology stack, directory layout, and
+          functional scope. Only verifiable details are included: no opinions, no
+          rationale, no preferences. The goal is to equip the model with a complete
+          mental model of the codebase from the very first interaction, equivalent to
+          handing a senior engineer the definitive inventory of tools and a precise
+          floor plan of the workspace.
+        </p>
+        <p>Example information to include:</p>
+        <ul class="example-list">
+          <li>
+            The project uses [LANGUAGE] [VERSION], the [PRIMARY FRAMEWORK/LIBRARY]
+            [VERSION], and supporting libraries such
+            as [LIB1], [LIB2], and [LIB3] for [core tasks].
+          </li>
+          <li>
+            The main folders are: src/ for all source code and the
+            entry point, tests/ for unit and integration tests,
+            docs/ for documentation and assets, assets/ for static
+            resources (icons, samples, config files), and
+            scripts/ for automation utilities.
+          </li>
+          <li>
+            The project is a [TYPE OF APPLICATION, e.g. desktop app / web
+            service / CLI tool / library] that [high-level
+            purpose in one sentence].
+          </li>
+        </ul>
+        <p>
+          This ensures Claude Code never guesses about the environment or dependencies
+          and therefore never produces incompatible or non-functional code.
+        </p>
+
+      </li>
+
+      <li>
+        <strong>
+          <span class="feature-key">WHY:</span> the purpose and reasoning behind every
+          choice (why this project exists, why these tools and architecture).
+        </strong>
+        <p>
+          This section communicates the project's mission and the deliberate
+          strategic decisions behind every major technology and design choice.
+          By understanding the “why,” Claude Code can evaluate trade-offs,
+          prioritize features, and generate solutions that advance the intended
+          outcome rather than defaulting to generic or fashionable alternatives.
+          It is the equivalent of a concise executive briefing that aligns
+          the entire team on vision, constraints, and non-negotiables.
+        </p>
+        <p>Example information to include:</p>
+        <ul class="example-list">
+          <li>
+            The purpose of the project is to [core mission in one clear
+            sentence, e.g. “build a fast, private,
+            offline-first tool for X”].
+          </li>
+          <li>
+            We chose [PRIMARY FRAMEWORK/LIBRARY] because it provides
+            [key advantage 1] and [key advantage 2]
+            while meeting our requirements for [performance / security
+            / maintainability].
+          </li>
+          <li>
+            We selected [LANGUAGE] for its [strength that matches the
+            project, e.g. speed / safety / ecosystem].
+          </li>
+          <li>
+            We deliberately avoid [ALTERNATIVE FRAMEWORK/TECHNOLOGY]
+            because it would introduce [specific
+            drawback that conflicts with goals, e.g. cloud dependency
+            / excessive complexity / licensing issues].
+          </li>
+        </ul>
+        <p>
+          This alignment prevents Claude Code from repeatedly suggesting
+          framework swaps, cloud migrations, or architectural changes that
+          contradict the project's core constraints and goals.
+        </p>
+
+      </li>
+
+      <li>
+
+        <strong>
+          <span class="feature-key">HOW:</span> the exact behaviors, workflows, and rules
+          Claude must follow.
+        </strong>
+        <p>
+          This section defines the precise operational rules, development workflows,
+          and quality standards that Claude Code is required to observe at
+          all times. It translates your personal habits and best practices into actionable
+          directives and covers commands, testing sequences, formatting,
+          error handling, and prohibited patterns. This enables the model to work like
+          an extension of your own workflow, rather than a generic assistant.
+        </p>
+        <p>Example information to include:</p>
+        <ul class="example-list">
+          <li>
+            Always work inside the project’s virtual environment (created
+            with the standard command for your language).
+          </li>
+          <li>
+            Launch the application or run tests exclusively with the documented
+            entry-point command (never direct file execution).
+          </li>
+          <li>
+            Before implementing any new feature, first add or update the
+            relevant test in the tests/ folder, then
+            implement the code, and finally run the full test suite.
+          </li>
+          <li>
+            Never use debug-only statements (print, console.log, etc.)
+            in production code, use the project’s configured
+            logging system instead.
+          </li>
+          <li>
+            After every change, run the formatting and linting commands
+            in this exact order: [formatter command],
+            [import sorter command], and [linter/type checker command].
+          </li>
+          <li>
+            On any error or unexpected behavior, first add a failing
+            test that reproduces the issue, then fix the code
+            while preserving the test.
+          </li>
+          <li>
+            All API or external service calls must include retry logic
+            with exponential backoff and full context logging
+            (inputs, parameters, and stack trace).
+          </li>
+        </ul>
+        <p>
+          This directs Claude Code to follow your exact development cadence,
+          tooling preferences, and quality bar on every single contribution.
+        </p>
+
+      </li>
+
+    </ul>
+
+    <div class="callout callout-warn">
+      <div class="callout-label">⚠ WARNING</div>
+      The <span class="inline-code">CLAUDE.md</span> is treated as context by the LLM rather than
+      hard enforcement rules. This means, certain parts, or in the worst case
+      the whole content, of the <span class="inline-code">CLAUDE.md</span>
+      might be ignored by the model. It is widely speculated that the Anthropic
+      models are trained to ignore bad instructions in the
+      <span class="inline-code">CLAUDE.md</span> files and thus, certain
+      instructions get ignored if they are deemed "bad" by the model.
+    </div>
+
+  </div>
+
+  <!-- Card 3: Global and Local CLAUDE.md files-->
+  <div class="card">
+
+    <h2 class="section-title">Beyond the Repository level CLAUDE.md file</h2>
+
+    <p class="body-text">
+      As you may have noticed, the mentioned <span class="inline-code">CLAUDE.md</span>
+      file is dictating only rules regarding the general
+      setup of a specific project. It lacks any instructions that are related
+      to your personal, project-agnostic, preferences or your
+      local machine setup. To address this shortcoming, Claude Code supports
+      two additional variants of the <span class="inline-code">CLAUDE.md</span>
+      file.
+    </p>
+
+    <!--
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xxl)">
+      <img src="/images/cmd_different_files.png" alt="CLAUDE.md files">
+      <div class="image-caption">Fig 3.3.1 — CLAUDE.md files</div>
+    </div>
+    -->
+
+    <div class="claudemd-files-wrap">
+      <div class="claudemd-files-diagram">
+        <div class="claudemd-box claudemd-box--blue">
+          <div class="claudemd-box-title">CLAUDE.md.local</div>
+          <ul class="claudemd-box-list">
+            <li>Local File</li>
+            <li>Project Specific</li>
+            <li>Never committed</li>
+            <li>Machine-specific overrides</li>
+          </ul>
+        </div>
+        <div class="claudemd-box claudemd-box--orange">
+          <div class="claudemd-box-title">CLAUDE.md</div>
+          <ul class="claudemd-box-list">
+            <li>(Project) Root File</li>
+            <li>Project Specific</li>
+            <li>Always committed</li>
+            <li>Project-specific instructions</li>
+          </ul>
+        </div>
+        <div class="claudemd-box claudemd-box--blue">
+          <div class="claudemd-box-title">~/.claude/CLAUDE.md</div>
+          <ul class="claudemd-box-list">
+            <li>Global File</li>
+            <li>Project Agnostic</li>
+            <li>Never committed</li>
+            <li>Developer-specific instructions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <pre class="dir-tree"><code>
+      <span style="color:#38bdf8">~/(your home directory)</span>
+      ├── <span style="color:#38bdf8">.claude/</span>
+      │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>                    <span class="dt-note">← Global file</span>
+      │
+      ├── <span style="color:#38bdf8">projects/</span>
+      │   ├── <span style="color:#38bdf8">project_root/</span>
+      │   │   ├── <span style="color:#38bdf8">src/</span>
+      │   │   ├── <span style="color:#38bdf8">data/</span>
+      │   │   ├── <span style="color:#38bdf8">static/</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.md</span>                <span class="dt-note">← Project specific file</span>
+      │   │   ├── <span style="color:#d97757;font-weight:600">CLAUDE.local.md</span>          <span class="dt-note">← Local file</span>
+      │   │   ├── pyproject.toml
+      │   │   ├── README.md
+      │   │   └── requirements.txt
+    </code></pre>
+
+  </div>
+
+  <div class="card">
+
+    <h2 class="section-title">Global CLAUDE.md file</h2>
+
+    <p class="body-text">
+      First, the <strong>global file</strong>, located at 
+      <span class="inline-code">~/.claude/CLAUDE.md</span>, is your 
+      <strong> personal, machine-wide configuration that applies across 
+      every project you work on </strong>. It is intended for 
+      project-agnostic preferences like coding style, default
+      language choices, personal tooling shortcuts or any other 
+      instruction you would otherwise repeat in every project-level 
+      file.
+    </p>
+    
+    <p class="body-text">
+      It is a good idea to structure your <span class="inline-code">~/.claude/CLAUDE.md</span>
+      file using the same <strong>what/why/how</strong> framework.
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+        <strong>
+          <span class="feature-key">WHAT:</span> your universal technical preferences and
+          conventions (naming conventions, formatting rules, architectural patterns).
+        </strong>
+        <ul class="example-list">
+          <li>
+            Always use [PREFERRED NAMING CONVENTION] for variables, functions, classes and files.
+          </li>
+          <li>
+            All code must follow [YOUR FORMATTING STANDARD] with a maximum line length of [NUMBER] characters.
+          </li>
+          <li>
+            Favor [PREFERRED ARCHITECTURAL PATTERN] and [DATA HANDLING APPROACH] where possible.
+          </li>
+          <li>
+            Use [PREFERRED DOCUMENTATION STYLE] for all public functions and complex logic.
+          </li>
+        </ul>
+
+      </li>
+
+      <li>
+        <strong>
+          <span class="feature-key">WHY:</span> your personal coding philosophy and values.
+        </strong>
+        <ul class="example-list">
+          <li>
+            I prioritize [PRIMARY VALUE, e.g. readability / maintainability / simplicity / security] over cleverness or micro-optimizations.
+          </li>
+          <li>
+            Never use [PATTERN OR TOOL YOU CONSISTENTLY REJECT] because [REASON FOR REJECTION]
+          </li>
+          <li>
+            I strongly prefer [EXPLICIT / SIMPLE / MODULAR] over implicit or complex solutions.
+          </li>
+          <li>
+            Performance or new features matter only after correctness and clarity are achieved.
+          </li>
+        </ul>
+
+      </li>
+
+      <li>
+
+        <strong>
+          <span class="feature-key">HOW:</span> the universal rules for how Claude should behave and communicate.
+        </strong>
+        <ul class="example-list">
+          <li>
+            Never generate code without [YOUR UNIVERSAL REQUIREMENT, e.g. type annotations
+            / docstrings / error handling]
+          </li>
+          <li>
+            When suggesting changes, always show the before/after in [PREFERRED DIFF FORMAT].
+          </li>
+          <li>
+            If you are unsure about anything, explicitly state your assumptions and ask for
+            clarification rather than guessing.
+          </li>
+          <li>
+            Never use deprecated patterns or approaches - always suggest modern,
+            maintainable alternatives.
+          </li>
+          <li>
+            Default to writing comprehensive documentation and comments for any complex logic.
+          </li>
+        </ul>
+
+      </li>
+
+    </ul>
+
+  </div>
+
+  <div class="card">
+
+    <h2 class="section-title">Local CLAUDE.md file</h2>
+
+    <p class="body-text">
+      Second, the <strong>local file</strong>, named 
+      <span class="inline-code">CLAUDE.local.md</span>, which is placed in your
+      project root, next to the <span class="inline-code">CLAUDE.md</span> 
+      file, is designed for <strong>machine-specific or developer-specific
+      overrides that should never be committed to version control</strong>. 
+      It is ideal for capturing environment-specific paths, credentials
+      references, local database connection strings or personal workflow 
+      tweaks that are only relevant to your own machine and do not
+      affect your teammates. For this reason, the 
+      <span class="inline-code">CLAUDE.local.md</span> file should never be commited to
+      shared repositories. Ideally, it should always be added to 
+      your <span class="inline-code">.gitignore</span>.
+    </p>
+    
+    <p class="body-text">
+      The <span class="inline-code">CLAUDE.local.md</span> file is 
+      intended to be kept short, flat list of machine-specific overrides
+      rather than a structured briefing. It is designed to be a patch 
+      rather than an onboarding document. Therefore, it is ideal to
+      structure it as a flat, scannable list with one-line comments 
+      above each entry explaining why the override exists locally.
+      It should be kept as short and as specific as possible. If 
+      you find yourself writing paragraphs in your
+      <span class="inline-code">CLAUDE.local.md</span> file, that 
+      content almost certainly belongs somewhere else.
+    </p>
+    
+    <ul class="feature-list">
+      
+      <li>
+
+        <strong>
+          What belongs in the <span class="inline-code">CLAUDE.local.md</span> file:
+        </strong>
+        <ul class="example-list">
+          <li>
+            <strong>Local path overrides:</strong> any absolute or machine-specific
+            paths that differ from the project defaults, such as
+            [LOCAL DATA DIRECTORY], [LOCAL MODEL WEIGHTS PATH], or 
+            [LOCAL BINARY LOCATION].
+          </li>
+          <li>
+            <strong>Environment-specific commands:</strong> alternative run or build 
+            commands that only apply to your machine, such as a different
+            [LOCAL DEV SERVER COMMAND] or [LOCAL TEST RUNNER INVOCATION] 
+            caused by a non-standard local setup.
+          </li>
+          <li>
+            <strong>Local credentials references:</strong> not the credentials themselves, 
+            but pointers to where they live locally, such as
+            [LOCAL ENV FILE PATH] or [LOCAL SECRETS MANAGER REFERENCE].
+          </li>
+          <li>
+            <strong>Machine-specific tooling differences:</strong> if your local machine 
+            uses a different version of [TOOL OR RUNTIME] than the project
+            default, or if you rely on a [LOCAL PROXY OR MOCK SERVICE] during development.
+          </li>
+          <li>
+            <strong>Personal workflow overrides:</strong> short-term or personal 
+            preferences you want active only in your local sessions,
+            such as preferring more verbose logging output or skipping 
+            a specific [SLOW LOCAL TEST SUITE] during rapid iteration.
+          </li>
+        </ul>
+
+      </li>
+      
+    </ul>  
+    
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      When multiple <span class="inline-code">CLAUDE.md</span> files are present, Claude Code merges their contents by loading them alongside each other.
+      There is no strict precedence rule between levels; conflicting instructions depend on how Claude interprets the
+      combined text. This layered system lets you maintain a clean separation between what is universal to you as a
+      developer, what belongs to the project and what is strictly local to your current environment.
+    </div>
+    
+    
+  </div>
+
+</div>

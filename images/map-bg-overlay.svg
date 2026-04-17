@@ -1,0 +1,135 @@
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 1450" xmlns="http://www.w3.org/2000/svg">
+
+  <rect stroke-width="1" stroke="rgba(217,119,87,0.07)" fill="none" height="1426" width="1176" y="12" x="12"></rect>
+  <rect stroke-width="1" stroke="rgba(217,119,87,0.04)" fill="none" height="1410" width="1160" y="20" x="20"></rect>
+
+
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.04)" y2="280" x2="1200" y1="280" x1="0"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.04)" y2="560" x2="1200" y1="560" x1="0"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.04)" y2="840" x2="1200" y1="840" x1="0"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.04)" y2="1120" x2="1200" y1="1120" x1="0"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.03)" y2="1450" x2="300" y1="0" x1="300"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.03)" y2="1450" x2="600" y1="0" x1="600"></line>
+  <line stroke-dasharray="10 14" stroke-width="1" stroke="rgba(56,189,248,0.03)" y2="1450" x2="900" y1="0" x1="900"></line>
+
+
+  <text text-anchor="start" font-family="serif" font-size="9" fill="rgba(217,119,87,0.25)" y="265" x="18">N 38°</text>
+  <text text-anchor="start" font-family="serif" font-size="9" fill="rgba(217,119,87,0.25)" y="545" x="18">N 34°</text>
+  <text text-anchor="start" font-family="serif" font-size="9" fill="rgba(217,119,87,0.25)" y="825" x="18">N 30°</text>
+  <text text-anchor="start" font-family="serif" font-size="9" fill="rgba(217,119,87,0.25)" y="1105" x="18">N 26°</text>
+
+
+  <g opacity="0.8">
+    <path stroke-width="1.5" stroke="rgba(217,119,87,0.12)" fill="rgba(217,119,87,0.05)" d="M -40 50 C 40 0, 200 -15, 310 55 C 420 125, 450 215, 385 285 C 320 355, 155 370, 65 305 C -25 240, -110 165, -40 50 Z"></path>
+    <path fill="rgba(217,119,87,0.03)" d="M 60 95 C 125 52, 248 58, 295 118 C 342 178, 312 244, 232 260 C 152 276, 68 244, 50 182 Z"></path>
+    <path stroke-linejoin="round" stroke-width="1.5" stroke="rgba(217,119,87,0.15)" fill="none" d="M 108 218 L 146 164 L 184 218"></path>
+    <circle fill="rgba(52,211,153,0.13)" r="2.5" cy="238" cx="98"></circle>
+    <circle fill="rgba(52,211,153,0.10)" r="2" cy="244" cx="118"></circle>
+    <circle fill="rgba(52,211,153,0.13)" r="2.5" cy="240" cx="136"></circle>
+  </g>
+
+
+  <g opacity="0.75">
+    <path stroke-width="1.5" stroke="rgba(56,189,248,0.10)" fill="rgba(56,189,248,0.045)" d="M 1060 255 C 1140 215, 1280 238, 1315 338 C 1350 438, 1278 528, 1178 545 C 1078 562, 990 508, 962 428 C 934 348, 980 295, 1060 255 Z"></path>
+    <path fill="rgba(56,189,248,0.025)" d="M 1098 305 C 1158 280, 1228 292, 1258 358 C 1288 424, 1242 470, 1172 472 C 1102 474, 1055 434, 1048 382 Z"></path>
+    <path stroke-linejoin="round" stroke-width="1.5" stroke="rgba(56,189,248,0.13)" fill="none" d="M 1148 412 L 1186 358 L 1224 412"></path>
+    <circle fill="rgba(52,211,153,0.10)" r="2.5" cy="450" cx="1108"></circle>
+    <circle fill="rgba(52,211,153,0.08)" r="2" cy="456" cx="1128"></circle>
+  </g>
+
+
+  <g opacity="0.65">
+    <path stroke-width="1" stroke="rgba(217,119,87,0.09)" fill="rgba(217,119,87,0.045)" d="M -15 718 C 62 676, 205 692, 244 762 C 283 832, 212 882, 130 882 C 48 882, -28 844, -18 782 Z"></path>
+    <path stroke-linejoin="round" stroke-width="1.5" stroke="rgba(217,119,87,0.12)" fill="none" d="M 42 768 L 74 734 L 106 768"></path>
+  </g>
+
+
+  <g opacity="0.6">
+    <path stroke-width="1" stroke="rgba(56,189,248,0.08)" fill="rgba(56,189,248,0.035)" d="M 1050 835 C 1100 798, 1210 808, 1230 872 L 1230 900 L 1020 900 Z"></path>
+  </g>
+
+
+  <g opacity="0.55">
+    <path stroke-width="1" stroke="rgba(217,119,87,0.09)" fill="rgba(217,119,87,0.04)" d="M 180 1050 Q 240 1015, 295 1065 Q 330 1115, 285 1165 Q 225 1185, 175 1145 Z"></path>
+  </g>
+
+
+  <g opacity="0.5">
+    <ellipse stroke-width="1" stroke="rgba(56,189,248,0.08)" fill="rgba(56,189,248,0.035)" ry="32" rx="68" cy="1180" cx="950"></ellipse>
+    <circle fill="rgba(52,211,153,0.12)" r="3" cy="1175" cx="910"></circle>
+    <circle fill="rgba(52,211,153,0.09)" r="2" cy="1165" cx="935"></circle>
+  </g>
+
+
+  <g opacity="0.45">
+    <path stroke-width="1" stroke="rgba(217,119,87,0.07)" fill="rgba(217,119,87,0.03)" d="M 420 1320 L 455 1295 L 495 1315 L 530 1298 L 565 1325 Z"></path>
+  </g>
+
+
+  <path stroke-dasharray="5 12" stroke-width="1.5" stroke="rgba(217,119,87,0.08)" fill="none" d="M 80 278 Q 380 238 700 308 Q 1020 378 1320 342"></path>
+  <path stroke-dasharray="5 12" stroke-width="1.5" stroke="rgba(56,189,248,0.07)" fill="none" d="M 80 622 Q 360 592 700 632 Q 1020 672 1320 645"></path>
+
+  <path stroke-dasharray="4 11" stroke-width="1.2" stroke="rgba(217,119,87,0.06)" fill="none" d="M 1050 480 Q 820 720 480 785 Q 180 850 50 1120"></path>
+
+  <path stroke-dasharray="6 13" stroke-width="1.3" stroke="rgba(56,189,248,0.055)" fill="none" d="M 220 1180 Q 520 1215 850 1155 Q 1100 1120 1180 1280"></path>
+
+
+  <g opacity="0.18" transform="translate(1118, 108)">
+    <circle stroke-width="1" stroke="rgba(217,119,87,1)" fill="none" r="42" cy="0" cx="0"></circle>
+    <circle stroke-width="0.5" stroke="rgba(217,119,87,1)" fill="none" r="29" cy="0" cx="0"></circle>
+    <circle fill="rgba(217,119,87,0.3)" r="4.5" cy="0" cx="0"></circle>
+    <path fill="rgba(217,119,87,1)" d="M 0 -42 L 6 -26 L 0 -17 L -6 -26 Z"></path>
+    <path stroke-width="1" stroke="rgba(217,119,87,1)" fill="none" d="M 0 42 L 6 26 L 0 17 L -6 26 Z"></path>
+    <path stroke-width="1" stroke="rgba(217,119,87,1)" fill="none" d="M 42 0 L 26 -6 L 17 0 L 26 6 Z"></path>
+    <path stroke-width="1" stroke="rgba(217,119,87,1)" fill="none" d="M -42 0 L -26 -6 L -17 0 L -26 6 Z"></path>
+    <line stroke-width="1" stroke="rgba(217,119,87,0.9)" y2="-35" x2="0" y1="-42" x1="0"></line>
+    <line stroke-width="1" stroke="rgba(217,119,87,0.9)" y2="35" x2="0" y1="42" x1="0"></line>
+    <line stroke-width="1" stroke="rgba(217,119,87,0.9)" y2="0" x2="-35" y1="0" x1="-42"></line>
+    <line stroke-width="1" stroke="rgba(217,119,87,0.9)" y2="0" x2="35" y1="0" x1="42"></line>
+    <text font-weight="bold" font-family="serif" font-size="11" fill="rgba(217,119,87,1)" y="-49" x="-4">N</text>
+  </g>
+
+
+  <g opacity="0.21" transform="translate(780, 148)">
+    <circle stroke-dasharray="4 3" stroke-width="1" stroke="rgba(217,119,87,1)" fill="none" r="19" cy="0" cx="0"></circle>
+    <line stroke-linecap="round" stroke-width="2" stroke="rgba(217,119,87,1)" y2="12" x2="12" y1="-12" x1="-12"></line>
+    <line stroke-linecap="round" stroke-width="2" stroke="rgba(217,119,87,1)" y2="12" x2="-12" y1="-12" x1="12"></line>
+  </g>
+  <g opacity="0.17" transform="translate(285, 558)">
+    <circle stroke-dasharray="3 3" stroke-width="1" stroke="rgba(56,189,248,1)" fill="none" r="15" cy="0" cx="0"></circle>
+    <line stroke-linecap="round" stroke-width="2" stroke="rgba(56,189,248,1)" y2="9" x2="9" y1="-9" x1="-9"></line>
+    <line stroke-linecap="round" stroke-width="2" stroke="rgba(56,189,248,1)" y2="9" x2="-9" y1="-9" x1="9"></line>
+  </g>
+  <g opacity="0.25" transform="translate(600, 835)">
+    <circle stroke-dasharray="5 3" stroke-width="1.5" stroke="rgba(217,119,87,1)" fill="none" r="26" cy="0" cx="0"></circle>
+    <circle stroke-width="0.5" stroke="rgba(217,119,87,1)" fill="none" r="16" cy="0" cx="0"></circle>
+    <line stroke-linecap="round" stroke-width="2.5" stroke="rgba(217,119,87,1)" y2="16" x2="16" y1="-16" x1="-16"></line>
+    <line stroke-linecap="round" stroke-width="2.5" stroke="rgba(217,119,87,1)" y2="16" x2="-16" y1="-16" x1="16"></line>
+    <text text-anchor="middle" letter-spacing="3" font-family="serif" font-size="8" fill="rgba(217,119,87,0.85)" y="44" x="-28">DESTINATION</text>
+  </g>
+
+  <g opacity="0.14" transform="translate(105, 410)">
+    <circle stroke-dasharray="2 3" stroke-width="0.8" stroke="rgba(56,189,248,0.9)" fill="none" r="11" cy="0" cx="0"></circle>
+    <line stroke-linecap="round" stroke-width="1.5" stroke="rgba(56,189,248,1)" y2="7" x2="7" y1="-7" x1="-7"></line>
+    <line stroke-linecap="round" stroke-width="1.5" stroke="rgba(56,189,248,1)" y2="7" x2="-7" y1="-7" x1="7"></line>
+  </g>
+
+  <g opacity="0.16" transform="translate(920, 680)">
+    <circle stroke-dasharray="3 3" stroke-width="1" stroke="rgba(217,119,87,0.9)" fill="none" r="13" cy="0" cx="0"></circle>
+    <line stroke-linecap="round" stroke-width="1.8" stroke="rgba(217,119,87,1)" y2="8" x2="8" y1="-8" x1="-8"></line>
+    <line stroke-linecap="round" stroke-width="1.8" stroke="rgba(217,119,87,1)" y2="8" x2="-8" y1="-8" x1="8"></line>
+  </g>
+
+
+
+  <g opacity="0.22" transform="translate(420, 380)">
+    <path stroke="none" fill="rgba(217,119,87,0.9)" d="M-18 0 L18 0 L12 9 L-12 9 Z"></path>
+    <path stroke-width="2" stroke="rgba(217,119,87,0.9)" d="M0 -8 L0 4"></path>
+  </g>
+
+  <g opacity="0.19" transform="translate(810, 1020)">
+    <path stroke="none" fill="rgba(56,189,248,0.9)" d="M-18 0 L18 0 L12 9 L-12 9 Z"></path>
+    <path stroke-width="2" stroke="rgba(56,189,248,0.9)" d="M0 -8 L0 4"></path>
+  </g>
+
+</svg>

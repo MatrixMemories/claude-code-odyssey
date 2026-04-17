@@ -1,0 +1,313 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 1 · Introduction</span>
+    <span class="section-tag">Section 1.1 · What is Claude Code?</span>
+    <h1 class="page-title">What is a Coding Agent?</h1>
+    <div class="header-intro">
+      <p>
+        Large Language Models are brilliant thinkers trapped as “brains in a jar”. They powerful at reasoning but
+        blind and unable to read files, edit code, run commands, or interact with your actual project.
+      </p>
+      <p>
+        This chapter introduces the Agentic Harness, the essential “robotic body” that supplies tools, real-time
+        context, persistent memory, and a disciplined orchestration loop, transforming raw LLMs into true Agentic
+        Coding Assistants capable of autonomously owning complex programming tasks from start to finish.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 1/3</span>
+      <span class="meta-chip">~5 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Card 1: Agentic Harness -->
+  <div class="card">
+
+    <h2 class="section-title">Agentic Harness</h2>
+
+    <p class="body-text">
+      Large Language Models (LLMs) are very powerful tools for everyday work. However,
+      at their core, LLMs are just statistical prediction engines. Given an input in the
+      form of tokens (pieces of text and/or image data) they predict, one piece at a time,
+      what should come next. That single ability, called next-token prediction, is the
+      only functionality an LLM can do.
+    </p>
+
+    <p class="body-text">
+      LLMs have no eyes, no hands and no direct connection to the outside world. When it
+      comes to computer use, LLMs cannot click buttons, scroll through a screen, read
+      or write files from/to your hard drive, run terminal commands or see what the user
+      interface of your project looks like. Everything they "know" about your project
+      comes exclusively from the tokens you explicitly feet them as input in each turn.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xxl)">
+      <img src="/images/drawio_llm_workflow.png" alt="Diagram showing LLM workflow and token prediction process">
+      <div class="image-caption">Fig 1.1 — LLM next-token prediction workflow</div>
+    </div>
+
+    <p class="body-text">
+      This is why a raw LLM model by itself is nothing more than an extremely capable
+      thinker that lives inside a box: brilliant at reasoning, explaining and writing,
+      but completely blind and unable to act on the real world or the digital world for
+      that matter. <strong>You can think of it as a brain without a body.</strong>
+    </p>
+
+    <p class="body-text">
+      Fortunately, the same model is incredibly good at deciding what to do given that
+      it has the right context provided. That is, if a detailed description of your
+      screen, the exact file content, the terminal output history or a list of available
+      buttons and files, is provided, the LLM can describe, step by step, exactly
+      which button to click, which file to open, what exact code to write, which command
+      to run, and how to verify the result. Basically, the AI brain is more than
+      capable to understand the (digital) world and maneuver it. The challenge is to
+      manually gather and provide all that context every single turn. It is a tedious,
+      exhausting and often error-prone process.
+    </p>
+
+    <p class="body-text">
+      This is where the <strong>Agentic Harness</strong> comes into play. It solves the
+      "brain in a jar" problem by wrapping around the LLM and giving it everything
+      the model naturally lacks: eyes to see, hands to act, a reliable notebook for memory,
+      and a disciplined manager to stay on track. <strong> You can think of the
+      harness as the robotic body of the AI brain.</strong>
+    </p>
+
+    <p class="body-text">
+      At its core, every Agentic Harness is built from the same four essential layers that
+      work together like a well-oiled machine:
+    </p>
+
+    <div style="margin-top:var(--sp-l);">
+
+      <div class="layer-item">
+        <div class="layer-item-header">
+          <span class="layer-num">01</span>
+          <h3 class="layer-title">Tools and Interfaces</h3>
+        </div>
+        <p class="body-text">
+          The tools and interfaces supplied by the Agentic Harness act as the "hands" of
+          the LLM brain. These are the actual connections that let the model read files,
+          write code, run commands, search the internet, open browsers, create folders,
+          execute tests, or talk to other programs. The model no longer just describes what
+          should happen; it can make it happen.
+        </p>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-item-header">
+          <span class="layer-num">02</span>
+          <h3 class="layer-title">Context and Observation</h3>
+        </div>
+        <p class="body-text">
+          The Agentic Harness takes care of the tedious part of context management and supply
+          of observations. These functionalities act as the "eyes and the short-term memory"
+          of the LLM model. LLMs are known to have a limited attention span, and the harness
+          automatically gathers the right information at the right time:
+          which files are open, what the terminal just printed, what the screen looks like,
+          which tests failed, and so on. It filters noise, highlights what matters,
+          and keeps everything organized, so the brain never gets overwhelmed.
+        </p>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-item-header">
+          <span class="layer-num">03</span>
+          <h3 class="layer-title">Persistent Memory and State</h3>
+        </div>
+        <p class="body-text">
+          Furthermore, the Agentic Harness provides persistent memory and state — the "long-term
+          notebook." Projects rarely finish in one sitting. The harness saves progress,
+          task lists, decisions, and important context so that when you come back tomorrow (or
+          next week), the model wakes up knowing exactly where things stand, instead of
+          suffering total amnesia.
+        </p>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-item-header">
+          <span class="layer-num">04</span>
+          <h3 class="layer-title">Orchestration Loop</h3>
+        </div>
+        <p class="body-text">
+          Finally, and most importantly, it runs a continuous orchestration loop — the "discipline
+          and heartbeat." This is what gives the system real agency. The loop usually
+          follows these repeating steps:
+        </p>
+      </div>
+
+    </div>
+
+    <div style="display:flex;flex-direction:row;gap:var(--sp-xl);align-items:stretch;flex-wrap:wrap;margin-top:var(--sp-m);margin-bottom:var(--sp-xl);">
+
+      <!-- Left: step list -->
+      <div style="flex:2;min-width:220px;display:flex;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>Observe</strong> — gather fresh context from the codebase, shell output, or tool results</li>
+          <li><strong>Reason</strong> — think step-by-step about the goal and the next best move</li>
+          <li><strong>Act</strong> — call a tool: read a file, run a command, write code</li>
+          <li><strong>Verify</strong> — check results, run tests, reflect on what worked or failed</li>
+          <li><strong>Loop</strong> — repeat until the goal is reached or human input is needed</li>
+        </ul>
+      </div>
+
+      <!-- Right: image -->
+      <div style="flex:1.3;min-width:160px;display:flex;justify-content:center;align-items:center;">
+        <div class="image-wrap" style="--img-margin: 0px; max-width:420px;width:100%;">
+          <img src="/images/drawio_harness_loop.png" alt="Diagram of the observe-reason-act-verify agent loop">
+        </div>
+      </div>
+
+    </div>
+
+    <p class="body-text">
+      This simple cycle is the magic. It turns one-shot answers into sustained, goal-directed
+      work that can last hours or days.
+    </p>
+
+  </div>
+
+  <!-- Card 2: Agentic Coding Assistant -->
+  <div class="card">
+    <h2 class="section-title">Agentic Coding Assistant</h2>
+    <p class="body-text">
+      An Agentic Coding Assistant is the complete, ready-to-use system that
+      results when an Agentic Harness is wrapped around a language model
+      and specialized for programming work. It is no longer just a smart
+      thinker, it becomes a full digital teammate that can own complex coding
+      tasks end-to-end.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xxl)">
+      <img src="/images/gemini_coding_assistant.png" alt="An Agentic Coding Assistant">
+      <div class="image-caption">Fig 1.2 — Illustration of an Agentic Coding Assistant</div>
+    </div>
+
+    <p class="body-text">
+      Given a real world programing goal, like fix a bug, add a feature or
+      refactor a module, the assistant goes to work. It approaches the
+      problem in a similar manner to a human developer. It gathers the pieces
+      of the codebase it needs, thinks and forms a clear action plan,
+      makes the necessary changes, runs tests and keeps iterating until the
+      task is fully completed. Thanks to the Agentic Harness the full
+      process happens automatically in the background, without the user having
+      to copy-paste files or manually feed context in every step of
+      the process.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xxl)">
+      <img src="/images/drawio_agentic_coding_workflow.png" alt="Agentic Coding Assistant Workflow">
+      <div class="image-caption">Fig 1.3 — Agentic Coding Assistant Workflow</div>
+    </div>
+
+    <p class="body-text">
+      An efficient communication between a LLM and an Agentic Harness is possible
+      through <strong>Tool Use</strong> (sometimes still called by the
+      legacy term Function Calling). Tool Use is a specialized capability the model
+      learns during the post-training phase.
+      Here’s how it works: At the start of each interaction, the LLM receives a clear
+      list of available tools (with names, descriptions, and
+      parameter schemas) as part of its context. When the model decides a tool is
+      required, it responds with a structured function call instead
+      of normal text. The tool is then executed externally and the result is injected
+      back into the conversation, and the cycle continues until
+      the task is complete.
+    </p>
+
+    <p class="body-text">
+      In the context of Agentic Coding Assistants, the Agentic Harness
+      provides the external ecosystem related to tool use. Whenever
+      you send a request to the Coding Assistant, the Harness automatically
+      appends the list of tools and instructions that teach the LLM
+      how to request actions from the Harness. For example, it might add
+      text like: "If you want to read a file, respond with
+      'ReadFile: name of file'".
+    </p>
+
+    <ul class="feature-list">
+
+      <li>
+
+        <strong>
+          The complete workflow:
+        </strong>
+        <ul class="example-list">
+          <li>
+            You ask: "What exactly does the function <span class="inline-code">call_api</span> from
+            <span class="inline-code">@utils_api.py</span> do?"
+          </li>
+          <li>
+            The coding assistant adds tool instructions to your request
+          </li>
+          <li>
+            The language model responds: <span class="inline-code">ReadFile: util_api.py</span>
+          </li>
+          <li>
+            The coding assistant reads the actual file and sends its contents back to the model
+          </li>
+          <li>
+            The language model provides a final answer based on the file contents
+          </li>
+        </ul>
+
+      </li>
+
+    </ul>
+
+    <!--
+    <ul class="content-list">
+      <li>You ask: "What code is written in the util_api.py file?"</li>
+      <li>The coding assistant adds tool instructions to your request</li>
+      <li>The language model responds: "ReadFile: util_api.py"</li>
+      <li>The coding assistant reads the actual file and sends its contents back to the model</li>
+      <li>The language model provides a final answer based on the file contents</li>
+    </ul>
+    -->
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xl)">
+      <img src="/images/drawio_tool_use_example.png" alt="Detailed Agentic Coding Assistant Workflow">
+      <div class="image-caption">Fig 1.4 — Detailed Agentic Coding Assistant Workflow</div>
+    </div>
+
+    <p class="body-text">
+      This system allows language models to effectively "read files," "write
+      code," and "run commands" even though they're really just
+      generating carefully formatted text responses. However, not all
+      language models are equally good at using tools. The better the model is at
+      tool use, the better it works with an Agentic Coding Harness.
+      Benefits of strong tool use include:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>Tackles harder tasks</strong> — enables combining of different tools to handle
+        complex work and use of tools the LLM hasn't seen before.
+      </li>
+      <li>
+        <strong>Extensible platform</strong> — you can easily add new tools to the Coding Assistant,
+        and the LLM will adapt to use them as your workflow evolves.
+      </li>
+      <li>
+        <strong>Better security</strong> — the Coding Assistant can navigate codebases without
+        requiring indexing, which often means not sending your entire codebase to external servers.
+      </li>
+    </ul>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      To summarize, an Agentic Coding Assistant is what you get when raw
+      intelligence meets reliable action. It turns the “brain without a body”
+      into a dependable coding partner that reads your files, understands
+      your project, writes real code, tests it, and ships working results, exactly
+      what every developer has always wanted from an AI.
+    </div>
+
+  </div>
+
+
+
+
+</div>

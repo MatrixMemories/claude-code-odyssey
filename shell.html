@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude Code Guide — Interactive tutorial for Claude Code CLI">
+  <title>Claude Code Guide</title>
+  <!-- base ensures all relative URLs resolve from the site root even after
+       pushState changes the address bar to a custom path like /my-slug -->
+  <base href="/">
+
+  <!-- Inline theme restore — must run before first paint to prevent flash -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/neon-glass.css">
+</head>
+<body>
+
+  <!-- ================================================================
+       Site Header
+       ================================================================ -->
+  <header class="site-header">
+    <!-- Left: logo + mobile nav toggle -->
+    <a href="/index.html" class="logo">Claude <span>Code</span></a>
+    <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
+
+    <!-- Center: breadcrumb -->
+    <span id="breadcrumb" aria-live="polite"></span>
+
+    <!-- Right: actions -->
+    <div class="header-actions">
+      <button class="header-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light / dark theme">
+        <span id="theme-icon">☀</span>
+      </button>
+      <button class="header-btn" onclick="toggleFocus()" aria-label="Enter focus mode" title="Focus mode (F)">
+        ⤢ Focus
+      </button>
+    </div>
+  </header>
+
+  <!-- ================================================================
+       Navigator Panel (right side)
+       ================================================================ -->
+  <nav id="nav-panel" aria-label="Tutorial navigation">
+    <!-- Built dynamically by nav.js buildNav() -->
+  </nav>
+
+  <!-- ================================================================
+       Main Content Area
+       ================================================================ -->
+  <main id="content-area" tabindex="-1" aria-live="polite">
+    <!-- Subsection HTML fragments are injected here by nav.js -->
+    <div class="page-wrap">
+      <div class="card" style="text-align:center;padding:60px 40px;">
+        <p style="color:var(--mu);font-family:'JetBrains Mono',monospace;font-size:13px;">Loading…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================================================================
+       Exit Focus Button — visible only in focus mode (CSS controlled)
+       ================================================================ -->
+  <button id="exit-focus-btn" aria-label="Exit focus mode" title="Exit focus mode (Esc)">
+    ✕ Exit Focus
+  </button>
+
+  <!-- ================================================================
+       Scripts
+       ================================================================ -->
+  <script src="/js/nav.js"></script>
+  <script>
+    /* ------------------------------------------------------------------
+       Theme toggle
+       ------------------------------------------------------------------ */
+    function toggleTheme() {
+      var root = document.documentElement;
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.getElementById('theme-icon').textContent = next === 'dark' ? '☀' : '☾';
+    }
+
+    /* Sync icon on initial load */
+    (function () {
+      var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+      var icon = document.getElementById('theme-icon');
+      if (icon) icon.textContent = theme === 'dark' ? '☀' : '☾';
+    })();
+  </script>
+
+</body>
+</html>

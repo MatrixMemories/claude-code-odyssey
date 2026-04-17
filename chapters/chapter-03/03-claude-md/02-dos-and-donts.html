@@ -1,0 +1,470 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">CLAUDE.md Do’s & Don’ts</h1>
+    <p class="page-subtitle">How to Make Every Instruction Actually Stick</p>
+    <div class="header-intro">
+      <p>
+        Mastering your <span class="inline-code">CLAUDE.md</span> is the single highest-leverage move you can make
+        in Claude Code. It shapes every session, every task, and every line of output the model produces.
+      </p>
+      <p>
+        In this guide you’ll discover the proven do’s and don’ts that separate crisp, reliable agent behavior from
+        bloated, ignored instruction files: why length kills performance, how to keep every rule universally useful,
+        and the ruthless editing habits that keep your <span class="inline-code">CLAUDE.md</span> lean and obeyed.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 2/8</span>
+      <span class="meta-chip">~9 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <p class="body-text">
+      We have established what the <span class="inline-code">CLAUDE.md</span>
+      file is, its purpose within the Coding Agent and
+      high level dimensions that guide the development of the file. Next, we
+      look into the "do's" and "don'ts" of writing an effective
+      <span class="inline-code">CLAUDE.md</span> file. These will help guide
+      the style of the file and provide additional
+      valuable insights into the nature of the file.
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="body-text">
+      The curated list of "do's" and "don'ts" includes:
+    </p>
+
+    <div style="display:flex;flex-direction:row;gap:var(--sp-xl);align-items:stretch;flex-wrap:wrap;margin-top:var(--sp-m);margin-bottom:var(--sp-xl);">
+      <!-- Left: step list -->
+      <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>❌ DON'T: Make It a Wall of Text</strong></li>
+          <li><strong>✅ DO: Keep Instructions Universally Applicable</strong></li>
+          <li><strong>❌ DON'T: Patch Problems with Reactive Hotfixes</strong></li>
+          <li><strong>✅ DO: Structure for Clarity and Front-Load What Matters</strong></li>
+          <li><strong>❌ DON'T: Use It as a Linter or Style Guide</strong></li>
+        </ul>
+      </div>
+
+      <!-- Right: step list -->
+      <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>✅ DO: Start Minimal and Iterate</strong></li>
+          <li><strong>❌ DON'T: Auto-Generate with /init and Call It Done</strong></li>
+          <li><strong>✅ DO: Debug the CLAUDE.md Like You'd Debug Code</strong></li>
+          <li><strong>❌ DON'T: Include Empty, Aspirational, or Deprecated Sections</strong></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Card 1: DON'T: Make It a Wall of Text -->
+  <div class="card">
+
+    <h2 class="section-title">❌ DON'T: Make It a Wall of Text</h2>
+
+    <p class="body-text">
+      Keep your <span class="inline-code">CLAUDE.md</span> file as short as possible. 
+      A reasonable upper bound is around 300 lines. However, the best
+      <span class="inline-code">CLAUDE.md</span> files are far shorter than that. 
+      It is recommended to adopt an ultrashort philosophy: <strong>if a line doesn't
+      earn its place, cut it.</strong>
+    </p>
+
+    <p class="body-text">
+      This isn't just aesthetic preference, it's grounded in hard research. Frontier
+      LLMs, including Anthropics Claude, can follow at most around 200-300
+      instructions with reasonable consistency before performance collapses. According
+      to the IFScale benchmark, most models remain stable only up to about
+      200 instructions, beyond that accuracy drops sharply. <strong>The takeaway is blunt: as
+      instruction count climbs, the model begins failing to follow all of
+      them uniformly, not selectively.</strong>
+    </p>
+
+    <p class="body-text">
+      What makes this especially important for Claude Code is the layered instruction
+      environment you're already operating in. The Claude models running in
+      the background have a substantial system prompt of their own. On top of that,
+      any plugins, skills, MCP tools, or user turn messages all contribute
+      additional instructions. Your <span class="inline-code">CLAUDE.md</span> sits inside this pile. Every line you
+      add competes with every other instruction in the context window and
+      slowly chips away on the instruction-following quality of the Claude models
+      across the board.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Note that all models suffer from this issue, regardless of attributes like size,
+      reasoning effort or context window. Furthermore, note that the
+      most recent IFScale benchmark results are from July 2025 (around Sonnet 4,
+      Gemini 2.5 and GPT-4.5 time). Since then, models have improved and can
+      handle more than 200 instructions, but community estimates still put the
+      point of collaps well below 500.
+    </div>
+
+  </div>
+
+  <!-- Card 2: DO: Keep Instructions Universally Applicable -->
+  <div class="card">
+
+    <h2 class="section-title">✅ DO: Keep Instructions Universally Applicable</h2>
+
+    <p class="body-text">
+      LLMs perform best when the context around a task is focused and directly
+      relevant to that task. The <span class="inline-code">CLAUDE.md</span>
+      file is loaded into every Claude Code session regardless on what you are
+      working on. <strong>This means that all irrelevant instructions don't just
+      sit quietly, they actively dilute the signal.</strong>
+    </p>
+
+    <p class="body-text">
+      Aim to make every instruction in your <span class="inline-code">CLAUDE.md</span>
+      applicable to as wide a range of tasks as possible within
+      your project. Avoid task-specifics that only matter in narrow circumstances.
+      For example, a detailed database schema is just dead weight
+      when Claude Code is helping you write frontend components. It eats context,
+      adds to the instruction count and does nothing for the
+      current task.
+    </p>
+
+    <p class="body-text">
+      The Anthropic team has made this dynamic explicit: if a Claude model
+      detects that a <span class="inline-code">CLAUDE.md</span> file is
+      poorly suited to the current task, it may choose to downweight or
+      flat out ignore it. This behavior was built in deliberately, because
+      ignoring a bad <span class="inline-code">CLAUDE.md</span> yields
+      better results than following it. The conclusion: the more task-irrelevant
+      content you include, the higher the chance your <span class="inline-code">CLAUDE.md</span>
+      context will clash with the current task and
+      thus be entirely ignored by the LLM.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      The practical implication: write instructions in your <span class="inline-code">CLAUDE.md</span>
+      file that would improve the output of
+      the Claude model on <strong>any</strong> session, not just the one
+      you're currently working on. If an instruction only matters for one
+      narrow context, it belongs in a comment, a downstream skill or something
+      third, not in the root <span class="inline-code">CLAUDE.md</span> file.
+    </div>
+
+  </div>
+  
+  <!-- Card 3: DON'T: Patch Problems with Reactive Hotfixes -->
+  <div class="card">
+
+    <h2 class="section-title">❌ DON'T: Patch Problems with Reactive Hotfixes</h2>
+
+    <p class="body-text">
+      One of the most common antipatterns in Claude Code workflows is reactive
+      hot-fixing: Claude Code does something you didn't want, so you bolt a
+      <strong>"NEVER do X"</strong> instruction onto the end of your
+      <span class="inline-code">CLAUDE.md</span> and move on. If you repeat this a few
+      times, you will have a file bloated with hotfixes that don't address the underlying cause.
+    </p>
+
+    <p class="body-text">
+      Every hotfix you add is another instruction added to an already crowded
+      context. Worse, these rules tend to be written in the heat of frustration,
+      imprecise, overly broad or contradictory with earlier instructions.
+      They often accumulate faster than they are cleaned up, turning your <span class="inline-code">CLAUDE.md</span>
+      file into a bloated list of band-aids. Over time, this weakens the LLM’s ability
+      to follow the instructions consistently, eventually reaching a point where the
+      file is effectively ignored.
+    </p>
+
+    <p class="body-text">
+      When Claude Code does something unexpected, the right first move is to
+      ask why. Was the task ambiguous? Was a type missing? Was the project
+      structure sending the wrong signal? More often than not, the real fix
+      is upstream: a clearer workflow step, a better-defined interface, a more
+      sensible file organization.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Reserve <span class="inline-code">CLAUDE.md</span> rules for durable,
+      project-wide truths. If a rule exists because of one bad session and
+      addresses a symptom rather than a cause, it probably doesn't belong there.
+      Your <span class="inline-code">CLAUDE.md</span> should feel like a
+      thoughtful constitution, not a criminal code full of after-the-fact amendments.
+    </div>
+
+  </div>
+
+  <!-- Card 4: DO: Structure for Clarity and Front-Load What Matters -->
+  <div class="card">
+
+    <h2 class="section-title">✅ DO: Structure for Clarity and Front-Load What Matters</h2>
+
+    <p class="body-text">
+      A <span class="inline-code">CLAUDE.md</span> file that contains good rules, but
+      presents them poorly is still a bad <span class="inline-code">CLAUDE.md</span> file.
+      Structure is not optional or good to have, it directly affects which instructions
+      Claude Code follows and how reliably. A good rule of thumb is to create a
+      <span class="inline-code">CLAUDE.md</span> file that follows a clear, scannable
+      structure so that Claude Code can instantly grasp what matters most.
+    </p>
+
+    <p class="body-text">
+      Start with the most important instructions. When it comes to instruction-following,
+      LLMs have a strong primacy/recency bias: they attend more strongly to content
+      at the beginning and end of the full context window. The Claude system prompt
+      occupies the very top of the context window, what follows is the
+      <span class="inline-code">CLAUDE.md</span> file. That means that the
+      <span class="inline-code">CLAUDE.md</span> file is prime real estate for your
+      instructions, especially the beginning of the file. Don't bury critical
+      behavior behind a long project description or a preamble that could have been cut.
+    </p>
+
+    <p class="body-text">
+      Beyond the <strong>placement</strong> and <strong>structure</strong>, it is important to be extremely
+      <strong>clear and concise</strong> on every rule. Furthermore, every rule should be verifiable, so that
+      it can be followed correctly or violated detectably. Avoid using vague language
+      like "write clean code", "follow best practices" or "be thoughtful about
+      error handling" — these are aspirations, not instructions. Prefer formulations
+      that can, in principle, be checked: "do not use
+      <span class="inline-code">any</span> in TypeScript" or "run tests before
+      marking a task complete".
+    </p>
+
+    <p class="body-text">
+      Do not reference external files with phrases like "see file X for conventions".
+      Claude Code will almost never fetch and read that file. If something is
+      important enough to be included, include it directly. If it's too long to include
+      directly, it's probably too specific to belong in the
+      <span class="inline-code">CLAUDE.md</span> at all. If you must reference an
+      external file use <span class="inline-code">@</span> instead.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Keep the document non-verbose. Say a rule once, say it plainly and stop. Repetition
+      and hedging language ("please try to", "generally speaking,
+      you should") are not free. They consume tokens and dilute the instruction's weight
+      without providing any upside.
+    </div>
+
+  </div>
+
+  <!-- Card 5: DON'T: Use It as a Linter or Style Guide -->
+  <div class="card">
+
+    <h2 class="section-title">❌ DON'T: Use It as a Linter or Style Guide</h2>
+
+    <p class="body-text">
+      For those that don't know, a linter is a static analysis tool that checks your
+      code for formatting errors, style violations and common mistakes. Linters
+      are automated and cheap tools that don't consume any context in your Claude
+      Code sessions. <strong>Forcing your Claude Code Agent to replicate that job through
+      the <span class="inline-code">CLAUDE.md</span> is a mistake on every level.</strong>
+    </p>
+
+    <p class="body-text">
+      Code style guidelines — indentation rules, naming conventions, import ordering,
+      bracket placement — inevitably balloon into dozens of instructions and
+      example snippets that dilute the model's attention. LLMs are masterful in-context
+      learners: if your existing codebase already follows clear patterns,
+      Claude Code will tend to match those patterns simply by observing the existing
+      code. You don't need to describe what it can infer.
+    </p>
+
+    <p class="body-text">
+      The correct approach is to keep linting and formatting outside the model entirely.
+      Use a hook that runs your formatter and linter after each Claude Code
+      action and surfaces errors as structured output for Claude to fix, rather than
+      asking Claude to detect formatting problems from scratch. Tools like <strong>Biome</strong>
+      (for web projects) and <strong>Ruff</strong> (for Python) are particularly well-suited here,
+      because they can auto-fix a large class of issues before Claude Code ever sees
+      them. For the issues these tools can't auto-fix, presenting the linter's error output
+      to Claude is far more reliable than asking Claude to remember a style rule
+      it read once in a config file.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+        The division of labor is simple: let deterministic tools handle deterministic
+      rules, and let Claude handle the parts that actually require reasoning.
+    </div>
+
+  </div>
+
+  <!-- Card 6: DO: Start Minimal and Iterate -->
+  <div class="card">
+
+    <h2 class="section-title">✅ DO: Start Minimal and Iterate</h2>
+
+    <p class="body-text">
+      The <span class="inline-code">CLAUDE.md</span> file is not a one-and-done document
+      you set and forget. On day one, your <span class="inline-code">CLAUDE.md</span>
+      file should be short, even uncomfortably short if you're used to writing comprehensive
+      documentation. That is your starting point. You do not know yet which
+      instructions will matter, which the model will follow naturally without
+      prompting, and which will prove too narrow to keep.
+    </p>
+
+    <p class="body-text">
+      The best practice is to let your file evolve organically as your project
+      grows or as you work on additional parts of an already existing project. Only respond
+      to real observed behavior. Ideally, you should update the
+      <span class="inline-code">CLAUDE.md</span> file after every few sessions, rather than every
+      few minutes. When something in a session works well — a phrasing that led
+      to the right behavior, a constraint that prevented a recurring mistake —
+      capture it. When something stops being relevant, delete it.
+    </p>
+
+    <p class="body-text">
+      Deletion is as important as addition. Apply a <strong>ruthless deletion discipline</strong>: if a
+      section is no longer active, if a rule was added for a problem that
+      no longer exists, or if an instruction covers something Claude already does
+      correctly by default, cut it. A line that doesn't change
+      behavior is just noise that makes every other line slightly less likely to
+      be followed.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      You can enlist Claude Code itself in this process. After every couple of sessions
+      or at any within a conversation, you can ask Claude Code to review
+      the current <span class="inline-code">CLAUDE.md</span> and propose updates,
+      additions, or removals. Include your observations in the prompt when
+      asking Claude Code for the review as well, especially if there are notes
+      from previous sessions. Treat the file as living code, with its own
+      feedback loop.
+    </div>
+
+  </div>
+  
+  <!-- Card 7: DON'T: Auto-Generate with /init and Call It Done -->
+  <div class="card">
+
+    <h2 class="section-title">❌ DON'T: Auto-Generate with /init and Call It Done</h2>
+
+    <p class="body-text">
+      Running <span class="inline-code">/init</span> is tempting, since it produces a
+      <span class="inline-code">CLAUDE.md</span> file instantly from your project
+      structure, so you can get to work immediately, and it feels like you've done
+      the responsible thing. Don't fall into this trap. The autogenerated
+      <span class="inline-code">CLAUDE.md</span> file is only a rough starting
+      draft, and it is often a poor one, so never treat it as final.
+    </p>
+
+    <p class="body-text">
+      <strong>The <span class="inline-code">CLAUDE.md</span> file is the highest-leverage
+      configuration point in the entire Claude Code harness.</strong> Every line of the
+      file shapes the context of every session, every task and every output the
+      LLM produces. The full potential of the leverage is wasted on an
+      auto-generated file. It typically includes noise from directory scans
+      (irrelevant file paths, boilerplate descriptions), misses project specific
+      conventions that aren't inferrable from the file tree, and produce a
+      structure that doesn't reflect how the project is actually worked on.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      If you end up using <span class="inline-code">/init</span> at all, treat the
+      output as raw material. Read every line critically, cut what doesn't apply,
+      rewrite what's imprecise, and add the things that actually matter to how you
+      work. A few minutes of deliberate editing will outperform the generated
+      output by a wide margin. Shortcuts here compound into worse sessions over
+      the life of the project.
+    </div>
+
+  </div>
+
+  <!-- Card 8: DO: Debug the CLAUDE.md Like You'd Debug Code -->
+  <div class="card">
+
+    <h2 class="section-title">✅ DO: Debug the CLAUDE.md Like You'd Debug Code</h2>
+
+    <p class="body-text">
+      If your <span class="inline-code">CLAUDE.md</span> file isn't producing the
+      behavior you expect, that's a bug and it should be treated like one.
+      Staring at the file and guessing won't fix it, what you need is a <strong>feedback loop</strong>.
+    </p>
+
+    <p class="body-text">
+      Start by reviewing agent logs from recent sessions. Look for recurring mistakes,
+      failed tool calls, misaligned outputs, or patterns of behavior
+      that your <span class="inline-code">CLAUDE.md</span> should be preventing but
+      isn't. Often the culprit is one of three things: a missing rule,
+      an ambiguous rule that the LLM interpreted differently than you intended,
+      or a contradiction between two rules that leaves the model no good path.
+      You can feed these logs directly to Claude Code and ask it to diagnose
+      which instruction failed and why.
+    </p>
+
+    <p class="body-text">
+      Once you've identified a suspect rule, test it deliberately. Design a
+      small task that creates pressure on that specific instruction, something
+      that would tempt the model to violate it if the rule weren't working.
+      Observe the output. If Claude Code breaks the rule, diagnose immediately:
+      is the instruction too vague? Too buried? In conflict with another
+      instruction? Rewrite it and re-test.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      The standard is not "The LLM usually follows this rule." The standard is:
+      the LLM follows this rule even under pressure, even at the end of a
+      long session, even when the user's task seems to pull in another direction.
+      A rule that only holds in easy cases isn't worth the tokens it
+      costs. Writing it is meaningless, unless Claude obeys it when it counts.
+    </div>
+
+  </div>
+
+  <!-- Card 9: DON'T: Include Empty, Aspirational, or Deprecated Sections -->
+  <div class="card">
+
+    <h2 class="section-title">❌ DON'T: Include Empty, Aspirational, or Deprecated Sections</h2>
+
+    <p class="body-text">
+      Every section of your <span class="inline-code">CLAUDE.md</span> file consumes
+      attention from the LLM and tokens from your context window. Empty sections
+      consume both while providing nothing in return. An empty "Testing Strategy"
+      heading tells Claude Code nothing about how to test your code, it just
+      signals an intention you haven't acted on yet.
+    </p>
+
+    <p class="body-text">
+      Aspirational sections are a close relative: content that describes where
+      the project is going rather than where it is. If a section exists to give
+      Claude Code a sense of future direction, it's almost certainly adding
+      irrelevant context. The right place for project vision is a brief, grounded
+      project description at the top of the file. Anything that doesn't fit
+      there is not relevant to the current task.
+    </p>
+
+    <p class="body-text">
+      <strong>Deprecated sections are the most insidious.</strong> These are instructions that
+      were genuinely useful during an earlier phase of development. For example,
+      some backend scaffolding rules that guided a month of intensive work but
+      are no longer active concerns. They linger because deletion feels risky:
+      what if you need them again?. In practice, they dilute the file's relevance
+      and add to the instruction load for work they have no bearing on.
+      If a completed module has its own conventions worth preserving, document
+      them in that module's local context (a subdirectory
+      <span class="inline-code">CLAUDE.md</span> or an inline
+      <span class="inline-code">README</span>), not in the root file that governs every session.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      The rule is simple: if a section isn't actively shaping Claude's behavior on 
+      current work, it shouldn't be there.
+    </div>
+
+  </div>
+
+</div>

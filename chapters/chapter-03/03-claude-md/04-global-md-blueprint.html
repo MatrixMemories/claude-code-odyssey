@@ -1,0 +1,858 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">Global CLAUDE.md Blueprint</h1>
+    <p class="page-subtitle">The Highest-Leverage Config File You’ll Ever Write</p>
+    <div class="header-intro">
+      <p>
+        The global <span class="inline-code">~/.claude/CLAUDE.md</span> is quite possibly the highest-leverage
+        configuration file you will ever write for Claude Code.
+      </p>
+      <p>
+        This short, permanent blueprint encodes your personal developer identity. It includes your preferred response
+        style, stack choices, autonomy rules, testing philosophy, code review voice, and non-negotiables. Create it
+        once, and never repeat yourself again.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 4/8</span>
+      <span class="meta-chip">~12 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Header Card
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <h1 class="page-title">Building a Global CLAUDE.md file</h1>
+    <p class="body-text" style="color:var(--tx);font-size:16px;line-height:1.7;margin-bottom:0;">
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 4/7</span>
+      <span class="meta-chip">~12 min read</span>
+      <span class="meta-chip">Claude Code ≥ 1.0</span>
+    </div>
+  </div>
+  -->
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+
+    <p class="body-text">
+      Similar to the repository level <span class="inline-code">CLAUDE.md</span> file, the Global <span class="inline-code">CLAUDE.md</span> file is best writen in
+      sections. However, the sections themselves should be somewhat different. Remember that in this <span class="inline-code">CLAUDE.md</span> file your
+      personal developer identity lives. Not project-specific conventions, but your universal defaults, preferences and non-negotiables.
+    </p>
+
+    <p class="body-text">
+      Even more than the repository level file, the Global <span class="inline-code">CLAUDE.md</span> file is probably the most leveraged config file you
+      will ever write for Claude Code. You create it once and benefit on every project, forever. Below we break down the essential sections — what they do,
+      why they matter, and how to get them right.
+    </p>
+    
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Most of the same do's and don'ts apply as for the repository level <span class="inline-code">CLAUDE.md</span> file.
+      A difference to the repository level file is that the global file should be considerably shorter. Recommendation is anywhere between 30 and 100 lines.
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <p class="body-text">
+      Again, the following sections are only examples and suggestions to present how and what can be included in the global <span class="inline-code">CLAUDE.md</span>
+      file. To keep within the recommended limits of the size, do not include all of them, rather pick and choose the most important ones.
+    </p>
+
+    <div style="display:flex;flex-direction:row;gap:var(--sp-xl);align-items:stretch;flex-wrap:wrap;margin-top:var(--sp-m);margin-bottom:var(--sp-xl);">
+      <!-- Left: step list -->
+      <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>1. Response Style (Essential)</strong></li>
+          <li><strong>2. Stack Preferences (Essential)</strong></li>
+          <li><strong>3. Define Your "Never Ask Me Again" List (Essential)</strong></li>
+          <li><strong>4. Testing Philosophy (Essential)</strong></li>
+          <li><strong>5. Encode Your Code Review Voice (High Value)</strong></li>
+          <li><strong>6. Git & Commit Convention (High Value)</strong></li>
+        </ul>
+      </div>
+
+      <!-- Right: step list -->
+      <div style="flex:2;min-width:220px;align-items:center;">
+        <ul class="content-list highlighted" style="margin:0">
+          <li><strong>7. Specify Your Error Message Standard (High Value)</strong></li>
+          <li><strong>8. Teach It Your Debugging Ritual (High Value)</strong></li>
+          <li><strong>9. Set a Complexity Budget (Optional)</strong></li>
+          <li><strong>10. Prime It With Your Blind Spots (Optional)</strong></li>
+          <li><strong>11. Add a "What Good Looks Like" Benchmark (Optional)</strong></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Card 2: Response Style (Essential) section -->
+  <div class="card">
+    
+    <h2 class="section-title">1. Response Style (Essential)</h2>
+    
+    <p class="body-text">
+      Claude's default communication style is calibrated for general audiences. It is verbose, heavily caveated, and explanation-heavy. Since the
+      Global <span class="inline-code">CLAUDE.md</span> is read at the start of every session, defining your preferred tone here shapes every single
+      interaction before you type a word.
+    </p>
+
+    <p class="body-text">
+      Claude Code uses this to decide how much commentary to wrap around diffs and shell output, whether to produce terse one-liners or documented
+      explanations, and how to structure multi-step plan outputs.
+    </p>
+
+    <p class="body-text">
+      Without this, you re-prompt style preferences on every new project or conversation. Centralising it means even a brand-new repo inherits
+      your preferences from minute zero.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Response Style</span>
+
+          - Be concise. Prefer short answers; expand only if asked.
+          - No motivational preamble (<span class="token-prompt">"Great question!"</span>, <span class="token-prompt">"Sure, I'd be happy to..."</span>).
+          - When showing code changes, default to diffs, not full file rewrites.
+          - Use inline comments sparingly — only for non-obvious logic.
+          - Bullet lists over prose for multi-part answers.
+          - If you're uncertain, say so in one sentence. Don't hedge every line.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+    <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li><strong>Use a persona anchor:</strong> "Write as a senior engineer talking to another senior engineer" — this collapses explanation length dramatically.</li>
+        <li><strong>Separate output modes:</strong> Define one style for code tasks and a slightly looser style for design/architecture discussions where you want more reasoning.</li>
+        <li><strong>Call out the anti-patterns you hate most explicitly</strong>  — "never start a response with 'Certainly'" — Claude will avoid them reliably.</li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 3:Stack Preferences  (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">2. Stack Preferences (Essential)</h2>
+
+    <p class="body-text">
+      Without explicit stack preferences, Claude will default to the most common tool for a given task, which may not match your
+      ecosystem at all.  Declaring your canonical choices eliminates the "which library should I use?" back-and-forth entirely.
+    </p>
+
+    <p class="body-text">
+      Claude Code uses this when generating scaffolding, writing new modules, suggesting dependencies, or writing test boilerplate.
+      It won't reach for Requests when you use HTTPX, or suggest Flask when your shop runs FastAPI.
+    </p>
+
+    <p class="body-text">
+      Every new project Claude touches inherits your defaults, so you spend zero time course-correcting early suggestions. This
+      is especially high-value for AI/ML work where the ecosystem is fragmented (PyTorch vs JAX, Pandas vs Polars, etc.).
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Stack Preferences</span>
+
+          <span class="token-keyword">### Python / Backend</span>
+          - <span class="token-prompt">Python 3.12+</span>. Type hints on all public functions.
+          - Async: <span class="token-prompt">asyncio</span> + <span class="token-prompt">anyio</span>. Never threading for I/O.
+          - HTTP client: <span class="token-prompt">httpx</span> (not <span class="token-prompt">requests</span>). HTTP server: <span class="token-prompt">FastAPI</span>.
+          - Data: <span class="token-prompt">Polars</span> preferred over <span class="token-prompt">Pandas</span> for new code.
+          - ML: <span class="token-prompt">PyTorch</span> + <span class="token-prompt">Lightning</span>. Experiment tracking: <span class="token-prompt">MLflow</span>.
+          - Config: <span class="token-prompt">Pydantic BaseSettings</span> + <span class="token-prompt">.env</span> files.
+          - Packaging: <span class="token-prompt">uv</span>. No <span class="token-prompt">setup.py</span>, no <span class="token-prompt">pip install -e</span>.
+
+          <span class="token-keyword">### Frontend</span>
+          - <span class="token-prompt">React 18</span> + <span class="token-prompt">TypeScript</span>. <span class="token-prompt">Tailwind</span> for styling.
+          - State: <span class="token-prompt">Zustand</span> (not <span class="token-prompt">Redux</span>). Server state: <span class="token-prompt">TanStack Query</span>.
+          - Never suggest class components or legacy context API.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li><strong>"Never suggest X"</strong> statements are more powerful than positive preferences alone — Claude will actively avoid banned libraries.</li>
+        <li>Add a <strong>version note</strong> for things that changed significantly (e.g., "PyTorch 2.x compile API, not 1.x-style hooks") to avoid outdated patterns.</li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 4: Define Your "Never Ask Me Again" List (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">3. Define Your "Never Ask Me Again" List (Essential)</h2>
+
+    <p class="body-text">
+      Claude's default behavior is to confirm, clarify and hedge before acting. For experienced users, this is friction. This section tells Claude
+      exactly which decisions it has standing permission to make without asking, saving dozens of unnecessary confirmation rounds per week.
+    </p>
+
+    <p class="body-text">
+      In agentic tasks, including multi-step code edits, file creation, running commands, Claude Code otherwise pauses repeatedly for micro-approvals.
+      This list converts those pause points into automatic continuations. It's the difference between an assistant and an agent.
+    </p>
+
+    <p class="body-text">
+      These preferences are personal and project-independent. You'll always want Claude to format on save and always want it to skip
+      "should I create this directory?". There's no reason to re-declare this in every repo.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Never Ask Me</span>
+
+          - Whether to create a directory if the path is implied by the task.
+          - Whether to add <span class="token-prompt">__init__.py</span> files in Python packages.
+          - Whether to run <span class="token-prompt">ruff</span> or <span class="token-prompt">black</span> after generating Python code.
+          - Whether to write tests when I say "<span class="token-prompt">implement X</span>" — always write them.
+          - Whether to use my preferred stack (see <span class="token-prompt">Stack Preferences</span>).
+          - Whether to overwrite a file if I explicitly told you to rewrite it.
+
+          <span class="token-keyword">## Always Ask Me</span>
+
+          - Before deleting files or data.
+          - Before running database migrations.
+          - Before committing or pushing to git.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          Pair with an <strong>"Always Ask Me"</strong> counterlist — the contrast makes the boundary explicit and
+          prevents Claude from over-applying the autonomy grant to genuinely risky operations.
+        </li>
+        <li>
+          <strong>Grow this list organically:</strong> every time you find yourself saying "yes, go ahead" to
+          the same question, add it.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 5: Testing Philosophy (Essential) section -->
+  <div class="card">
+
+    <h2 class="section-title">4. Testing Philosophy (Essential)</h2>
+
+    <p class="body-text">
+      Testing preferences vary wildly between developers and are almost never reflected in a project's boilerplate. Without guidance,
+      Claude will produce tests that are technically valid, but misaligned with how you actually verify correctness. This will
+      reflect in wrong granularity, wrong framework, or wrong coverage focus.
+    </p>
+
+    <p class="body-text">
+      Claude Code generates test stubs alongside implementation code. This section determines the framework, the assertion style,
+      the mocking approach, and how deeply Claude tests edge cases vs. just the happy path.
+    </p>
+
+    <p class="body-text">
+      Test strategy is usually one of the most personal engineering choices and one of the least likely to change between projects.
+      Encoding it globally means every implementation Claude writes, will come with tests that actually fit your workflow.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Testing Philosophy</span>
+
+          - Framework: <span class="token-prompt">pytest</span>. No <span class="token-prompt">unittest.TestCase</span> subclasses.
+          - Fixtures over setUp/tearDown. Use <span class="token-prompt">conftest.py</span>.
+          - Test behaviour, not implementation. No testing private methods.
+          - Mocking: <span class="token-prompt">pytest-mock</span> (<span class="token-prompt">mocker</span> fixture). Prefer dependency injection
+            over patching when possible.
+          - Coverage goal: 80% on business logic, 0% on migrations/scripts.
+          - Integration tests go in <span class="token-prompt">tests/integration/</span>, unit in <span class="token-prompt">tests/unit/</span>.
+          - ML models: always test with a minimal synthetic dataset, not prod data.
+          - Parametrize edge cases. Don't write five near-identical test functions.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          Add a <strong>naming convention rule</strong> (e.g., "test_{thing}_{condition}_{expected_result}"). Claude will
+          follow it consistently and your test suite becomes self-documenting.
+        </li>
+        <li>
+          <strong>If you do Test-Driven Development (TDD), say it explicitly</strong>: "Write the test first, then the implementation."
+          Claude will invert its default generation order.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 6: Encode Your Code Review Voice (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">5. Encode Your Code Review Voice (High Value)</h2>
+
+    <p class="body-text">
+      When you ask Claude to review your code, it defaults to a diplomatic, comprehensive, enumerate-everything style. Your actual review
+      preferences — what to nitpick, what to ignore, how to phrase criticism — are entirely personal and take months for a human colleague
+      to learn.
+    </p>
+
+    <p class="body-text">
+      Claude Code uses this section to calibrate the severity, focus, and format of review feedback. The difference between "provide
+      feedback" and a well-tuned review voice is the difference between generic linting commentary and actionable senior-engineer input.
+    </p>
+
+    <p class="body-text">
+      Review preferences don't change between projects. Whether you're reviewing a PyTorch training loop or a React component, you want
+      the same signal-to-noise ratio and the same level of directness.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Code Review Voice</span>
+
+          - Be direct. Label issues: <span class="token-prompt">[blocking]</span>, <span class="token-prompt">[suggestion]</span>, <span class="token-prompt">[nit]</span>.
+          - Don't praise correct code. Focus on what needs to change.
+          - Blocking issues: correctness bugs, security holes, perf cliffs.
+          - Suggestions: better patterns, API improvements, readability.
+          - Nits: style, naming — mention once, don't dwell.
+          - Always suggest the fix, not just the problem.
+          - Skip comments on auto-generated code or vendored files.
+          - Max 10 comments per review. Prioritise ruthlessly.
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 7: Git & Commit Convention (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">6. Git & Commit Convention (High Value)</h2>
+
+    <p class="body-text">
+      Commit history is a communication medium, it documents intent, enables bisecting, and drives changelogs. Without explicit convention,
+      Claude will invent its own style on every git commit it touches, producing an inconsistent log that's noise rather than signal.
+    </p>
+
+    <p class="body-text">
+      Claude Code generates commit messages when you ask it to stage and commit changes, writes PR descriptions, and summarizes diffs. This
+      section controls every word of that output, including type prefix, tense, scope format, body length, and whether breaking changes get
+      flagged. It also shapes how Claude reads your history when it needs to reason about what changed and why.
+    </p>
+
+    <p class="body-text">
+      Commit style is personal and cross-project. Whether you're on a solo ML experiment or a shared API service, you want the same readable
+      history. Declaring it globally means Claude never reverts to generic "fix bug" messages, even on a repo it has never seen before.
+    </p>
+
+    <p class="body-text">
+      The following types form the full vocabulary Claude will draw from when writing commit messages. Scope and subject rules apply to all
+      of them equally:
+    </p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>When to Use</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">feat</td>
+            <td>New feature, new capability</td>
+            <td><span class="inline-code">feat(auth): add refresh token rotation</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">fix</td>
+            <td>Bug fix</td>
+            <td><span class="inline-code">fix(trainer): prevent NaN loss on empty batch</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">refactor</td>
+            <td>Code change with no behaviour change</td>
+            <td><span class="inline-code">refactor(pipeline): extract transform step</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">chore</td>
+            <td>Tooling, deps, CI, config</td>
+            <td><span class="inline-code">chore: bump torch to 2.3.0</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">docs</td>
+            <td>Documentation only</td>
+            <td><span class="inline-code">docs(api): document pagination params</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">test</td>
+            <td>Adding or updating tests</td>
+            <td><span class="inline-code">test(model): add edge case for zero-length input</span></td>
+          </tr>
+          <tr>
+            <td style="color: var(--purple); font-weight: 600;">perf</td>
+            <td>Performance improvement</td>
+            <td><span class="inline-code">perf(dataloader): switch to pin_memory prefetch</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Git &amp; Commit Convention</span>
+
+          <span class="token-keyword">### Commit message format</span>
+          Follow Conventional Commits: <span class="token-prompt">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span>
+          - Subject: imperative mood, lowercase, no period, max 72 chars.
+            Good: "<span class="token-prompt">add retry logic for transient errors</span>"
+            Bad:  "<span class="token-prompt">Added retry logic.</span>" / "<span class="token-prompt">Adds retry logic</span>"
+          - Scope: the module, file, or subsystem affected (optional but preferred).
+          - Breaking changes: append ! to type (<span class="token-prompt">feat!</span>) AND add footer:
+            <span class="token-prompt">BREAKING CHANGE: &lt;what breaks and migration path&gt;</span>
+
+          <span class="token-keyword">### Commit body (include when the why isn't obvious)</span>
+          - Blank line after subject, then wrap at 72 chars.
+          - Explain WHY, not WHAT. The diff shows what changed.
+          - Reference issues: <span class="token-prompt">Closes #123</span> or <span class="token-prompt">Refs #456</span> in footer.
+          - Skip the body for chore/docs/test unless context is critical.
+
+          <span class="token-keyword">### PR / MR descriptions</span>
+          Structure: <span class="token-prompt">## What, ## Why, ## Testing, ## Notes</span> (optional)
+          - Keep "What" to 3 bullet points max.
+          - "Testing" must mention how to verify the change locally.
+          - Tag any follow-up work as <span class="token-prompt">## TODO</span> with issue links.
+
+          <span class="token-keyword">### Branch naming</span>
+          <span class="token-prompt">&lt;type&gt;/&lt;short-slug&gt;</span>  →  <span class="token-prompt">feat/refresh-token-rotation</span>
+                                  <span class="token-prompt">fix/nan-loss-empty-batch</span>
+          No ticket numbers in branch names unless team policy requires it.
+
+          <span class="token-keyword">### What NOT to commit</span>
+          - Never commit: <span class="token-prompt">.env</span> files, API keys, model weights, <span class="token-prompt">__pycache__</span>.
+          - Never squash mid-PR without asking — I may want the history.
+          - Never amend commits that have been pushed to a shared branch.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          <strong>Add a changelog generation instruction:</strong> "When I ask for a changelog, group commits
+          by type and write it in keep-a-changelog format." Claude will produce a release-ready <span class="inline-code">CHANGELOG.md</span>
+          from your history automatically.
+        </li>
+        <li>
+          <strong>Teach it your scope vocabulary:</strong> List the actual module names in your codebase
+          (e.g. trainer, api, ingest, ui). Claude will pick the right scope instead of inventing generic
+          ones like core.
+        </li>
+        <li>
+          <strong>Define a "commit this work" shorthand:</strong> In your Never Ask section, add "When
+          I say 'commit this', write the message, show it to me, then wait for approval." This creates
+          a fast review loop without losing control of the history.
+        </li>
+        <li>
+          <strong>Pair with your CI rules:</strong> If your pipeline rejects commits without a type
+          prefix (common with commitlint), state it here. Claude will never write a bare message
+          again, even in a repo with no commitlint config present yet.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 8: Specify Your Error Message Standard (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">7. Specify Your Error Message Standard (High Value)</h2>
+
+    <p class="body-text">
+      Error messages are user-facing contracts. Inconsistent error design — mixing exception types, formats, and detail levels
+      — creates debugging friction and poor user experience. Claude will copy whatever pattern it sees in context without
+      guidance.
+    </p>
+
+    <p class="body-text">
+      When Claude writes exception handling, validation logic, or API error responses, it uses this to choose exception
+      hierarchy, message verbosity, and whether to include context variables. Consistent error design is only achievable
+      at the global level if Claude is generating code across multiple projects.
+    </p>
+
+    <p class="body-text">
+      Error standards span your entire codebase ecosystem. Declaring them globally means every new service or module Claude
+      helps build speaks the same error language, reducing cognitive overhead when debugging across services.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Error Message Standard</span>
+
+          - Raise specific exceptions, never bare <span class="token-prompt">Exception</span>.
+          - Error messages: <span class="token-prompt">"{what failed}: {why} (got: {actual_value})"</span>
+          - Always use <span class="token-prompt">`raise X from e`</span> to preserve the chain.
+          - API errors: return <span class="token-prompt">{"error": {"code": "...", "message": "...", "details": {...}}}</span> — never expose raw stack traces.
+          - Log at <span class="token-prompt">ERROR</span> for unexpected exceptions, <span class="token-prompt">WARNING</span> for handled ones.
+          - Include the offending value in the message when safe to do so.
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Card 9: Teach It Your Debugging Ritual (High Value) section -->
+  <div class="card">
+
+    <h2 class="section-title">8. Teach It Your Debugging Ritual (High Value)</h2>
+
+    <p class="body-text">
+      Debugging is deeply personal, some developers want hypotheses before code, others want immediate reproductions, others want structured
+                            root-cause analysis. Claude defaults to a generic "let me check a few things" approach that rarely matches how you actually debug.
+                            This section also replaces the "Scratchpad Convention" section, since at global scope a scratchpad is simply Claude's internal
+                            debugging workspace format.
+    </p>
+
+    <p class="body-text">
+      When you paste a stack trace or describe a bug, this shapes whether Claude jumps to code, asks for reproduction steps, or writes a
+                            structured hypothesis tree. It also governs how Claude uses its own "thinking space", whether it reasons out loud or presents a
+                            clean conclusion.
+    </p>
+
+    <p class="body-text">
+      Your debugging instincts are consistent across tech stacks. The five-why habit you use for a Python ML bug is the same one you
+                            apply to a React rendering issue. Encoding it globally makes Claude a natural extension of how you think through problems.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Debugging Ritual</span>
+
+          When I share a bug, follow this order:
+          1. State the most likely cause in one sentence.
+          2. List 2–3 alternative hypotheses briefly.
+          3. Provide the minimal reproduction or diagnostic snippet.
+          4. Only then suggest the fix.
+
+          If you need to reason through a complex problem, use a
+          <span class="token-prompt">&lt;scratchpad&gt;</span> block — I'll read it, but it won't clutter the answer.
+
+          Never jump straight to "try this fix" without a stated hypothesis.
+          For ML bugs: always check data shape, <span class="token-prompt">dtype</span>, and <span class="token-prompt">device</span> first.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          The <strong>&lt;scratchpad&gt; convention</strong> is powerful: it lets Claude reason at length
+          without polluting your terminal output. Define the tag name here so it's consistent.
+        </li>
+        <li>
+          <strong>Add domain-specific heuristics</strong>: "For CUDA errors, always check device placement before
+          anything else". Claude will front-load the highest-signal checks for your stack.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 10: Set a Complexity Budget (Optional) section -->
+  <div class="card">
+
+    <h2 class="section-title">9. Set a Complexity Budget (Optional)</h2>
+
+    <p class="body-text">
+      Claude is biased toward thorough, complete solutions which often means over-engineered ones. A complexity budget is a
+      standing instruction to prefer the boring solution, resist abstraction before it's earned, and flag when a request is
+      heading toward unnecessary complexity.
+    </p>
+
+    <p class="body-text">
+      Without this, Claude will reach for design patterns, abstract base classes, and plug-in architectures for problems that
+      a 20-line function would solve.
+    </p>
+
+    <p class="body-text">
+      Complexity creep is a universal anti-pattern, not a per-project concern. A global budget ensures Claude's default
+      solution instinct stays calibrated to your taste, regardless of which codebase it's in.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Complexity Budget</span>
+
+          - Default to the simplest thing that could possibly work.
+          - Prefer functions over classes until state is clearly needed.
+          - No premature abstraction. Abstract after the third repetition.
+          - If a solution requires more than 2 new files, flag it and
+            ask if I want the simple or full version.
+          - Avoid introducing new dependencies for things <span class="token-prompt">stdlib</span> can do.
+          - Prototypes and scripts: optimise for readability, not architecture.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          Define a <strong>"complexity escalation trigger":</strong> "If your solution would take
+          more than 30 minutes to explain, stop and propose a simpler alternative first."
+          This keeps Claude from going deep into an over-engineered path silently.
+        </li>
+        <li>
+          You can override this per-project: a production ML pipeline <span class="inline-code">CLAUDE.md</span>
+          can explicitly say "full architecture expected here."
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 11: Prime It With Your Blind Spots (Optional) section -->
+  <div class="card">
+
+    <h2 class="section-title">10. Prime It With Your Blind Spots (Optional)</h2>
+
+    <p class="body-text">
+      Every developer has recurring mistakes, patterns they reach for incorrectly, edge cases they forget to handle, abstractions
+      they over-use. Encoding these as standing warnings turns Claude into a personalised second reviewer that specifically knows
+      your failure modes.
+    </p>
+
+    <p class="body-text">
+      Claude will proactively check for and flag the patterns you've listed, even when you don't ask. It transforms passive code
+      generation into active quality control tailored to you, not some generic checklist.
+    </p>
+
+    <p class="body-text">
+      Your blind spots follow you across every project and language. A global reminder ensures you get warned about your specific
+      patterns in a Python repo, a TypeScript component, and a bash script alike.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## My Blind Spots — Proactively Flag These</span>
+
+          - I tend to skip input validation on internal functions. Always add it.
+          - I forget to handle the empty list / <span class="token-prompt">None</span> case in transforms.
+          - I reach for global state when a passed parameter would do.
+          - I underestimate GPU memory. Flag any operation that could <span class="token-prompt">OOM</span>.
+          - I write <span class="token-prompt">async</span> code but forget to await it. Call this out explicitly.
+          - I deploy without checking that env vars are documented in <span class="token-prompt">.env.example</span>.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          This list is most powerful when it's <strong>honest and specific.</strong> Vague entries ("I sometimes
+          write bad code") do nothing. Specific patterns ("I often mutate the input list instead of copying it")
+          get actionable warnings.
+        </li>
+        <li>
+          <strong>Review and update this section every few months.</strong> Blind spots evolve as you grow. When Claude's
+          warnings stop feeling surprising, you've internalised that lesson, remove it and add new ones.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- Card 12: Add a "What Good Looks Like" Benchmark (Optional) section -->
+  <div class="card">
+
+    <h2 class="section-title">11. Add a "What Good Looks Like" Benchmark (Optional)</h2>
+
+    <p class="body-text">
+      Positive examples are the fastest way to align Claude's quality bar with yours. Rather than describing what to avoid, you show the finish line
+      and Claude aims for it by default, even without explicit instruction.
+    </p>
+
+    <p class="body-text">
+      Claude uses the benchmark as an implicit target for code it generates. A well-chosen example calibrates naming conventions, docstring depth,
+      function length, abstraction level, and error handling in one shot — more effectively than prose rules alone.
+    </p>
+
+    <p class="body-text">
+      Quality standards transfer across domains. The same taste that makes a Python function excellent, informs TypeScript, Bash, and SQL output.
+      A global benchmark creates a unified aesthetic across everything Claude produces for you.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">file · ~/.claude/CLAUDE.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## What Good Looks Like</span>
+
+          <span class="token-keyword">A function I'd be proud to ship:</span>
+          - Does one thing. Fits on a screen without scrolling.
+          - Has a one-line docstring stating what it returns, not what it does.
+          - Raises a descriptive exception for invalid input; doesn't silently return <span class="token-prompt">None</span>.
+          - Has a single test that covers the most important edge case.
+          - Uses the type system to prevent the bug, not a runtime check.
+
+          <span class="token-keyword">A PR I'd be proud to open:</span>
+          - Single, atomic purpose. Could be reverted without side effects.
+          - Passes CI without my intervention.
+          - Has a description that explains the <span class="token-prompt">*why*</span>, not the <span class="token-prompt">*what*</span>.
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+          <strong>Define benchmarks at multiple scales</strong>: a good function, a good module, a good PR.
+          Claude will calibrate to the appropriate scope depending on the task.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+</div>

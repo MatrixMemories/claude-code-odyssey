@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting…</title>
+  <script>
+    // GitHub Pages SPA redirect: store the intended path and send the browser
+    // to shell.html, which will pick it up from sessionStorage on init.
+    sessionStorage.setItem('spa-redirect', location.pathname);
+    location.replace('/shell.html');
+  </script>
+</head>
+<body></body>
+</html>

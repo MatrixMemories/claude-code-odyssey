@@ -1,0 +1,881 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 2 · Claude Code Setup</span>
+    <span class="section-tag">Section 2.1 · Installing Claude Code</span>
+    <h1 class="page-title">Subscriptions and Costs</h1>
+    <p class="page-subtitle">Coding Plan Providers and the Associated Costs</p>
+    <div class="header-intro">
+      <p>
+        Powering Claude Code requires more than just the harness — it demands a strong underlying model with the right
+        balance of capability, speed, and quota generosity. This section compares the four leading coding-specific
+        subscription plans (Anthropic, Kimi, Z.ai, and MiniMax) as of mid-April 2026, revealing exactly how their
+        wildly different pricing, 5-hour limits, and metering units (tokens vs. prompts vs. requests) translate
+        into real-world coding productivity.
+      </p>
+      <p>
+        Whether you want maximum volume on a budget, generous prompt-based headroom, or the absolute best model quality,
+        you’ll find a clear value hierarchy and practical decision framework to pick the plan that fits how you actually
+        code.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 1/3</span>
+      <span class="meta-chip">~10 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+
+    <p class="body-text">
+      First things first, Claude Code is only a harness that facilitates the coding workflows, thus it needs a powerful
+      AI model to run it. Without a capable underlying large language model providing strong reasoning, tool-calling,
+      and long-context capabilities, even the most sophisticated agentic features and tool integrations cannot deliver
+      results.
+    </p>
+
+    <p class="body-text">
+      Claude Code is made and maintained by Anthropic, so the default and easiest choice is to go with Anthropics Claude
+      models. The integration is seamless, the feature set is fully optimized, and you get immediate access to the latest
+      Claude family releases, including high-performance variants like Claude Opus and Sonnet.
+    </p>
+
+    <p class="body-text">
+      However, there is a multitude of coding plans that work very good with Claude Code. The harness is flexible enough
+      to support a wide range of providers through standard API configuration. You can connect Claude Code to any of these
+      subscriptions, and it will run just fine, often with only minimal setup changes such as environment variables or a
+      settings file.
+    </p>
+
+    <p class="body-text">
+      You can even run Claude Code with your locally deployed models, but that is a story for another section.
+    </p>
+
+    <p class="body-text">
+      Obviously, some models are better than others and some work better with Claude Code than others. Performance varies
+      significantly depending on the model's reasoning capabilities, tool-calling reliability, context window size, and
+      how well it handles long-running agentic tasks. Almost all of these require you to have a paid subscription.
+    </p>
+
+    <p class="body-text">
+      In this subsection we present the best options for the subscriptions that can power Claude Code.
+    </p>
+
+    <div class="callout callout-warn">
+      <div class="callout-label">⚠ WARNING</div>
+      Subscription prices and quotas change over time. Always make sure to consult the official provider page for
+      up-to-date information.
+    </div>
+
+  </div>
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+
+    <h2 class="section-title">Subscriptions specifically made for Coding Agents</h2>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      The following reflects the snapshot as of mid-April 2026.
+    </div>
+
+    <h3 class="card-h3">Anthropic</h3>
+
+    <p class="body-text">
+      The first one is by the developer of Claude Code, Anthropic. Anthropic models Claude Opus 4.6 and Claude Sonnet 4.6
+      are considered SOTA in coding. Note that Claude Code is not included in the Free Tier from Anthropic.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xl)">
+      <img src="/images/ch02_s01_anthropic_pricing.png" alt="Anthropic Pricing Chart">
+      <div class="image-caption">Fig 2.1 — Anthropic Pricing Chart</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For up-to-date pricing, please refer to the official provider page:
+      <br>
+      <a href="https://claude.com/pricing" target="_blank" class="callout-link">
+        Anthropic Pricing Plan
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <br><br>
+      For up-to-date quotas, please refer to the official provider page:
+      <br>
+      <a href="https://support.claude.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan" target="_blank" class="callout-link">
+        Anthropic Pricing Plan Usage Limit Details
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">Moonshot AI</h3>
+
+    <p class="body-text">
+      The 1T parameter reasoner Kimi K2.5 from the Chinese lab Moonshot AI is by many considered the SOTA open-weights
+      model at the moment. Often praised for its excellent design skills it is a favorite of the LLM opensource
+      community.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xl)">
+      <img src="/images/ch02_s01_moonshot_pricing.png" alt="Kimi Pricing Chart">
+      <div class="image-caption">Fig 2.2 — Kimi Pricing Chart</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For up-to-date pricing, please refer to the official provider page:
+      <br>
+      <a href="https://www.kimi.com/code" target="_blank" class="callout-link">
+        Kimi Pricing Plan
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <br><br>
+      For up-to-date quotas, please refer to the official provider page:
+      <br>
+      <a href="https://www.kimi.com/code/docs/en/benefits.html" target="_blank" class="callout-link">
+        Kimi Pricing Plan Usage Limit Details
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">Z.ai</h3>
+
+    <p class="body-text">
+      Another top tier open-weights Chinese alternative are the GLM-5.1 and GLM-5 models from Z.ai (formerly known as
+      Zhipu AI). Z.ai has gained a lot of popularity during 2025 among the developers. Their models are fast, cheap and
+      reliable coding assistants.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xl)">
+      <img src="/images/ch02_s01_zai_pricing.png" alt="Z.ai Pricing Chart">
+      <div class="image-caption">Fig 2.3 — Z.ai Pricing Chart</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For up-to-date pricing, please refer to the official provider page:
+      <br>
+      <a href="https://z.ai/subscribe" target="_blank" class="callout-link">
+        Z.ai Pricing Plan
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <br><br>
+      For up-to-date quotas, please refer to the official provider page:
+      <br>
+      <a href="https://docs.z.ai/devpack/overview" target="_blank" class="callout-link">
+        Z.ai Pricing Plan Usage Limit Details
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <h3 class="card-h3">MiniMax</h3>
+
+    <p class="body-text">
+      MiniMax-M2.7 from the Chinese lab MiniMax is considered among the strongest models available for coding. Known for
+      outstanding performance on complex programming tasks, agentic workflows and architect-level planning, it has quickly
+      become a favorite of developers who want top-tier capability at very competitive pricing.
+    </p>
+
+    <div class="image-wrap" style="--img-margin: var(--sp-xl); --img-padding: var(--sp-xl)">
+      <img src="/images/ch02_s01_minimax_pricing.png" alt="MiniMax Pricing Chart">
+      <div class="image-caption">Fig 2.4 — MiniMax Pricing Chart</div>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      For up-to-date pricing, please refer to the official provider page:
+      <br>
+      <a href="https://platform.minimax.io/subscribe/token-plan" target="_blank" class="callout-link">
+        MiniMax Pricing Plan
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <br><br>
+      For up-to-date quotas, please refer to the official provider page:
+      <br>
+      <a href="https://platform.minimax.io/docs/guides/pricing-token-plan" target="_blank" class="callout-link">
+        MiniMax Pricing Plan Usage Limit Details
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Card 2: -->
+  <div class="card">
+
+    <h2 class="section-title">Price and Quota Comparison</h2>
+
+    <p class="body-text">
+      All major providers offering subscriptions compatible with Claude Code use a prepaid subscription model. You pay
+      in advance and receive fixed usage quotas that typically reset on a continuous 5-hour rolling window.
+    </p>
+    <ul class="content-list">
+      <li>
+        <strong>Anthropic:</strong> Monthly billing for all plans ($20 Pro, $100 Max 5x, $200 Max 20x). Annual billing
+        available only for Pro ($17/month when paid yearly).
+      </li>
+      <li>
+        <strong>Z.ai (GLM):</strong> Monthly, quarterly and yearly options available. Quarterly and yearly billing
+        provides significantly better value.
+      </li>
+      <li>
+        <strong>MiniMax:</strong> Monthly billing by default, with annual options offering discounts. Furthermore, a
+        high-speed variant (2x generation speed) is also offered at a significantly higher price (4x/3x).
+      </li>
+      <li>
+        <strong>Kimi (Moonshot):</strong> Monthly and yearly billing options. Four plans ranging from 20$ to 200$.
+      </li>
+    </ul>
+
+    <!--
+    <p class="body-text">
+      <strong>Key things to watch out for:</strong>
+    </p>
+    <ul class="content-list">
+      <li>
+        Most plans use 5-hour rolling limits rather than fixed daily resets.
+      </li>
+      <li>
+        Usage quotas are usually shared with the provider’s regular web chat interface.
+      </li>
+      <li>
+        There are generally no overage fees, you simply cannot exceed the quota until it refreshes.
+      </li>
+      <li>
+        Subscriptions auto-renew by default.
+      </li>
+      <li>
+        Quarterly and yearly billing often deliver the best price-per-usage.
+      </li>
+      <li>
+        Payment methods: International credit cards are widely supported, but occasional regional issues have
+        been reported with some providers.
+      </li>
+    </ul>
+
+
+    <ul class="feature-list-empty" style="margin-top:var(--sp-3xl);">
+      <li>
+        <strong>Key things to watch out for:</strong>
+        <ul class="example-list">
+          <li>
+            Most plans use 5-hour rolling limits rather than fixed daily resets.
+          </li>
+          <li>
+            Usage quotas are usually shared with the provider’s regular web chat interface.
+          </li>
+          <li>
+            There are generally no overage fees, you simply cannot exceed the quota until it refreshes.
+          </li>
+          <li>
+            Subscriptions auto-renew by default.
+          </li>
+          <li>
+            Quarterly and yearly billing often deliver the best price-per-usage.
+          </li>
+          <li>
+            Payment methods: International credit cards are widely supported, but occasional regional issues have
+            been reported with some providers.
+          </li>
+        </ul>
+      </li>
+    </ul>
+    -->
+
+    <div class="choice-box">
+      <p class="choice-box-intro"><strong>Key things to watch out for:</strong></p>
+      <ul class="choice-list">
+        <li>
+          Most plans use 5-hour rolling limits rather than fixed daily resets.
+        </li>
+        <li>
+          Usage quotas are usually shared with the provider’s regular web chat interface.
+        </li>
+        <li>
+          There are generally no overage fees, you simply cannot exceed the quota until it refreshes.
+        </li>
+        <li>
+          Subscriptions auto-renew by default.
+        </li>
+        <li>
+          Quarterly and yearly billing often deliver the best price-per-usage.
+        </li>
+        <li>
+          Payment methods: International credit cards are widely supported, but occasional regional issues have
+          been reported with some providers.
+        </li>
+      </ul>
+    </div>
+
+
+    <h3 class="card-h3">Usage Limits Comparison Table (April 2026)</h3>
+
+    <p class="body-text">
+      All limits are approximate and based on real-world testing + official documentation.
+    </p>
+
+    <div class="table-wrap" style="margin-top: var(--sp-xl);">
+      <table class="data-table-rich">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Plan</th>
+            <th>Monthly Price (USD)</th>
+            <th>5-Hour Limit</th>
+            <th>Weekly Limit</th>
+            <th>Measurement Unit</th>
+            <th>Best For</th>
+            <th>Notes</th>
+            <th>Tokens/s (avg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-sep"><td colspan="9"><div class="group-sep-inner"></div></td></tr>
+          <tr>
+            <td class="cell-warn">Anthropic</td>
+            <td class="cell-warn">Pro</td>
+            <td>$20 ($17 annual)</td>
+            <td>~40–45 messages (~44k tokens)</td>
+            <td>Varies (shared)</td>
+            <td>Tokens / messages</td>
+            <td class="cell-good">Best model quality & polish</td>
+            <td class="cell-good">Native integration; shared with claude.ai</td>
+            <td>~42</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Anthropic</td>
+            <td class="cell-warn">Max 5x</td>
+            <td>$100</td>
+            <td>~200–225 messages (~88k tokens)</td>
+            <td>Varies (shared)</td>
+            <td>Tokens / messages</td>
+            <td class="cell-good">Serious power users</td>
+            <td class="cell-good">5× Pro usage</td>
+            <td>~42</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Anthropic</td>
+            <td class="cell-warn">Max 20x</td>
+            <td>$200</td>
+            <td>~900+ messages (~220k tokens)</td>
+            <td>Varies (shared)</td>
+            <td>Tokens / messages</td>
+            <td class="cell-good">Heavy professional / agency use</td>
+            <td class="cell-good">20× Pro usage; near-unlimited for most</td>
+            <td>~42</td>
+          </tr>
+          <tr class="group-sep"><td colspan="9"><div class="group-sep-inner"></div></td></tr>
+          <tr>
+            <td class="cell-warn">Z.ai (GLM)</td>
+            <td class="cell-warn">Lite</td>
+            <td>$18</td>
+            <td>~80 prompts</td>
+            <td>~400 prompts</td>
+            <td>Prompts (≈15–20 calls each)</td>
+            <td class="cell-good">Light / hobby use</td>
+            <td class="cell-good">Excellent value entry point</td>
+            <td>~85</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Z.ai (GLM)</td>
+            <td class="cell-warn">Pro</td>
+            <td>$72</td>
+            <td>~400 prompts</td>
+            <td>~2,000 prompts</td>
+            <td>Prompts (≈15–20 calls each)</td>
+            <td class="cell-good">Balanced daily coding</td>
+            <td class="cell-good">Strong price/performance</td>
+            <td>~85</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Z.ai (GLM)</td>
+            <td class="cell-warn">Max</td>
+            <td>$160</td>
+            <td>~1,600 prompts</td>
+            <td>~8,000 prompts</td>
+            <td>Prompts (≈15–20 calls each)</td>
+            <td class="cell-good">Very high volume</td>
+            <td class="cell-good">Often 3–4× Claude Pro effective usage</td>
+            <td>~85</td>
+          </tr>
+          <tr class="group-sep"><td colspan="9"><div class="group-sep-inner"></div></td></tr>
+          <tr>
+            <td class="cell-warn">MiniMax</td>
+            <td class="cell-warn">Starter</td>
+            <td>$10</td>
+            <td>1,500 requests</td>
+            <td>None (5h rolling only)</td>
+            <td>Requests</td>
+            <td class="cell-good">Cheapest high-volume entry</td>
+            <td class="cell-good">M2.7 model</td>
+            <td>~46 (~100 highspeed)</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">MiniMax</td>
+            <td class="cell-warn">Plus</td>
+            <td>$20</td>
+            <td>4,500 requests</td>
+            <td>None (5h rolling only)</td>
+            <td>Requests</td>
+            <td class="cell-good">Best overall value</td>
+            <td class="cell-good">Most generous mid-tier</td>
+            <td>~46 (~100 highspeed)</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">MiniMax</td>
+            <td class="cell-warn">Max</td>
+            <td>$50</td>
+            <td>15,000 requests</td>
+            <td>None (5h rolling only)</td>
+            <td>Requests</td>
+            <td class="cell-good">Heavy daily use</td>
+            <td class="cell-good">Insanely high quota</td>
+            <td>~46 (~100 highspeed)</td>
+          </tr>
+          <tr class="group-sep"><td colspan="9"><div class="group-sep-inner"></div></td></tr>
+          <tr>
+            <td class="cell-warn">Kimi (Moonshot AI)</td>
+            <td class="cell-warn">Moderato</td>
+            <td>$19</td>
+            <td>300–1,200 API calls</td>
+            <td>~2,048 requests</td>
+            <td>API calls / weekly</td>
+            <td class="cell-good">Reliable weekly quota</td>
+            <td class="cell-good">Good all-rounder; dedicated Kimi Code endpoint</td>
+            <td>~95</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Kimi (Moonshot AI)</td>
+            <td class="cell-warn">Allegretto</td>
+            <td>$39</td>
+            <td>~1,500–6,000 API calls</td>
+            <td>~10,240 requests</td>
+            <td>API calls / weekly</td>
+            <td class="cell-good">Serious individual / professional coders</td>
+            <td class="cell-good">5× Kimi Code credits; excellent balance for daily heavy use</td>
+            <td>~95</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Kimi (Moonshot AI)</td>
+            <td class="cell-warn">Allegro</td>
+            <td>$99</td>
+            <td>~4,500–18,000 API calls</td>
+            <td>~30,720 requests</td>
+            <td>API calls / weekly</td>
+            <td class="cell-good">Heavy professional / team use</td>
+            <td class="cell-good">15× Kimi Code credits; very high volume without throttling</td>
+            <td>~95</td>
+          </tr>
+          <tr>
+            <td class="cell-warn">Kimi (Moonshot AI)</td>
+            <td class="cell-warn">Vivace</td>
+            <td>$199</td>
+            <td>Very high (~15,000+ API calls)</td>
+            <td>~122,880+ requests (near-unlimited for most)</td>
+            <td>API calls / weekly</td>
+            <td class="cell-good">Power users & agencies</td>
+            <td class="cell-good">60× Kimi Code credits; maximum capacity & priority access</td>
+            <td>~95</td>
+          </tr>
+          <tr class="group-sep"><td colspan="9"><div class="group-sep-inner"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="card-h3">Decoding Usage Quotas</h3>
+
+    <p class="body-text">
+      When evaluating Claude Code subscriptions, most developers instinctively look at the monthly price first. That
+      part is straightforward, it’s listed in clean USD figures and tells you exactly what you’ll be billed. But the
+      real story, and the one that determines whether a plan actually feels generous or restrictive in daily use, lies
+      in the 5-hour Limit column of the comparison table.
+    </p>
+
+    <p class="body-text">
+      This column is where things get nuanced. Across the four major providers — Anthropic, Z.ai/GLM, MiniMax, and
+      Kimi — the 5-hour limits are expressed in four different units: Messages, Prompts, Requests, and API Calls. At
+      first glance these terms sound interchangeable, especially in casual conversations about AI coding tools. In
+      reality, they represent fundamentally different abstractions that providers use to meter usage. Getting the
+      distinctions right is essential because a single “user action” in Claude Code (typing a task description and
+      hitting enter) can translate into wildly different consumption depending on which backend you’re connected to.
+    </p>
+
+    <p class="body-text">
+      Let’s break it down clearly so you can make an informed decision.
+    </p>
+
+    <h4 class="card-h4">Anthropic: Token-Weighted “Messages”</h4>
+
+    <p class="body-text">
+      With Anthropic’s plans, the term “Messages” in the 5-hour limit column does not refer to a fixed number of full
+      conversations or even individual prompts you send through Claude Code. Instead, it represents a token budget.
+      You are allocated a certain number of tokens that can be consumed within any rolling 5-hour window.
+    </p>
+
+    <p class="body-text">
+      The numbers shown in comparison tables are calculated based on very light interactions — the kind of quick,
+      low-token exchanges that barely touch the model’s capacity. In practice, this means real-world usage often
+      feels much tighter than the headline number suggests. Implementing a substantial new feature can easily burn
+      through your quota in just 5–10 messages. Heavy tasks, such as a large-scale database refactor or a complex
+      architectural overhaul, can exhaust the entire 5-hour limit in a single message because of the massive token
+      count involved in reading, reasoning over, and rewriting large codebases.
+    </p>
+
+    <h4 class="card-h4">Z.ai/GLM: Full-Turn “Prompts”</h4>
+
+    <p class="body-text">
+      Z.ai (powered by GLM models) uses a very forgiving abstraction: the Prompt. Here, one prompt equals one
+      complete user task submitted through the Claude Code interface, from the moment you hit enter until the agent
+      finishes its final response.
+    </p>
+
+    <p class="body-text">
+      What makes this especially powerful is that all the internal model invocations that happen during that task count
+      as a single prompt. The entire agentic loop — including tool calls, reasoning steps, code editing, testing,
+      re-reading files, and follow-up planning — is bundled together. No matter how many tokens are burned or how
+      many back-and-forth cycles the agent performs, it still registers as only one prompt against your quota.
+    </p>
+
+    <p class="body-text">
+      Z.ai’s own documentation confirms that supported coding tools (Claude Code, Kilo Code, and similar integrations)
+      come with an allowance of tens of billions of tokens per month — effectively around 1% of standard API pricing.
+      In the 5-hour window this typically translates to roughly 80 prompts, giving you enormous headroom for complex,
+      long-running tasks.
+    </p>
+
+    <h4 class="card-h4">MiniMax and Kimi: Requests / API Calls</h4>
+
+    <p class="body-text">
+      MiniMax and Kimi (Moonshot) both measure usage in Requests (sometimes labeled API Calls). These are the most
+      granular units: each individual HTTP request sent to the provider counts as one unit.
+    </p>
+
+    <p class="body-text">
+      In Claude Code’s agentic workflow, a single user task typically triggers multiple requests because the system
+      breaks work down into discrete steps: read context → plan → edit files → run tests → re-read changed code →
+      reason about next steps → edit again, and so on. For an average task you might see anywhere from 5 to 20 requests.
+      More complex or iterative work can scale far higher, limited only by the task’s inherent complexity and the
+      model’s context window.
+    </p>
+
+    <p class="body-text">
+      Because each step is metered separately, the effective number of “user-level tasks” you can complete in a
+      5-hour window is lower than with prompt-based systems, but the per-request limits themselves are often
+      quite high (MiniMax, for example, offers 4,500 requests every 5 hours with no weekly cap).
+    </p>
+
+    <h3 class="card-h3">An Example</h3>
+
+    <p class="body-text">
+      Suppose you run the following prompt in you Claude Code interface:
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">CLAUDE CODE</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          Refactor the database layer. Move all raw SQL in db/queries.py into an ORM model, update all call sites,
+          and run the test suite.
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The billing structure across providers will look as follows:
+    </p>
+
+    <!-- 3-column platform comparison grid -->
+    <div class="platform-breakdown-grid" style="margin-bottom:var(--sp-3xl);">
+
+      <!-- Column: Anthropic (Claude Code) -->
+      <div class="platform-col platform-col--orange">
+        <div class="platform-col-header">
+          <div class="platform-col-name">Anthropic (Claude Code)</div>
+          <div class="platform-col-unit">Unit: tokens</div>
+          <span class="platform-col-badge platform-col-badge--orange">TOKENS</span>
+        </div>
+        <ul class="platform-task-list">
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Prompt + System files<br></span>
+            <span class="platform-task-cost platform-task-cost--med">+2.5k tokens</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Read db/queries.py<br></span>
+            <span class="platform-task-cost platform-task-cost--med">+6k tokens</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Read 4 call-site files<br></span>
+            <span class="platform-task-cost platform-task-cost--med">+17k tokens</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Plan ORM schema</span>
+            <span class="platform-task-cost platform-task-cost--med">+18k tokens</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Write models.py</span>
+            <span class="platform-task-cost platform-task-cost--med">+22k tokens</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Patch 4 call-site files</span>
+            <span class="platform-task-cost platform-task-cost--med">+26k tokens</span>
+          </li>
+          <li class="platform-task platform-task--heavy">
+            <span class="platform-task-name">Run test suite (bash)</span>
+            <span class="platform-task-cost platform-task-cost--med">+31k tokens</span>
+          </li>
+          <li class="platform-task platform-task--heavy">
+            <span class="platform-task-name">Fix 2 failing tests</span>
+            <span class="platform-task-cost platform-task-cost--med">+34k tokens</span>
+          </li>
+          <li class="platform-task platform-task--heavy">
+            <span class="platform-task-name">Confirm done to you</span>
+            <span class="platform-task-cost platform-task-cost--med">+36k tokens</span>
+          </li>
+        </ul>
+        <div class="platform-col-footer">
+          <div class="platform-footer-label">Total</div>
+          <div class="platform-footer-value">~190k tokens<br>consumed</div>
+        </div>
+      </div>
+
+      <!-- Column: Z.ai (LLM Coding Plan) -->
+      <div class="platform-col platform-col--blue">
+        <div class="platform-col-header">
+          <div class="platform-col-name">Z.ai (LLM Coding Plan)</div>
+          <div class="platform-col-unit">Unit: prompt (flat count)</div>
+          <span class="platform-col-badge platform-col-badge--blue">1 prompt</span>
+        </div>
+        <ul class="platform-task-list">
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Prompt + System files<br></span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Read db/queries.py<br></span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Read 4 call-site files<br></span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Plan ORM schema</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Write models.py</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Patch 4 call-site files</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Run test suite (bash)</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Fix 2 failing tests</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Confirm done to you</span>
+            <span class="platform-task-tag">internal</span>
+          </li>
+        </ul>
+        <div class="platform-col-footer">
+          <div class="platform-footer-label">Total</div>
+          <div class="platform-footer-value">exactly 1 prompt<br>regardless of steps</div>
+        </div>
+      </div>
+
+      <!-- Column: MiniMax / Kimi -->
+      <div class="platform-col platform-col--green">
+        <div class="platform-col-header">
+          <div class="platform-col-name">MiniMax / Kimi</div>
+          <div class="platform-col-unit">Unit: request (per API call)</div>
+          <span class="platform-col-badge platform-col-badge--green">1 req</span>
+        </div>
+        <ul class="platform-task-list">
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Prompt + System files<br></span>
+            <span class="platform-task-cost platform-task-cost--light">1 req</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Read db/queries.py<br></span>
+            <span class="platform-task-cost platform-task-cost--light">1 req</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Read 4 call-site files<br></span>
+            <span class="platform-task-cost platform-task-cost--med">4 req</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Plan ORM schema</span>
+            <span class="platform-task-cost platform-task-cost--light">1 req</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Write models.py</span>
+            <span class="platform-task-cost platform-task-cost--light">2 req</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Patch 4 call-site files</span>
+            <span class="platform-task-cost platform-task-cost--med">6 req</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Run test suite (bash)</span>
+            <span class="platform-task-cost platform-task-cost--light">1 req</span>
+          </li>
+          <li class="platform-task platform-task--med">
+            <span class="platform-task-name">Fix 2 failing tests</span>
+            <span class="platform-task-cost platform-task-cost--med">4 req</span>
+          </li>
+          <li class="platform-task platform-task--light">
+            <span class="platform-task-name">Confirm done to you</span>
+            <span class="platform-task-cost platform-task-cost--light">1 req</span>
+          </li>
+        </ul>
+        <div class="platform-col-footer">
+          <div class="platform-footer-label">Total</div>
+          <div class="platform-footer-value">~21 requests <br> consumed</div>
+        </div>
+      </div>
+
+    </div><!-- /platform-breakdown-grid -->
+
+    <p class="body-text">
+      And the final tally on the weekly limit might look as follows:
+    </p>
+
+    <div class="platform-practice-list" style="margin-bottom:var(--sp-3xl);">
+
+      <div class="platform-practice-row">
+        <div class="platform-practice-top">
+          <div class="platform-practice-name">
+            <span class="platform-practice-dot platform-practice-dot--orange"></span>
+            Anthropic Pro (20$) — token-weighted
+          </div>
+          <div class="platform-practice-stat platform-practice-stat--orange">~5–15 heavy tasks / 5-hr window</div>
+        </div>
+        <div class="platform-practice-bar-track">
+          <div class="platform-practice-bar platform-practice-bar--orange" style="width: 15%"></div>
+        </div>
+        <div class="platform-practice-bar-note">one task = ~7–25% of window</div>
+      </div>
+
+      <div class="platform-practice-row">
+        <div class="platform-practice-top">
+          <div class="platform-practice-name">
+            <span class="platform-practice-dot platform-practice-dot--blue"></span>
+            Z.ai Lite (18$) — flat prompt count
+          </div>
+          <div class="platform-practice-stat platform-practice-stat--blue">~80 tasks / 5-hr window — complexity doesn't matter</div>
+        </div>
+        <div class="platform-practice-bar-track">
+          <div class="platform-practice-bar platform-practice-bar--blue" style="width: 1.25%"></div>
+        </div>
+        <div class="platform-practice-bar-note">one task = 1.25% of window, independent of complexity</div>
+      </div>
+
+      <div class="platform-practice-row">
+        <div class="platform-practice-top">
+          <div class="platform-practice-name">
+            <span class="platform-practice-dot platform-practice-dot--green"></span>
+            MiniMax Plus (20$) — request count
+          </div>
+          <div class="platform-practice-stat platform-practice-stat--green">~200 tasks like this / 5-hr window (4500 ÷ 21)</div>
+        </div>
+        <div class="platform-practice-bar-track">
+          <div class="platform-practice-bar platform-practice-bar--green" style="width: 0.5%"></div>
+        </div>
+        <div class="platform-practice-bar-note">one task = ~0.5% of window</div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      Some nuances to this calculation come from task complexity. For example, given a simple task, the final consumption at Anthropic and Z.ai
+      will be much closer to each other.
+    </div>
+
+  </div>
+
+  <!-- Card 3:  -->
+  <div class="card">
+
+    <h2 class="section-title">Which Subscription Offers the Best Value for Money?</h2>
+
+    <p class="body-text">
+      After mapping the units back to practical developer workflows, a clear value hierarchy emerges, at least when measured in
+      value delivered for money spent.
+    </p>
+
+    <p class="body-text">
+      <strong>MiniMax Plus ($20/mo)</strong> currently delivers the single best raw usage-per-dollar for most Claude Code users.
+      Its 4,500 requests every 5 hours (with no weekly cap) dwarfs what you get from Anthropic Pro or even the Max 5× tier at
+      the price point of a basic package.
+    </p>
+
+    <p class="body-text">
+      <strong>Z.ai Lite/Pro</strong> comes in a very close second and, especially when paid quarterly or yearly, often feels like
+      3–5× the effective usage of Claude Pro/Max at a significantly lower cost. Many developers keep Z.ai as their “Claude Code
+      overflow” plan, switching seamlessly the moment Anthropic’s limits are reached. The prompt-based metering makes it feel
+      exceptionally generous for long, complex coding sessions.
+    </p>
+
+    <p class="body-text">
+      <strong>Anthropic</strong> still wins on raw quality and the seamless, polished experience that comes with native integration
+      and the absolute best reasoning capabilities (especially when using Claude Opus). However, it loses badly on pure usage value.
+      The Max 20× plan is only worth considering if you specifically need the highest-end model and have the budget ($200/mo) to
+      support the much tighter token-based limits.
+    </p>
+
+    <p class="body-text">
+      <strong>Kimi (Moonshot)</strong> sits comfortably in the middle of the pack. It offers solid weekly quotas and excellent
+      compatibility with Claude Code, but its reset structure is less forgiving for bursty, all-day coding sessions compared
+      to the continuous 5-hour rolling windows offered by the other three providers.
+    </p>
+
+    <h3 class="card-h3">Final Takeaway for Decision-Making</h3>
+
+
+    <div class="choice-box">
+      <p class="choice-box-intro">The best subscription ultimately depends on your specific workflow:</p>
+      <ul class="choice-list">
+        <li>
+          If you want <strong>maximum volume</strong> and don’t mind managing the agentic-loop granularity, go with <strong>MiniMax Plus.</strong>
+        </li>
+        <li>
+          If you want <strong>maximum simplicity and generous prompt-based headroom</strong> at a very attractive price, <strong>Z.ai Pro</strong> is the
+          sweet spot for most heavy users.
+        </li>
+        <li>
+          If quality and frictionless experience are non-negotiable and budget is secondary, <strong>Anthropic Max</strong> (with Opus)
+          remains the premium choice.
+        </li>
+        <li>
+          <strong>Kimi</strong> serves as a reliable middle-ground option when you need balanced quotas without extreme volume or extreme cost.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      By understanding exactly what each provider’s 5-hour limit actually measures — tokens, full prompts, or individual
+      API requests — you can stop guessing and start choosing the plan that aligns with how you actually code.
+    </div>
+
+  </div>
+
+</div>

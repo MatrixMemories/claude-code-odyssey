@@ -1,0 +1,287 @@
+<div class="page-wrap">
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <span class="section-tag">Section 3.3 · The CLAUDE.md file</span>
+    <h1 class="page-title">Local CLAUDE.md Blueprint</h1>
+    <p class="page-subtitle">Local quirks, focus, and temporary hacks</p>
+    <div class="header-intro">
+      <p>
+        This personal override layer lets you stash machine-specific quirks, current focus notes, temporary hacks,
+        and credential references, without ever polluting your shared <span class="inline-code">CLAUDE.md</span>
+        or Git history.
+      </p>
+      <p>
+        Discover exactly what belongs in it, see battle-tested examples for both team and solo workflows, and learn
+        power-user tricks that keep Claude Code perfectly aligned with your environment and priorities.
+      </p>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 5/8</span>
+      <span class="meta-chip">~5 min read</span>
+      <span class="meta-chip">Claude Code ≥ 2.1</span>
+    </div>
+  </div>
+
+  <!-- Header Card
+  <div class="header-card">
+    <span class="section-tag">Chapter 3 · Claude Code Full Stack</span>
+    <h1 class="page-title">Building a Local CLAUDE.md file</h1>
+    <p class="body-text" style="color:var(--tx);font-size:16px;line-height:1.7;margin-bottom:0;">
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">Subsection 5/7</span>
+      <span class="meta-chip">~5 min read</span>
+      <span class="meta-chip">Claude Code ≥ 1.0</span>
+    </div>
+  </div>
+  -->
+
+  <!-- Card 1: Introduction -->
+  <div class="card">
+    
+    <p class="body-text">
+      The local <span class="inline-code">CLAUDE.local.md</span> file can be best described as your personal, never-commited override layer.
+      It is primarily intended for local env setup, focus notes and temporary hacks that have no place in the shared repository file.
+    </p>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      The <span class="inline-code">CLAUDE.local.md</span> is intended to NEVER BE COMMITTED to a repository.
+      It should always be added to the <span class="inline-code">.gitignore</span>. If this is done, it will never appear in your version history, pull requests, or your teammates'
+      checkouts.
+    </div>
+    
+    <p class="body-text">
+      Due to never being commited, the local <span class="inline-code">CLAUDE.local.md</span> file is the right home for everything
+      that is personal, secret, machine-specific or transient. This makes the file ideal for working on a joint repository with a
+      team, but also finds its use for developing any code alone that is intended to be pushed to a (semi) public repository.
+    </p>
+    
+  </div>
+
+  <!-- Card 2: Working on a shared repository -->
+  <div class="card">
+
+    <h2 class="section-title">Working on a shared repository</h2>
+    
+    <p class="body-text">
+      Most teams maintain a repo-level <span class="inline-code">CLAUDE.md</span> file that describes the project's architecture,
+      conventions and workflow. That file is for everyone. The <span class="inline-code">CLAUDE.local.md</span> file is specifically
+      for you intended. It holds your current tasks, your local machine quirks and whatever temporary context helps Claude Code
+      to support you.
+    </p>
+    
+    <p class="body-text">
+      What to include in the <span class="inline-code">CLAUDE.local.md</span> when working on a joint repository with other
+      team members:
+    </p>
+
+    <ul class="content-list highlighted-inline" style="margin-bottom:var(--sp-l);">
+      <li>
+        <strong>Local Environment:</strong> paths that differ from CI, local service ports, Docker overrides, your specific
+        Python/Node version.
+      </li>
+      <li>
+        <strong>Current focus:</strong> what ticket or feature you are actively working on. Claude Code will weight
+        suggestions accordingly.
+      </li>
+      <li>
+        <strong>Known local issues:</strong> broken tests in your branch, a flaky service on your machine, a migration
+        you haven't run yet.
+      </li>
+      <li>
+        <strong>Temporary overrides:</strong> instructions that contradict the shared file, but only apply during
+        your current sprint or investigation.
+      </li>
+      <li>
+        <strong>Run commands:</strong> shortcuts, aliases, or scripts specific to your setup that the team file
+        can't assume everyone has.
+      </li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.local.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Local Environment</span>
+
+          # Service ports differ from docker-compose defaults
+          <span class="token-prompt">API_BASE</span>=http://localhost:8080
+          <span class="token-prompt">DB_PORT</span>=5433  # 5432 is occupied by a local Postgres instance
+          # Python env
+          <span class="token-prompt">PYTHON_BIN</span>=/opt/homebrew/bin/python3.12
+          # GPU available — prefer GPU-accelerated test paths
+          <span class="token-prompt">USE_GPU</span>=true
+          <span class="token-prompt">CUDA_VISIBLE_DEVICES</span>=0,1
+
+          <span class="token-keyword">## Current Focus</span>
+
+          Working on <span class="token-prompt">TICKET-4821</span>: refactoring the segmentation pipeline
+          to support multi-frame tracking. All new code goes under
+          <span class="token-prompt">src/vision/tracking/</span>. The public API surface in
+          <span class="token-prompt">src/vision/segmentation.py</span> must not change.
+
+          <span class="token-keyword">## Known Local Issues</span>
+
+          ! <span class="token-prompt">tests/test_video_loader.py</span> — skipped; requires a sample
+            video asset not yet downloaded. Run <span class="token-prompt">make fetch-fixtures</span> first.
+          ! The LM Studio server is running on port <span class="token-prompt">1234</span> (not 11434).
+            Override any hardcoded Ollama defaults when suggesting commands.
+          ! Migration <span class="token-prompt">0042_add_tracking_index</span> has not been applied
+            locally yet — avoid suggesting queries on that index.
+
+          <span class="token-keyword">## Temporary Overrides</span>
+
+          # Remove when <span class="token-prompt">TICKET-4821</span> is merged
+          # Prefer streaming responses during this spike; ignore the
+          # repo-level instruction to use batch inference for VLM calls.
+          Streaming is preferred for all VLM inference calls right now.
+          # Do not suggest adding unit tests for the tracking module yet.
+          # Architecture is still in flux; tests are scheduled post-review.
+          Skip unit test suggestions for <span class="token-prompt">src/vision/tracking/</span>.
+
+          <span class="token-keyword">## Run Commands</span>
+
+          # Start the dev stack (local port overrides baked in)
+          <span class="token-prompt">make dev-local</span>          # = docker-compose -f compose.local.yml up
+          # Run only fast tests (skip GPU and video loader tests)
+          <span class="token-prompt">pytest -m "not slow"</span>
+          # Lint + type check
+          <span class="token-prompt">ruff check . && mypy src/</span>
+          # Apply pending migrations
+          <span class="token-prompt">alembic upgrade head</span>
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Notice how this file answers questions Claude Code would otherwise have to guess: at which port is the API on, which
+      tests to expect to fail, and which shared instruction is deliberately suspended for this sprint. Also, none of this
+      belongs in the commited file as it may disrupt the workflows of other contributors.
+    </p>
+    
+  </div>
+
+  <!-- Card 3: Working alone on a repository -->
+  <div class="card">
+
+    <h2 class="section-title">Working alone on a repository</h2>
+
+    <p class="body-text">
+      Even if you own the entire repo, the local file still serves a distinct purpose. It is the right place for
+      anything you specifically do not want committed, even by mistake.
+      Two categories are most dominant here: Secrets & Credentials and Temporary State.
+    </p>
+
+    <p class="body-text">
+      First, you can use this file to tell Claude Code where secrets live (<span class="inline-code">.env</span>,
+      <span class="inline-code">~/.config/…</span>), how to reference them in commands and which patterns it should
+      treat as sensitive, without putting such values in a committed file. Note, never put your actual keys in this
+      file, only their references.
+    </p>
+
+    <p class="body-text">
+      Second, the in-progress content. This may include notes about a half-finished migration, a benchmark you're
+      running or a feature behind a flag. Once it's shipped or abandoned, you can just delete the file without having to
+      clean up any git history.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="code-label">FILE · CLAUDE.local.md</span>
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      </div>
+      <div class="code-body">
+        <pre><code>
+          <span class="token-keyword">## Credentials & Secrets</span>
+
+          # All secrets are in <span class="token-prompt">.env</span> (also git-ignored).
+          # When constructing CLI commands that need auth, read
+          # from <span class="token-prompt">.env</span> or suggest: <span class="token-prompt">source .env &&</span>
+          Treat any string matching <span class="token-prompt">sk-</span>, <span class="token-prompt">ghp_</span>, or <span class="token-prompt">xoxb-</span> as a secret.
+          Never include secret values in code suggestions or commit messages.
+          # LM Studio key (local only, no auth required)
+          LM Studio API base: <span class="token-prompt">http://localhost:1234/v1</span> — no key needed.
+          Qwen2-VL model string: <span class="token-prompt">qwen2-vl-7b-instruct</span>
+
+
+          <span class="token-keyword">## Temporary State</span>
+          # Delete when the RL training run is complete
+          Currently benchmarking PPO vs SAC on the <span class="token-prompt">intercept-v2</span> env.
+          Results land in <span class="token-prompt">runs/</span>. Do not suggest changes to reward shaping
+          or hyperparameters — treat them as frozen for this experiment.
+          The 3D visualizer in <span class="token-prompt">sim/viz.py</span> is intentionally decoupled
+          from the training loop. Don't suggest merging them.
+        </code></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Card 4: Additional -->
+  <div class="card">
+
+    <div class="callout callout-hack">
+      <div class="callout-label">⚡ Power User Hacks</div>
+      <ul class="callout-list">
+        <li>
+            <strong>Use it as a sprint scratchpad:</strong> start every ticket by writing two or three lines into your local file. Include the goal,
+            the files in scope, what's off-limits. Delete them when the PR merges.
+        </li>
+        <li>
+            <strong>Annotate broken test state:</strong> note which tests are currently failing and why. Claude stops suggesting fixes for known
+            issues and focuses on the actual task instead.
+        </li>
+        <li>
+            <strong>Override verbosity per session:</strong> add a line like "Keep explanations brief, I know this codebase" or "Explain every step,
+            I'm learning this stack". Swap it out as needed without touching shared config.
+        </li>
+        <li>
+            <strong>Mark divergence from shared instructions:</strong> when overriding a rule from the repo-level file, write a comment saying so. Future-you
+            will know it's intentional, not an accident.
+        </li>
+        <li>
+            <strong>Keep credential patterns, not values:</strong> instead of pasting a token, tell Claude the pattern
+            (<span class="inline-code">Bearer $MYAPP_TOKEN</span>) and where the env
+            file lives. Safe and equally useful.
+        </li>
+        <li>
+            <strong>Date your temporary overrides:</strong> a comment like (<span class="inline-code"># added 2026-03-27, remove after deploy</span>)
+            makes it easy to audit stale instructions during a cleanup pass.
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-label">⚠ WARNING</div>
+      Don't let it rot. The local file is powerful because it is current.
+      An outdated local file with stale task context or wrong port numbers is worse than no file at all. Remember that
+      Claude Code will most probably act on it. It is best to do a quick review at the start of each new workstream.
+    </div>
+
+    <div class="callout callout-note">
+      <div class="callout-label">ℹ NOTE</div>
+      When multiple <span class="inline-code">CLAUDE.md</span> files are present, Claude Code merges their contents by loading them alongside each other.
+      There is no strict precedence rule between levels; conflicting instructions depend on how Claude interprets the
+      combined text. This layered system lets you maintain a clean separation between what is universal to you as a
+      developer, what belongs to the project and what is strictly local to your current environment.
+    </div>
+
+  </div>
+
+</div>
