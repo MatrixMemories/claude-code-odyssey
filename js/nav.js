@@ -155,10 +155,25 @@ window.NAV_DATA = [
 
 let _activeId = null;
 
-// Read from <base href="..."> so these are always correct even when shell.html
-// is served by the SPA dev-server for a custom URL path like /my-slug.
-const _APP_BASE  = document.querySelector('base')?.getAttribute('href') || '/';
-const _SHELL_URL = _APP_BASE + 'shell.html';
+// _APP_BASE  — used as prefix for fetch() calls (relative URL, resolved by browser
+//              against document.baseURI which honours the <base href> tag).
+// _BASE_PATH — absolute pathname prefix, e.g. '/claude-code-odyssey/' on GitHub
+//              Pages or '/' on localhost. Used for pushState/history URLs so the
+//              address bar never shows a path outside the repo subdirectory.
+// _SHELL_URL — absolute path to shell.html for ?page= style URLs in pushState.
+const _APP_BASE  = document.querySelector('base')?.getAttribute('href') || './';
+const _BASE_PATH = (function () {
+  try { return new URL(_APP_BASE, document.baseURI).pathname; } catch (e) { return '/'; }
+})();
+const _SHELL_URL = _BASE_PATH + 'shell.html';
+
+// _fullUrl(path) — prepends _BASE_PATH to a site-relative path like '/section-foo'
+// so pushState uses the full correct pathname on GitHub Pages project repos.
+function _fullUrl(path) {
+  if (!path) return path;
+  const base = _BASE_PATH.replace(/\/$/, '');  // strip trailing slash
+  return base + path;
+}
 
 /* --------------------------------------------------------------------------
    _idToPageParam(id) / _pageParamToId(param)
@@ -310,7 +325,7 @@ function loadSubsection(file, id) {
 
   // Update URL without reload — use custom url if defined, otherwise ?page= format
   const _sub = _findSubsectionById(id);
-  const _pushUrl = (_sub && _sub.url) ? _sub.url : _SHELL_URL + '?page=' + _idToPageParam(id);
+  const _pushUrl = (_sub && _sub.url) ? _fullUrl(_sub.url) : _SHELL_URL + '?page=' + _idToPageParam(id);
   window.history.pushState({ page: id, file }, '', _pushUrl);
 
   // Update active nav state
@@ -502,7 +517,7 @@ function loadChapterOverview(chapter) {
   const pageId = chapter.id + '-overview';
   const file   = chapter.file || ('chapters/' + chapter.id + '/overview.html');
 
-  const _chPushUrl = chapter.url ? chapter.url : _SHELL_URL + '?page=' + _idToPageParam(pageId);
+  const _chPushUrl = chapter.url ? _fullUrl(chapter.url) : _SHELL_URL + '?page=' + _idToPageParam(pageId);
   window.history.pushState({ page: pageId, isChapterOverview: true, chapterId: chapter.id }, '', _chPushUrl);
 
   const breadcrumb = document.getElementById('breadcrumb');
@@ -556,7 +571,7 @@ function loadSectionOverview(section, chapter) {
   const [chPart, sPart] = section.id.split('-');
   const file = section.file || ('chapters/' + chPart + '/' + sPart + '/overview.html');
 
-  const _secPushUrl = section.url ? section.url : _SHELL_URL + '?page=' + _idToPageParam(pageId);
+  const _secPushUrl = section.url ? _fullUrl(section.url) : _SHELL_URL + '?page=' + _idToPageParam(pageId);
   window.history.pushState({ page: pageId, isSectionOverview: true, sectionId: section.id }, '', _secPushUrl);
 
   const breadcrumb = document.getElementById('breadcrumb');
@@ -1308,20 +1323,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const _ghRedir = sessionStorage.getItem('spa-redirect');
   if (_ghRedir) {
     sessionStorage.removeItem('spa-redirect');
-    const _redirSub = _findSubByCustomUrl(_ghRedir);
+    // Strip the base path prefix (e.g. '/claude-code-odyssey') so the path
+    // matches the site-relative url values stored in NAV_DATA (e.g. '/section-foo').
+    const _baseTrim = _BASE_PATH.replace(/\/$/, '');
+    const _redirPath = (_baseTrim && _ghRedir.startsWith(_baseTrim))
+      ? _ghRedir.slice(_baseTrim.length)
+      : _ghRedir;
+    const _redirSub = _findSubByCustomUrl(_redirPath);
     if (_redirSub) { loadSubsection(_redirSub.file, _redirSub.id); return; }
-    const _redirOv = _findSectionByCustomUrl(_ghRedir);
+    const _redirOv = _findSectionByCustomUrl(_redirPath);
     if (_redirOv) {
       if (_redirOv.section) { loadSectionOverview(_redirOv.section, _redirOv.chapter); return; }
       if (_redirOv.chapter) { loadChapterOverview(_redirOv.chapter); return; }
     }
   }
 
-  // Check custom URL paths (works with serve.py which serves shell.html for any path)
-  const _customSub = _findSubByCustomUrl(location.pathname);
+  // Check custom URL paths — strip the base path prefix before matching NAV_DATA urls.
+  const _baseTrimInit = _BASE_PATH.replace(/\/$/, '');
+  const _initPath = (_baseTrimInit && location.pathname.startsWith(_baseTrimInit))
+    ? location.pathname.slice(_baseTrimInit.length)
+    : location.pathname;
+
+  const _customSub = _findSubByCustomUrl(_initPath);
   if (_customSub) { loadSubsection(_customSub.file, _customSub.id); return; }
 
-  const _customOv = _findSectionByCustomUrl(location.pathname);
+  const _customOv = _findSectionByCustomUrl(_initPath);
   if (_customOv) {
     if (_customOv.section) { loadSectionOverview(_customOv.section, _customOv.chapter); return; }
     if (_customOv.chapter) { loadChapterOverview(_customOv.chapter); return; }

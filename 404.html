@@ -6,8 +6,13 @@
   <script>
     // GitHub Pages SPA redirect: store the intended path and send the browser
     // to shell.html, which will pick it up from sessionStorage on init.
+    // Dynamically detect the repo subdirectory (first path segment) so this
+    // works regardless of the GitHub Pages project name.
     sessionStorage.setItem('spa-redirect', location.pathname);
-    location.replace('/shell.html');
+    var segments = location.pathname.split('/');
+    // segments[0] = '', segments[1] = 'claude-code-odyssey' (or '' for user pages)
+    var basePath = segments.length > 2 && segments[1] ? '/' + segments[1] : '';
+    location.replace(basePath + '/shell.html');
   </script>
 </head>
 <body></body>
