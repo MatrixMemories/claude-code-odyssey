@@ -25,6 +25,197 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles/neon-glass.css">
+
+  <!-- AI SITE MAP — machine-readable content index (ignored by browsers).
+       Each entry has: chapter, section, title, description, url (navigate here
+       via shell.html), and file (the raw HTML fragment path).
+       To reach a page: open shell.html and append ?page=<id>, or use the url field
+       directly (the SPA resolves it). The shell.html entry point loads the full app. -->
+  <script type="application/json" id="ai-site-map">
+  {
+    "site": "Claude Code Odyssey",
+    "description": "A complete interactive guide to Claude Code CLI — the agentic coding assistant by Anthropic.",
+    "shell": "shell.html",
+    "navigation_note": "This is a single-page app. All content loads inside shell.html. Navigate via: shell.html?page=<id> or the url field on each entry.",
+    "pages": [
+      {
+        "id": "site-overview",
+        "type": "overview",
+        "title": "Guide Overview",
+        "description": "Full map of all chapters, sections, and subsections in this guide.",
+        "url": "/shell.html?page=site-overview",
+        "file": "chapters/ch00/overview.html"
+      },
+      {
+        "id": "ch01-overview",
+        "type": "chapter-overview",
+        "chapter": "1. Introduction",
+        "title": "Chapter 1 Overview",
+        "description": "Build a solid foundation — learn what Claude Code is, how it thinks, and why it changes the way you write software.",
+        "url": "/chapter-introduction",
+        "file": "chapters/chapter-01/overview.html"
+      },
+      {
+        "id": "ch01-s01-overview",
+        "type": "section-overview",
+        "chapter": "1. Introduction",
+        "section": "1.1. What is Claude Code?",
+        "title": "Section 1.1 Overview",
+        "description": "From traditional IDEs to agentic coding — understand the shift and what it means for your workflow.",
+        "url": "/section-what-is-claude-code",
+        "file": "chapters/chapter-01/01-what-is-claude-code/overview.html"
+      },
+      {
+        "id": "ch01-s01-ss01",
+        "type": "subsection",
+        "chapter": "1. Introduction",
+        "section": "1.1. What is Claude Code?",
+        "title": "1.1.1 What is a Coding Agent?",
+        "description": "Explains what a Coding Agent is and how the Agentic Harness transforms raw LLMs into autonomous coding assistants using tools, context, memory, and an orchestration loop.",
+        "url": "/what-is-claude-code/what-is-a-coding-agent",
+        "file": "chapters/chapter-01/01-what-is-claude-code/01-what-is-a-coding-agent.html"
+      },
+      {
+        "id": "ch02-overview",
+        "type": "chapter-overview",
+        "chapter": "2. Claude Code Setup",
+        "title": "Chapter 2 Overview",
+        "description": "Properly setting up Claude Code unlocks its full potential as your AI coding companion.",
+        "url": "/chapter-setup",
+        "file": "chapters/chapter-02/overview.html"
+      },
+      {
+        "id": "ch02-s01-overview",
+        "type": "section-overview",
+        "chapter": "2. Claude Code Setup",
+        "section": "2.1. Prerequisites",
+        "title": "Section 2.1 Overview",
+        "description": "Everything you need to know and do before installing Claude Code and shooting your first prompt.",
+        "url": "/section-prerequisites",
+        "file": "chapters/chapter-02/01-prerequisites/overview.html"
+      },
+      {
+        "id": "ch02-s01-ss01",
+        "type": "subsection",
+        "chapter": "2. Claude Code Setup",
+        "section": "2.1. Prerequisites",
+        "title": "2.1.1 Subscriptions and Costs",
+        "description": "Compares pricing, 5-hour usage quotas, metering units, and best-value recommendations across Anthropic, Kimi, Z.ai, and MiniMax subscription plans for powering Claude Code.",
+        "url": "/prerequisites/subscriptions-and-costs",
+        "file": "chapters/chapter-02/01-prerequisites/01-subscriptions-and-costs.html"
+      },
+      {
+        "id": "ch02-s01-ss02",
+        "type": "subsection",
+        "chapter": "2. Claude Code Setup",
+        "section": "2.1. Prerequisites",
+        "title": "2.1.2 The Right Subscription",
+        "description": "Comparison of Claude, MiniMax, GLM (Z.ai), and Kimi models for Claude Code, covering stylistic vibes, benchmark performances, cost metrics, and subscription recommendations.",
+        "url": "/prerequisites/the-right-subscription",
+        "file": "chapters/chapter-02/01-prerequisites/02-the-right-subscription.html"
+      },
+      {
+        "id": "ch03-overview",
+        "type": "chapter-overview",
+        "chapter": "3. Claude Code Full Stack",
+        "title": "Chapter 3 Overview",
+        "description": "Go deeper into the features and workflows that make Claude Code indispensable for real projects.",
+        "url": "/chapter-full-stack",
+        "file": "chapters/chapter-03/overview.html"
+      },
+      {
+        "id": "ch03-s03-overview",
+        "type": "section-overview",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "Section 3.3 Overview",
+        "description": "The single most powerful lever in your Claude Code setup — a persistent instruction file that shapes every session.",
+        "url": "/section-claude-md",
+        "file": "chapters/chapter-03/03-claude-md/overview.html"
+      },
+      {
+        "id": "ch03-s03-ss01",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.1 The CLAUDE.md File",
+        "description": "What CLAUDE.md is, why it's essential, its recommended WHAT/WHY/HOW structure, and how global (~/.claude/CLAUDE.md) and local (CLAUDE.local.md) variants work.",
+        "url": "/claude-md/claude-md-file",
+        "file": "chapters/chapter-03/03-claude-md/01-claude-md-file.html"
+      },
+      {
+        "id": "ch03-s03-ss02",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.2 CLAUDE.md Do's & Don'ts",
+        "description": "Essential do's and don'ts for writing concise, clear, and highly effective CLAUDE.md files that Claude Code actually follows consistently.",
+        "url": "/claude-md/dos-and-donts",
+        "file": "chapters/chapter-03/03-claude-md/02-dos-and-donts.html"
+      },
+      {
+        "id": "ch03-s03-ss03",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.3 CLAUDE.md Blueprint",
+        "description": "How to build a powerful CLAUDE.md using a proven section-based template with 16 practical sections, clear include/avoid guidelines, and real-world examples.",
+        "url": "/claude-md/claude-md-blueprint",
+        "file": "chapters/chapter-03/03-claude-md/03-claude-md-blueprint.html"
+      },
+      {
+        "id": "ch03-s03-ss04",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.4 Global CLAUDE.md Blueprint",
+        "description": "Building your global ~/.claude/CLAUDE.md — the short permanent blueprint that encodes response style, stack preferences, autonomy rules, and non-negotiables.",
+        "url": "/claude-md/global-blueprint",
+        "file": "chapters/chapter-03/03-claude-md/04-global-md-blueprint.html"
+      },
+      {
+        "id": "ch03-s03-ss05",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.5 Local CLAUDE.md Blueprint",
+        "description": "How to create and use CLAUDE.local.md as your personal, never-committed override file for local environment details, current focus, and machine-specific instructions.",
+        "url": "/claude-md/local-blueprint",
+        "file": "chapters/chapter-03/03-claude-md/05-local-md-blueprint.html"
+      },
+      {
+        "id": "ch03-s03-ss06",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.6 Progressive Disclosure",
+        "description": "Progressive disclosure techniques — nested CLAUDE.md files, path-scoped rules, and agent_docs — to keep Claude Code's context lean and focused as projects grow.",
+        "url": "/claude-md/progressive-disclosure",
+        "file": "chapters/chapter-03/03-claude-md/06-progressive-disclosure.html"
+      },
+      {
+        "id": "ch03-s03-ss07",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.7 Deep Dive I: Internals",
+        "description": "Inner mechanics of CLAUDE.md: how @ imports load, the CHANGELOG.md workflow, system-reminder wrapper, system prompt injection flags, and techniques to keep instructions reliably followed.",
+        "url": "/claude-md/deep-dive-internals",
+        "file": "chapters/chapter-03/03-claude-md/07-deep-dive-internals.html"
+      },
+      {
+        "id": "ch03-s03-ss08",
+        "type": "subsection",
+        "chapter": "3. Claude Code Full Stack",
+        "section": "3.3. The CLAUDE.md File",
+        "title": "3.3.8 Deep Dive II: Tactics",
+        "description": "Advanced tactics for optimizing CLAUDE.md — on-demand task-specific file switching, strategic emphasis patterns, high-impact instruction writing, and using Claude for automated reviews.",
+        "url": "/claude-md/deep-dive-tactics",
+        "file": "chapters/chapter-03/03-claude-md/08-deep-dive-tactics.html"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
