@@ -63,7 +63,7 @@
           <tr>
             <td class="cell-model">
               <span class="model-name">Anthropic</span>
-              <span class="model-sub">Claude Opus 4.6 / Sonnet 4.6</span>
+              <span class="model-sub">Claude Opus 4.7 / Opus 4.6 / Sonnet 4.6</span>
             </td>
             <td>Conservative, production-grade, heavily commented, "staff-engineer" clean</td>
             <td>Best at matching existing repo style, strict adherence to PEP8 / Airbnb / Google etc., almost never drifts, excellent architecture &amp; safety</td>
@@ -202,7 +202,7 @@
 
     <div class="callout callout-note">
       <div class="callout-label">ℹ NOTE</div>
-      Claude Opus 4.6 and Sonnet 4.6 work natively with Claude Code — just add your Anthropic API key and it works
+      Claude Opus 4.7, Opus 4.6 and Sonnet 4.6 work natively with Claude Code — just add your Anthropic API key and it works
       immediately with full feature support and zero extra configuration.
       <br><br>
       All other models (GLM-5.1/5/4.7, MiniMax-M2.7/2.5, and Kimi K2.5) require an additional setup step. You must
@@ -777,7 +777,7 @@
       <div class="choice-box-intro">Key Observations:</div>
       <ul class="choice-list">
         <li><strong>Best Value quadrant</strong> (top-left): MiniMax M2.7, GLM-5.1, GLM-5 — excellent quality at extremely low cost.</li>
-        <li><strong>Premium quadrant</strong> (top-right): Claude Opus 4.6 (highest overall quality), Claude Sonnet 4.6, Claude Opus 4.5.</li>
+        <li><strong>Premium quadrant</strong> (top-right): Claude Opus 4.7 (highest overall quality), Claude Sonnet 4.6, Claude Opus 4.7.</li>
         <li>Kimi K2.5 sits in a strong middle-ground position.</li>
         <li>MiniMax M2.7 is the standout “no-compromise” value pick right now.</li>
       </ul>
@@ -816,7 +816,7 @@
     <div class="callout callout-bottom-line">
       <div class="callout-label">◆ BOTTOM LINE</div>
       MiniMax M2.7 and the GLM-5 series currently offer the best price/performance ratio for most Claude Code users.
-      Claude Opus 4.6 remains the quality king — but you pay a significant premium for that last 5–10 % of capability.
+      Claude Opus 4.6/4.7 remain the quality kings — but you pay a significant premium for that last 5–10 % of capability.
     </div>
 
   </div>
@@ -856,7 +856,7 @@
       </li>
       <li>
         <p>
-          <span class="feature-key">Best prompt-based headroom & simplicity (heavy refactoring / complex sessions):</span>
+          <span class="feature-key">Generous quota & closest to Claude (heavy refactoring / complex sessions):</span>
         </p>
         <p>
           <strong>
@@ -864,7 +864,7 @@
           </strong>
         </p>
         <p>
-          One user prompt = one billable unit no matter how many internal tool calls or context reads happen.
+          One user prompt = one billable unit that can consume around 15-20 internal model calls.
           Feels 3–5× more generous than Claude Pro/Max at a fraction of the price. Excellent “overflow” plan when
           Anthropic hits its token wall.
         </p>
@@ -875,7 +875,7 @@
         </p>
         <p>
           <strong>
-            → Anthropic Max 5× or Max 20× (Claude Opus 4.6 / Sonnet 4.6)
+            → Anthropic Max 5× or Max 20× (Claude Opus 4.7 / Opus 4.6 / Sonnet 4.6)
           </strong>
         </p>
         <p>
@@ -908,7 +908,7 @@
           Need to crank out 200+ complex tasks per day without thinking? → MiniMax Plus
         </li>
         <li>
-          Want the simplest possible metering where one big refactor = one prompt? → Z.ai Pro/Max
+          Want a good overflow plan for your Anthropic subscription with generous quotas? → Z.ai Pro/Max
         </li>
         <li>
           Budget is secondary and you want the smoothest, most reliable experience? → Anthropic Max (Opus)

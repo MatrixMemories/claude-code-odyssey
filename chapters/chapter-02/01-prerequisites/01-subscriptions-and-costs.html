@@ -85,7 +85,7 @@
     <h3 class="card-h3">Anthropic</h3>
 
     <p class="body-text">
-      The first one is by the developer of Claude Code, Anthropic. Anthropic models Claude Opus 4.6 and Claude Sonnet 4.6
+      The first one is by the developer of Claude Code, Anthropic. Anthropic models Claude Opus 4.7/4.6 and Claude Sonnet 4.6
       are considered SOTA in coding. Note that Claude Code is not included in the Free Tier from Anthropic.
     </p>
 
@@ -524,26 +524,26 @@
       count involved in reading, reasoning over, and rewriting large codebases.
     </p>
 
-    <h4 class="card-h4">Z.ai/GLM: Full-Turn “Prompts”</h4>
+    <h4 class="card-h4">Z.ai/GLM: “Prompt” units</h4>
 
     <p class="body-text">
-      Z.ai (powered by GLM models) uses a very forgiving abstraction: the Prompt. Here, one prompt equals one
-      complete user task submitted through the Claude Code interface, from the moment you hit enter until the agent
-      finishes its final response.
+      Z.ai (powered by GLM models) uses a simplified usage unit called the “Prompt” for its GLM Coding Plan. One
+      prompt refers to one query — a single user message you submit through supported coding tools such as Claude Code.
     </p>
 
     <p class="body-text">
-      What makes this especially powerful is that all the internal model invocations that happen during that task count
-      as a single prompt. The entire agentic loop — including tool calls, reasoning steps, code editing, testing,
-      re-reading files, and follow-up planning — is bundled together. No matter how many tokens are burned or how
-      many back-and-forth cycles the agent performs, it still registers as only one prompt against your quota.
+      Each prompt is estimated to invoke the model 15–20 times internally. The actual number of prompt units deducted
+      from your quota depends on the total resources consumed by that query. Simple tasks usually cost close to 1 prompt
+      unit, while complex agentic workflows — including multiple tool calls, reasoning steps, code editing, testing loops,
+      file re-reading, and follow-up planning — can consume significantly more prompt units from the same single user query.
     </p>
 
     <p class="body-text">
-      Z.ai’s own documentation confirms that supported coding tools (Claude Code, Kilo Code, and similar integrations)
-      come with an allowance of tens of billions of tokens per month — effectively around 1% of standard API pricing.
-      In the 5-hour window this typically translates to roughly 80 prompts, giving you enormous headroom for complex,
-      long-running tasks.
+      Z.ai’s documentation states that the plan provides an equivalent of tens of billions of tokens per month (15–30×
+      the value of the monthly subscription fee), all at roughly ~1% of standard API pricing. In the 5-hour rolling window
+      this typically translates to roughly 80 prompts on the Lite plan (higher on Pro and Max), though the exact figures
+      are estimates. Actual available usage may vary depending on project complexity, repository size, whether
+      auto-accept is enabled, and model choice (GLM-5.1 and GLM-5-Turbo are deducted at up to 3× during peak hours).
     </p>
 
     <h4 class="card-h4">MiniMax and Kimi: Requests / API Calls</h4>
@@ -659,44 +659,44 @@
         <ul class="platform-task-list">
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Prompt + System files<br></span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Read db/queries.py<br></span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Read 4 call-site files<br></span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Plan ORM schema</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Write models.py</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
           <li class="platform-task platform-task--light">
             <span class="platform-task-name">Patch 4 call-site files</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 1</span>
           </li>
-          <li class="platform-task platform-task--light">
+          <li class="platform-task platform-task--med">
             <span class="platform-task-name">Run test suite (bash)</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 2</span>
           </li>
-          <li class="platform-task platform-task--light">
+          <li class="platform-task platform-task--med">
             <span class="platform-task-name">Fix 2 failing tests</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 2</span>
           </li>
-          <li class="platform-task platform-task--light">
+          <li class="platform-task platform-task--med">
             <span class="platform-task-name">Confirm done to you</span>
-            <span class="platform-task-tag">internal</span>
+            <span class="platform-task-tag">prompt 2</span>
           </li>
         </ul>
         <div class="platform-col-footer">
           <div class="platform-footer-label">Total</div>
-          <div class="platform-footer-value">exactly 1 prompt<br>regardless of steps</div>
+          <div class="platform-footer-value">2 prompts<br>consumed</div>
         </div>
       </div>
 
@@ -768,7 +768,7 @@
           <div class="platform-practice-stat platform-practice-stat--orange">~5–15 heavy tasks / 5-hr window</div>
         </div>
         <div class="platform-practice-bar-track">
-          <div class="platform-practice-bar platform-practice-bar--orange" style="width: 15%"></div>
+          <div class="platform-practice-bar platform-practice-bar--orange" style="width: 10%"></div>
         </div>
         <div class="platform-practice-bar-note">one task = ~7–25% of window</div>
       </div>
@@ -779,12 +779,12 @@
             <span class="platform-practice-dot platform-practice-dot--blue"></span>
             Z.ai Lite (18$) — flat prompt count
           </div>
-          <div class="platform-practice-stat platform-practice-stat--blue">~80 tasks / 5-hr window — complexity doesn't matter</div>
+          <div class="platform-practice-stat platform-practice-stat--blue">~20-40 tasks / 5-hr window — complexity doesn't matter</div>
         </div>
         <div class="platform-practice-bar-track">
-          <div class="platform-practice-bar platform-practice-bar--blue" style="width: 1.25%"></div>
+          <div class="platform-practice-bar platform-practice-bar--blue" style="width: 2.5%"></div>
         </div>
-        <div class="platform-practice-bar-note">one task = 1.25% of window, independent of complexity</div>
+        <div class="platform-practice-bar-note">one task = ~2.5% of window, independent of complexity</div>
       </div>
 
       <div class="platform-practice-row">
@@ -805,8 +805,8 @@
 
     <div class="callout callout-note">
       <div class="callout-label">ℹ NOTE</div>
-      Some nuances to this calculation come from task complexity. For example, given a simple task, the final consumption at Anthropic and Z.ai
-      will be much closer to each other.
+      Some nuances to this calculation come from task complexity. For different tasks, the final consumption at Anthropic and Z.ai or MiniMax
+      might be much closer to each other.
     </div>
 
   </div>
@@ -830,8 +830,7 @@
     <p class="body-text">
       <strong>Z.ai Lite/Pro</strong> comes in a very close second and, especially when paid quarterly or yearly, often feels like
       3–5× the effective usage of Claude Pro/Max at a significantly lower cost. Many developers keep Z.ai as their “Claude Code
-      overflow” plan, switching seamlessly the moment Anthropic’s limits are reached. The prompt-based metering makes it feel
-      exceptionally generous for long, complex coding sessions.
+      overflow” plan, switching seamlessly the moment Anthropic’s limits are reached.
     </p>
 
     <p class="body-text">
@@ -857,11 +856,11 @@
           If you want <strong>maximum volume</strong> and don’t mind managing the agentic-loop granularity, go with <strong>MiniMax Plus.</strong>
         </li>
         <li>
-          If you want <strong>maximum simplicity and generous prompt-based headroom</strong> at a very attractive price, <strong>Z.ai Pro</strong> is the
-          sweet spot for most heavy users.
+          If you want <strong>strong value and generous base limits at a very attractive price</strong>, and don’t mind occasional variability in
+          usable quotas, <strong>Z.ai Pro</strong> is often an excellent choice for most heavy users.
         </li>
         <li>
-          If quality and frictionless experience are non-negotiable and budget is secondary, <strong>Anthropic Max</strong> (with Opus)
+          If <strong>quality and frictionless experience</strong> are non-negotiable and budget is secondary, <strong>Anthropic Max</strong> (with Opus)
           remains the premium choice.
         </li>
         <li>
@@ -872,10 +871,9 @@
 
     <div class="callout callout-note">
       <div class="callout-label">ℹ NOTE</div>
-      By understanding exactly what each provider’s 5-hour limit actually measures — tokens, full prompts, or individual
+      By understanding exactly what each provider’s 5-hour limit actually measures — tokens, prompts, or individual
       API requests — you can stop guessing and start choosing the plan that aligns with how you actually code.
     </div>
-
   </div>
 
 </div>
